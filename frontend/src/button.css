@@ -1,0 +1,14 @@
+.btn-primary {
+  font-weight: bold;
+  background: var(--primary);
+  color: var(--text-white);
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+}
