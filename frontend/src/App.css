@@ -1,293 +1,102 @@
 @import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *));
 
-/* ===========================================================
-   ORANGE E-COMMERCE DESIGN SYSTEM
-   Supports Light & Dark Mode
-   =========================================================== */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 
-/* ===============================
-   LIGHT THEME (Default)
-================================== */
-
+* {
+  font-family: "Inter", sans-serif;
+}
 :root {
   /* ===============================
      Brand Colors
-  ============================== */
-  --primary: #f97316;
-  --primary-hover: #ea580c;
-  --primary-active: #c2410c;
-  --primary-light: #ffedd5;
-  --primary-lighter: #fff7ed;
-  --primary-dark: #9a3412;
+  ================================== */
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-active: #1e40af;
+  --primary-light: #dbeafe;
+  --primary-lighter: #eff6ff;
+  --primary-dark: #1e3a8a;
 
-  /* ===============================
-     Accent Colors
-  ============================== */
-  --accent: #fb923c;
-  --accent-light: #fed7aa;
-  --accent-dark: #ea580c;
+  /* Accent */
+  --accent: #3b82f6;
+  --accent-light: #bfdbfe;
+  --accent-dark: #2563eb;
 
-  /* ===============================
-     Success
-  ============================== */
+  /* Success */
   --success: #22c55e;
   --success-hover: #16a34a;
-  --success-light: #dcfce7;
-  --success-dark: #166534;
 
-  /* ===============================
-     Danger
-  ============================== */
+  /* Danger */
   --danger: #ef4444;
   --danger-hover: #dc2626;
-  --danger-light: #fee2e2;
-  --danger-dark: #991b1b;
 
-  /* ===============================
-     Warning
-  ============================== */
+  /* Warning */
   --warning: #f59e0b;
   --warning-hover: #d97706;
-  --warning-light: #fef3c7;
-  --warning-dark: #92400e;
 
-  /* ===============================
-     Info
-  ============================== */
-  --info: #3b82f6;
-  --info-hover: #2563eb;
-  --info-light: #dbeafe;
-  --info-dark: #1d4ed8;
-
-  /* ===============================
-     Text Colors
-  ============================== */
+  /* Text */
   --text-primary: #111827;
-  --text-secondary: #374151;
+  --text-secondary: #4b5563;
   --text-muted: #6b7280;
-  --text-placeholder: #9ca3af;
-  --text-disabled: #d1d5db;
   --text-white: #ffffff;
 
-  /* ===============================
-     Backgrounds
-  ============================== */
-  --background: #fff7ed;
+  /* Background */
+  --background: #f8fafc;
   --background-secondary: #ffffff;
-  --background-hover: #ffedd5;
   --background-card: #ffffff;
-  --background-sidebar: #ffffff;
-  --background-navbar: #ffffff;
-  --background-footer: #1f2937;
 
-  /* ===============================
-     Borders
-  ============================== */
+  /* Border */
   --border: #e5e7eb;
-  --border-light: #f3f4f6;
-  --border-dark: #d1d5db;
-  --border-focus: #f97316;
 
   /* ===============================
-     Inputs
-  ============================== */
-  --input-bg: #ffffff;
-  --input-border: #d1d5db;
-  --input-focus: #f97316;
-  --input-placeholder: #9ca3af;
+     Navbar
+  ================================== */
+  --nav-bg: #2563eb;
+  --nav-hover-bg: #1d4ed8;
+  --nav-active-bg: #1e40af;
+  --nav-text: #ffffff;
+  --nav-text-hover: #dbeafe;
+
+  /* ===============================
+     Footer
+  ================================== */
+  --footer-bg: #111827;
+  --footer-text: #ffffff;
+  --footer-link: #60a5fa;
 
   /* ===============================
      Buttons
-  ============================== */
-  --btn-primary-bg: #f97316;
-  --btn-primary-hover: #ea580c;
+  ================================== */
+  --btn-primary-bg: #2563eb;
+  --btn-primary-hover: #1d4ed8;
   --btn-primary-text: #ffffff;
 
   --btn-secondary-bg: #f3f4f6;
   --btn-secondary-hover: #e5e7eb;
-  --btn-secondary-text: #374151;
+  --btn-secondary-text: #111827;
 
-  /* ===============================
-     Navbar
-  ============================== */
-  --nav-bg: #ffffff;
-  --nav-text: #374151;
-  --nav-hover: #f97316;
-  --nav-active: #ea580c;
-
-  /* ===============================
-     Footer
-  ============================== */
-  --footer-bg: #111827;
-  --footer-text: #ffffff;
-  --footer-link: #fdba74;
-  --footer-hover: #f97316;
-
-  /* ===============================
-     Product
-  ============================== */
-  --product-bg: #ffffff;
-  --product-price: #f97316;
-  --product-old-price: #9ca3af;
-  --product-title: #111827;
-
-  /* ===============================
-     Badges
-  ============================== */
-  --badge-sale: #ef4444;
-  --badge-new: #22c55e;
-  --badge-hot: #f97316;
-  --badge-text: #ffffff;
-
-  /* ===============================
-     Ratings
-  ============================== */
+  /* Product */
+  --product-price: #2563eb;
   --rating-star: #facc15;
-  --rating-empty: #d1d5db;
 
   /* ===============================
-     Shadows
-  ============================== */
-  --shadow-sm: rgba(0, 0, 0, 0.05);
-  --shadow: rgba(0, 0, 0, 0.1);
-  --shadow-lg: rgba(0, 0, 0, 0.18);
+     Inputs
+  ================================== */
+  --input-bg: var(--background-secondary);
+  --input-text: var(--text-primary);
+  --input-placeholder: var(--text-muted);
 
-  /* ===============================
-     Overlay
-  ============================== */
-  --overlay: rgba(0, 0, 0, 0.5);
+  --input-border: var(--border);
+  --input-border-hover: var(--primary);
+  --input-border-focus: var(--primary);
 
-  /* ===============================
-     Focus Ring
-  ============================== */
-  --focus-ring: rgba(249, 115, 22, 0.35);
-}
+  --input-focus-shadow: var(--primary-light);
 
-/* ======================================================
-   DARK MODE
-====================================================== */
+  --input-disabled-bg: #f3f4f6;
+  --input-disabled-text: var(--text-muted);
+  --input-disabled-border: var(--border);
 
-.dark {
-  /* Brand */
-  --primary: #fb923c;
-  --primary-hover: #f97316;
-  --primary-active: #ea580c;
-  --primary-light: #7c2d12;
-  --primary-lighter: #431407;
-  --primary-dark: #fdba74;
-
-  /* Accent */
-  --accent: #fdba74;
-  --accent-light: #9a3412;
-  --accent-dark: #fed7aa;
-
-  /* Success */
-  --success: #4ade80;
-  --success-hover: #22c55e;
-  --success-light: #14532d;
-  --success-dark: #bbf7d0;
-
-  /* Danger */
-  --danger: #f87171;
-  --danger-hover: #ef4444;
-  --danger-light: #450a0a;
-  --danger-dark: #fecaca;
-
-  /* Warning */
-  --warning: #fbbf24;
-  --warning-hover: #f59e0b;
-  --warning-light: #78350f;
-  --warning-dark: #fde68a;
-
-  /* Info */
-  --info: #60a5fa;
-  --info-hover: #3b82f6;
-  --info-light: #1e3a8a;
-  --info-dark: #bfdbfe;
-
-  /* Text */
-  --text-primary: #f9fafb;
-  --text-secondary: #d1d5db;
-  --text-muted: #9ca3af;
-  --text-placeholder: #6b7280;
-  --text-disabled: #4b5563;
-  --text-white: #ffffff;
-
-  /* Backgrounds */
-  --background: #111827;
-  --background-secondary: #1f2937;
-  --background-hover: #374151;
-  --background-card: #1e293b;
-  --background-sidebar: #111827;
-  --background-navbar: #111827;
-  --background-footer: #030712;
-
-  /* Borders */
-  --border: #374151;
-  --border-light: #4b5563;
-  --border-dark: #6b7280;
-  --border-focus: #fb923c;
-
-  /* Inputs */
-  --input-bg: #1f2937;
-  --input-border: #374151;
-  --input-focus: #fb923c;
-  --input-placeholder: #6b7280;
-
-  /* Buttons */
-  --btn-primary-bg: #f97316;
-  --btn-primary-hover: #ea580c;
-  --btn-primary-text: #ffffff;
-
-  --btn-secondary-bg: #374151;
-  --btn-secondary-hover: #4b5563;
-  --btn-secondary-text: #f9fafb;
-
-  /* Navbar */
-  --nav-bg: #111827;
-  --nav-text: #e5e7eb;
-  --nav-hover: #fb923c;
-  --nav-active: #fdba74;
-
-  /* Footer */
-  --footer-bg: #030712;
-  --footer-text: #f9fafb;
-  --footer-link: #fdba74;
-  --footer-hover: #fb923c;
-
-  /* Products */
-  --product-bg: #1f2937;
-  --product-price: #fb923c;
-  --product-old-price: #9ca3af;
-  --product-title: #f9fafb;
-
-  /* Badges */
-  --badge-sale: #f87171;
-  --badge-new: #4ade80;
-  --badge-hot: #fb923c;
-  --badge-text: #ffffff;
-
-  /* Ratings */
-  --rating-star: #fbbf24;
-  --rating-empty: #4b5563;
-
-  /* Shadows */
-  --shadow-sm: rgba(0, 0, 0, 0.3);
-  --shadow: rgba(0, 0, 0, 0.45);
-  --shadow-lg: rgba(0, 0, 0, 0.6);
-
-  /* Overlay */
-  --overlay: rgba(0, 0, 0, 0.75);
-
-  /* Focus */
-  --focus-ring: rgba(251, 146, 60, 0.4);
-}
-@import "tailwindcss";
-
-:root {
-  --primary: #f97316;
-  --primary-hover: #ea580c;
-  --text-white: #ffffff;
+  --input-error: var(--danger);
+  --input-success: var(--success);
 }
 @import "./styles/button.css";
+@import "./styles/anchor.css";

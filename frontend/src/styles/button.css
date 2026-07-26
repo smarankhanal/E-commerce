@@ -1,0 +1,17 @@
+.btn {
+  font-weight: bold;
+  padding: 12px 24px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+  border: none;
+}
+
+.btn-primary {
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+}
+
+.btn-primary:hover {
+  background: var(--btn-primary-hover);
+}
