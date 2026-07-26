@@ -13,9 +13,9 @@ export default function Footer() {
             <Logo />
 
             <p className="mt-4 text-sm text-gray-400">
-              ShopSphere is your trusted online shopping destination for
-              electronics, fashion, groceries, and much more with secure payment
-              and fast delivery.
+              Your destination for premium fashion. Explore stylish clothing,
+              timeless essentials, and the latest trends for men and women, all
+              crafted with quality, comfort, and confidence in mind.
             </p>
           </div>
 
