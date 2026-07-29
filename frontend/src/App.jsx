@@ -1,19 +1,12 @@
 import React from "react";
-import {
-  NavBar,
-  Hero,
-  Footer,
-  BestSeller,
-  CollectionSlider,
-} from "./components";
+import { NavBar, Footer } from "./components";
+import ProductDetails from "./pages/ProductDetails";
 
 export default function App() {
   return (
     <>
       <NavBar />
-      <Hero />
-      <BestSeller />
-      <CollectionSlider />
+      <ProductDetails />
       <Footer />
     </>
   );

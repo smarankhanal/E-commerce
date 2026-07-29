@@ -8,3 +8,4 @@ export { default as AnchorTag } from "./AnchorTag";
 export { default as Logo } from "./Logo";
 export { default as Search } from "./Search";
 export { default as CollectionSlider } from "./layout/CollectionSlider";
+export { default as Size } from "./Size";
