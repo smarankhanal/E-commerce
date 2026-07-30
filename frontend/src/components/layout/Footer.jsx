@@ -5,7 +5,7 @@ import AnchorTag from "../AnchorTag";
 
 export default function Footer() {
   return (
-    <footer className="bg-(--footer-bg) text-(--footer-text) mt-12">
+    <footer className="bottom-0 bg-(--footer-bg) text-(--footer-text) mt-30">
       <div className="max-w-7xl mx-auto px-6 py-10">
         <div className="flex justify-between flex-wrap gap-10">
           {/* Company */}

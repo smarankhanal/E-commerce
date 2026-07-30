@@ -6,7 +6,7 @@ import { MdOutlineShoppingCart } from "react-icons/md";
 
 export default function NavBar() {
   return (
-    <nav className="w-full bg-(--nav-bg) shadow-[0_8px_20px_rgba(0,0,0,0.12)] p-2">
+    <nav className="fixed top-0 left-0 z-50 w-full bg-(--nav-bg) shadow-[0_8px_20px_rgba(0,0,0,0.12)] p-2">
       <div className="max-w-7xl mx-auto flex  ">
         {/* Logo */}
         <Logo />

@@ -10,7 +10,7 @@ import {
 
 export default function ProductDetails() {
   return (
-    <div className="mx-auto max-w-7xl px-6 py-10">
+    <div className="mx-auto max-w-7xl px-6 py-10 mt-20">
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
         {/* Left */}
         <ProductGallery />
