@@ -7,6 +7,7 @@ import {
   QuantitySelector,
   SizeSelector,
 } from "../components/Product";
+import { Button, Input } from "../components";
 
 export default function ProductDetails() {
   return (
@@ -31,7 +32,9 @@ export default function ProductDetails() {
 
           <div className="flex justify-between">
             <QuantitySelector />
-            <div className="flex gap-3">{/* Button */}</div>
+            <div className="flex gap-3">
+              <Button text="Add to cart" />
+            </div>
           </div>
           <ProductDescription />
         </div>

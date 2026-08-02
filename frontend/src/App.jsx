@@ -1,12 +1,14 @@
 import React from "react";
 import { NavBar, Footer } from "./components";
-import VerifyOTP from "./pages/Auth/VerifyOTP";
+import Cart from "./pages/Cart";
+import ProductDetails from "./pages/ProductDetails";
 
 export default function App() {
   return (
     <>
       <NavBar />
-      <VerifyOTP />
+      <Cart />
+      {/* <ProductDetails /> */}
       <Footer />
     </>
   );

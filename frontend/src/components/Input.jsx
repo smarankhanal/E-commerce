@@ -5,20 +5,15 @@ export default function Input({
   placeholder = "",
   value,
   onChange,
-  name,
   label,
   required = false,
 }) {
   return (
     <div className="flex flex-col gap-2 mt-2 ">
       {label && (
-        <label htmlFor={name} className="text-sm font-medium text-gray-700">
-          {label}
-        </label>
+        <label className="text-sm font-medium text-gray-700">{label}</label>
       )}
       <input
-        id={name}
-        name={name}
         type={type}
         placeholder={placeholder}
         value={value}

@@ -1,6 +1,7 @@
 import React from "react";
 import Input from "../Input";
 import Button from "../Button";
+import PasswordInput from "./PasswordInput";
 
 export default function LogninForm() {
   return (
@@ -18,7 +19,7 @@ export default function LogninForm() {
           placeholder="Enter your email or phone number"
         />
 
-        <Input
+        <PasswordInput
           label="Password"
           type="password"
           placeholder="Create a password"
@@ -30,6 +31,12 @@ export default function LogninForm() {
             Forgot Password?
           </p>
         </div>
+        <p className="text-center text-sm text-gray-600">
+          Don't have an account?
+          <span className="cursor-pointer font-semibold text-blue-600 hover:underline">
+            SignUp
+          </span>
+        </p>
       </form>
     </div>
   );

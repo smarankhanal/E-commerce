@@ -1,6 +1,7 @@
 import React from "react";
 import Input from "../Input";
 import Button from "../Button";
+import PasswordInput from "./PasswordInput";
 
 export default function PasswordForm() {
   return (
@@ -16,12 +17,12 @@ export default function PasswordForm() {
       <form className="space-y-4">
         <Input label="Email" type="text" placeholder="Enter your email" />
 
-        <Input
+        <PasswordInput
           label=" New Password"
           type="password"
           placeholder="New Password"
         />
-        <Input
+        <PasswordInput
           label="Confirm Password"
           type="password"
           placeholder="Confirm Password"
