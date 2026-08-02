@@ -1,5 +1,4 @@
 import React from "react";
-import { QuantitySelector } from "../Product";
 import { MdDeleteForever } from "react-icons/md";
 
 export default function CartItem({ item }) {

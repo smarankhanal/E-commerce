@@ -6,7 +6,7 @@ import {
   ProductReviews,
   QuantitySelector,
   SizeSelector,
-} from "../components/Product";
+} from "../components";
 import { Button, Input } from "../components";
 
 export default function ProductDetails() {
