@@ -3,7 +3,7 @@ import { Button, OTPInput } from "../../components";
 
 export default function VerifyOTP() {
   return (
-    <div className="space-y-6 mt-30">
+    <div className="space-y-6">
       <div className="text-center">
         <h1 className="text-3xl font-bold">Verify OTP</h1>
         <p className="mt-2 text-gray-500">

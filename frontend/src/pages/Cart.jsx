@@ -35,7 +35,7 @@ const collections = [
 
 export default function Cart() {
   return (
-    <div className="mt-30 max-w-7xl mx-auto px-6">
+    <div className="max-w-7xl mx-auto px-6 mt-30">
       <div className="mb-10 flex flex-col justify-between items-start gap-6 rounded-2xl bg-linear-to-r from-blue-700 to-blue-900 p-8 text-white shadow-lg lg:flex-row ">
         <div>
           <p className="text-sm font-medium uppercase text-blue-200">

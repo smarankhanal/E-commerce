@@ -1,8 +1,10 @@
 import React from "react";
-import Input from "../Input";
-import Button from "../Button";
+import Input from "../Common/Input";
+import Button from "../Common/Button";
+import { useNavigate } from "react-router-dom";
 
 export default function SignupForm() {
+  const navigate = useNavigate();
   return (
     <div className="space-y-6">
       {/* Heading */}
@@ -28,7 +30,7 @@ export default function SignupForm() {
 
         <Input label="Phone Number" type="tel" placeholder="98XXXXXXXX" />
 
-        <Button text="Sign Up" />
+        <Button text="Sign Up" onClick={() => navigate("/Login")} />
       </form>
 
       {/* Footer */}

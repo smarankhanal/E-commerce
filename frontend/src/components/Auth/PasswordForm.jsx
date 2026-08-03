@@ -1,6 +1,6 @@
 import React from "react";
-import Input from "../Input";
-import Button from "../Button";
+import Input from "../Common/Input";
+import Button from "../Common/Button";
 import PasswordInput from "./PasswordInput";
 
 export default function PasswordForm() {

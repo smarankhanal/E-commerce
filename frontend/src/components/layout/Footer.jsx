@@ -1,7 +1,7 @@
 import React from "react";
-import Logo from "../Logo";
+import Logo from "../Common/Logo";
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin } from "react-icons/fa";
-import AnchorTag from "../AnchorTag";
+import AnchorTag from "../Common/AnchorTag";
 
 export default function Footer() {
   return (

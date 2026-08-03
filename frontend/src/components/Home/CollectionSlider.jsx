@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import img from "../../assets/images/t-shirt.jpg";
+import { useNavigate } from "react-router-dom";
 
 const collections = [
   {
@@ -31,6 +32,7 @@ const collections = [
 ];
 
 export default function CollectionSlider() {
+  const navigate = useNavigate();
   const [active, setActive] = useState(2);
 
   const previous = () => {
@@ -45,8 +47,6 @@ export default function CollectionSlider() {
     const total = collections.length;
 
     let diff = index - active;
-
-   
 
     return diff;
   };
@@ -98,7 +98,10 @@ export default function CollectionSlider() {
                     {item.title}
                   </h3>
 
-                  <button className="bg-white text-black px-6 py-3 rounded-full font-semibold hover:bg-black hover:text-white transition-all duration-300">
+                  <button
+                    className="bg-white text-black px-6 py-3 rounded-full font-semibold hover:bg-black hover:text-white transition-all duration-300 cursor-pointer"
+                    onClick={() => navigate("/product")}
+                  >
                     Explore
                   </button>
                 </div>

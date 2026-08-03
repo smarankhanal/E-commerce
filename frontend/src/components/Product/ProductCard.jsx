@@ -1,9 +1,11 @@
 import React from "react";
-import heroSeller from "../assets/images/t-shirt.jpg";
+import heroSeller from "../../assets/images/t-shirt.jpg";
 import { FaArrowRight } from "react-icons/fa";
-import Button from "./Button";
+import Button from "../Common/Button";
+import { useNavigate } from "react-router-dom";
 
 export default function ProductCard() {
+  const navigate = useNavigate();
   return (
     <div className="w-70 overflow-hidden rounded-xl bg-white cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_35px_rgba(37,99,235,0.25)]">
       <img
@@ -28,7 +30,10 @@ export default function ProductCard() {
         </div>
 
         {/* Explore Product */}
-        <button className="mt-4 flex items-center gap-2 text-(--primary) font-medium hover:gap-3 transition-all duration-300">
+        <button
+          className="mt-4 flex items-center gap-2 text-(--primary) font-medium hover:gap-3 transition-all duration-300"
+          onClick={() => navigate("/product")}
+        >
           Explore Product
           <FaArrowRight className="text-sm" />
         </button>

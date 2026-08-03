@@ -1,7 +1,9 @@
 import React from "react";
 import { MdDeleteForever } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 export default function CartItem({ item }) {
+  const navigate = useNavigate();
   return (
     <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm space-y-4 relative">
       {/* Image */}
@@ -25,7 +27,10 @@ export default function CartItem({ item }) {
           </p>
         </div>
 
-        <button className="rounded-lg border-2 border-blue-800 bg-blue-800 px-5 py-2.5 font-medium text-white transition-all duration-300 hover:bg-white hover:text-blue-800 hover:shadow-lg cursor-pointer">
+        <button
+          className="rounded-lg border-2 border-blue-800 bg-blue-800 px-5 py-2.5 font-medium text-white transition-all duration-300 hover:bg-white hover:text-blue-800 hover:shadow-lg cursor-pointer"
+          onClick={() => navigate("/product")}
+        >
           Explore
         </button>
       </div>

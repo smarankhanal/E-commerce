@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Input from "../Input";
+import Input from "../Common/Input";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 
 export default function PasswordInput({ name, label, text, placeholder }) {

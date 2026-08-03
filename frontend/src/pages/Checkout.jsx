@@ -3,7 +3,7 @@ import { BillingMethod, OrderDetails, PaymentMethod } from "../components";
 
 export default function Checkout() {
   return (
-    <div className="mt-30 max-w-7xl mx-auto px-6">
+    <div className="max-w-7xl mx-auto px-6">
       {/* Heading */}
       <div className=" flex justify-center items-center mb-10">
         <h1 className="text-3xl font-bold">CheckOut</h1>

@@ -1,8 +1,8 @@
 import React from "react";
-import AnchorTag from "../AnchorTag";
-import Logo from "../Logo";
-import Search from "../Search";
-import CartLogo from "../CartLogo";
+import AnchorTag from "../Common/AnchorTag";
+import Logo from "../Common/Logo";
+import Search from "../Common/Search";
+import CartLogo from "../Cart/CartLogo";
 
 export default function NavBar() {
   return (
@@ -24,9 +24,9 @@ export default function NavBar() {
 
           {/* Navigation */}
           <div className="flex gap-8 text-sm font-medium">
-            <AnchorTag text="Home" />
-            <AnchorTag text="Login" />
-            <AnchorTag text="Sign Up" />
+            <AnchorTag text="Home" to={"/"} />
+            <AnchorTag text="Login" to={"/Login"} />
+            <AnchorTag text="Sign Up" to={"Signup"} />
           </div>
         </div>
       </div>

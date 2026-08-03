@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Size from "../Size";
+import Size from "../Common/Size";
 export default function () {
   const sizes = ["S", "M", "L", "XL", "XXL"];
   const [selectedSize, setSelectedSize] = useState("S");
