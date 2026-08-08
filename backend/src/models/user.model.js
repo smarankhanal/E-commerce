@@ -46,5 +46,8 @@ userSchema.methods.generateRefreshToken = function () {
     }
   );
 };
-
+userSchema.methods.getFullName -
+  function () {
+    return `${this.firstName} ${this.lastName}`;
+  };
 export const User = mongoose.model("User", userSchema);
