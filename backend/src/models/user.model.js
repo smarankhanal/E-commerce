@@ -3,12 +3,43 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 const userSchema = new Schema(
   {
-    firstName: {},
-    lastName: {},
-    email: {},
-    password: {},
-    phoneNumber: {},
-    refreshToken: {},
+    userName: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      lowercase: true,
+      index: true,
+    },
+    fullName: {
+      type: String,
+      required: true,
+      trim: true,
+      lowercase: true,
+      index: true,
+    },
+
+    email: {
+      type: String,
+      required: true,
+      trim: true,
+      lowercase: true,
+    },
+    password: {
+      type: String,
+      required: true,
+      select: false,
+    },
+    phoneNumber: {
+      type: String,
+      required: true,
+    },
+    avatar: {
+      type: String,
+    },
+    refreshToken: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
@@ -46,8 +77,5 @@ userSchema.methods.generateRefreshToken = function () {
     }
   );
 };
-userSchema.methods.getFullName -
-  function () {
-    return `${this.firstName} ${this.lastName}`;
-  };
+
 export const User = mongoose.model("User", userSchema);
