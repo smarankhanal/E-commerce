@@ -33,7 +33,7 @@ const registerUser = asyncHandler(async (req, res) => {
   fullName = toCapitalize(fullName);
   const user = await User.create({
     userName: userName.toLowerCase(),
-    fullname,
+    fullName,
     password,
     email,
     phoneNumber,
@@ -54,7 +54,7 @@ const loginUser = asyncHandler(async (req, res) => {
   }
   const user = await User.findOne({
     $or: [{ userName: identifier.toLowerCase() }, { email: identifier.toLowerCase() }],
-  });
+  }).select("+password");
 
   if (!user) {
     throw new ApiError(404, "User doesnot exists");
