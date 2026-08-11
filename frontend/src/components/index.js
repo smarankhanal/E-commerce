@@ -11,6 +11,7 @@ export { default as Logo } from "./Common/Logo";
 export { default as Search } from "./Common/Search";
 export { default as Size } from "./Common/Size";
 export { default as Input } from "./Common/Input";
+export { default as ScrollToTop } from "./Common/ScrollToTop";
 export { default as CartLogo } from "./Cart/CartLogo";
 
 export { default as LoginForm } from "./Auth/LoginForm";
