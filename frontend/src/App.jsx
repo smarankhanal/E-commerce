@@ -15,7 +15,7 @@ import Shop from "./pages/Shop";
 import Login from "./pages/Auth/Login";
 import SignUp from "./pages/Auth/SignUp";
 import VerifyOTP from "./pages/Auth/VerifyOTP";
-import ForgotPassword from "./pages/Auth/ForgotPassword";
+import ForgotPassWord from "./pages/Auth/ForgotPassWord";
 
 export default function App() {
   return (
@@ -34,7 +34,7 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/verify-otp" element={<VerifyOTP />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/forgot-password" element={<ForgotPassWord />} />
       </Route>
     </Routes>
   );
