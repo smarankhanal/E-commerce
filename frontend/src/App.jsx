@@ -1,8 +1,8 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 
-import MainLayout from "./layouts/MainLayout.jsx";
-import AuthLayout from "./layouts/AuthLayout.jsx";
+import MainLayout from "./layouts/MainLayout";
+import AuthLayout from "./layouts/AuthLayout";
 // Pages
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
