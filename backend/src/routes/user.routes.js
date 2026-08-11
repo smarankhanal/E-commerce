@@ -1,5 +1,13 @@
 import { Router } from "express";
-import { loginUser, logoutUser, registerUser } from "../controllers/user.controller.js";
+import {
+  changeCurrentPassword,
+  forgotPassword,
+  loginUser,
+  logoutUser,
+  registerUser,
+  resetPassword,
+  verifyForgotPasswordOtp,
+} from "../controllers/user.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = Router();
@@ -7,4 +15,10 @@ const router = Router();
 router.route("/sign-up").post(registerUser);
 router.route("/login").post(loginUser);
 router.route("/logout").post(verifyJWT, logoutUser);
+router.route("/change-password").post(verifyJWT, changeCurrentPassword);
+
+//---- Forgot Password -----
+router.route("/forgot-password").post(forgotPassword);
+router.route("/verify-password-otp").post(verifyForgotPasswordOtp);
+router.route("/reset-password").post(resetPassword);
 export default router;

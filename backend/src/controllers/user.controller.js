@@ -3,7 +3,9 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import { toCapitalize } from "../utils/capitalize.js";
-
+import { sendOtpService, verifyOtpService } from "../services/otp.service.js";
+import { generateResetToken } from "../utils/resetToken.js";
+import crypto from "crypto";
 const generateAccessAndRefreshTokens = async (userId) => {
   try {
     const user = await User.findById(userId);
@@ -105,4 +107,105 @@ const logoutUser = asyncHandler(async (req, res) => {
     .clearCookie("refreshToken", options)
     .json(new ApiResponse(200, {}, "User logged out successfully"));
 });
-export { registerUser, loginUser, logoutUser };
+const changeCurrentPassword = asyncHandler(async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
+
+  if (!oldPassword || !newPassword) {
+    throw new ApiError(400, "Old password and new password are required");
+  }
+
+  const user = await User.findById(req.user?._id).select("+password");
+
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+
+  const isOldPasswordValid = await user.isPasswordCorrect(oldPassword);
+
+  if (!isOldPasswordValid) {
+    throw new ApiError(401, "Invalid old password");
+  }
+
+  user.password = newPassword;
+
+  await user.save();
+
+  return res.status(200).json(new Response(200, {}, "Password changed successfully"));
+});
+const forgotPassword = asyncHandler(async (req, res) => {
+  const { username, email } = req.body;
+  if (!username || !email) {
+    throw new ApiError(400, "Username and email are required");
+  }
+  const user = await User.findOne({
+    email: email.toLowerCase().trim(),
+    userName: username,
+  });
+  if (!user) {
+    throw new ApiError(404, "Invalid username or email");
+  }
+  await sendOtpService(email, "forgot-password");
+  return res.status(200).json(new Response(200, null, "OTP sent successfully"));
+});
+
+const verifyForgotPasswordOtp = asyncHandler(async (req, res) => {
+  const { username, email, otp } = req.body;
+
+  if (!username || !email || !otp) {
+    throw new ApiError(400, " Email ,username and OTP are required");
+  }
+  const user = await User.findOne({
+    userName: username,
+    email: email.toLowerCase().trim(),
+  });
+  if (!user) {
+    throw new ApiError(404, "Invalid username or email");
+  }
+  await verifyOtpService(email, "forgot-password", otp);
+  const { resetToken, resetTokenHash } = generateResetToken();
+  console.log("ResetToken", resetToken);
+
+  user.resetPasswordToken = resetTokenHash;
+  user.resetPasswordExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
+  await user.save({ validateBeforeSave: false });
+  return res.status(200).json(new ApiResponse(200, resetToken, "OTP verified successfully"));
+});
+const resetPassword = asyncHandler(async (req, res) => {
+  const { resetToken, newPassword } = req.body;
+
+  if (!resetToken || !newPassword) {
+    throw new ApiError(400, "Reset token and new password are required");
+  }
+
+  const resetTokenHash = crypto.createHash("sha256").update(resetToken).digest("hex");
+
+  const user = await User.findOne({
+    resetPasswordToken: resetTokenHash,
+    resetPasswordExpiresAt: {
+      $gt: new Date(),
+    },
+  }).select("+resetPasswordToken +resetPasswordExpiresAt");
+
+  if (!user) {
+    throw new ApiError(400, "Invalid or expired reset token");
+  }
+
+  user.password = newPassword;
+
+  // Invalidate token after use
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpiresAt = undefined;
+
+  await user.save();
+
+  return res.status(200).json(new ApiResponse(200, null, "Password reset successfully"));
+});
+export {
+  registerUser,
+  loginUser,
+  logoutUser,
+  changeCurrentPassword,
+  forgotPassword,
+  verifyForgotPasswordOtp,
+  resetPassword,
+};

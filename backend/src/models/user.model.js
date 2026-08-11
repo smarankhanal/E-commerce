@@ -40,6 +40,15 @@ const userSchema = new Schema(
     refreshToken: {
       type: String,
     },
+    resetPasswordToken: {
+      type: String,
+      select: false,
+    },
+
+    resetPasswordExpiresAt: {
+      type: Date,
+      select: false,
+    },
   },
   { timestamps: true }
 );

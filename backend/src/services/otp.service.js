@@ -24,7 +24,7 @@ const sendOtpService = async (email, purpose) => {
     await OTP.deleteMany({ email, purpose });
     const otp = generateOtp();
     const otpHash = hashOtp(otp);
-    const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
+    const expiresAt = new Date(Date.now() + 100 * 60 * 1000);
     await OTP.create({
       email,
       otp: otpHash,
