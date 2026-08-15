@@ -1,7 +1,7 @@
 import { body } from "express-validator";
 
 export const registerValidator = [
-  body("fullname")
+  body("fullName")
     .notEmpty()
     .withMessage("Full name is required")
     .matches(/^[A-Za-z\s]+$/)
@@ -16,7 +16,7 @@ export const registerValidator = [
     .withMessage("Must be a valid email")
     .normalizeEmail(),
 
-  body("username")
+  body("userName")
     .notEmpty()
     .withMessage("Username is required")
     .isAlphanumeric()
@@ -38,7 +38,7 @@ export const registerValidator = [
     .withMessage("Phone must start with 9 and be 10 digits long"),
 ];
 export const updateAccountValidator = [
-  body("fullname")
+  body("fullName")
     .optional({ checkFalsy: true })
     .matches(/^[A-Za-z\s]+$/)
     .withMessage("Full name must contain only alphabets and spaces")
@@ -51,7 +51,7 @@ export const updateAccountValidator = [
     .withMessage("Must be a valid email")
     .normalizeEmail(),
 
-  body("username")
+  body("userName")
     .optional({ checkFalsy: true })
     .isAlphanumeric()
     .withMessage("Username must be alphanumeric")

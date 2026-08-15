@@ -18,7 +18,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
   } catch (error) {
     throw new ApiError(401, error?.message || "Invalid or expired refresh token");
   }
-
+  console.log(decodedToken);
   const user = await User.findById(decodedToken?._id);
 
   if (!user) {
@@ -31,12 +31,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
   const newAccessToken = user.generateAccessToken();
 
-  user.accessToken = newAccessToken;
-
-  await user.save({
-    validateBeforeSave: false,
-  });
-
+  console.log(user);
   const isProduction = process.env.NODE_ENV === "production";
 
   const options = {
