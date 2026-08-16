@@ -9,7 +9,7 @@ export default function Hero() {
     <section className="w-full relative">
       <img src={hero} alt="Hero Banner" className="w-full h-125 object-cover" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ">
-        <Button text="Shop Now" onClick={() => navigate("/shop")} />
+        <Button text="Shop Now" onClick={() => navigate("/products")} />
       </div>
     </section>
   );

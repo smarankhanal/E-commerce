@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import Input from "../Common/Input";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 
-export default function PasswordInput({ name, label, text, placeholder }) {
+export default function PasswordInput({
+  name,
+  label,
+  text,
+  placeholder,
+  ...props
+}) {
   const [showPassword, setShowPassWord] = useState(false);
   return (
     <div className="relative">
@@ -11,6 +17,7 @@ export default function PasswordInput({ name, label, text, placeholder }) {
         label={label}
         type={showPassword ? "text" : "password"}
         placeholder={placeholder}
+        {...props}
       />
       {showPassword ? (
         <BsEye

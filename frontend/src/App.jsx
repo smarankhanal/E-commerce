@@ -3,6 +3,11 @@ import { Route, Routes } from "react-router-dom";
 
 import MainLayout from "./layouts/MainLayout";
 import AuthLayout from "./layouts/AuthLayout";
+
+// Route Guards
+import PublicRoute from "./components/Route/PublicRoute";
+import ProtectedRoute from "./components/Route/ProtectedRoute";
+
 // Pages
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
@@ -15,26 +20,78 @@ import Login from "./pages/Auth/Login";
 import SignUp from "./pages/Auth/SignUp";
 import VerifyOTP from "./pages/Auth/VerifyOTP";
 import ForgotPassWord from "./pages/Auth/ForgotPassWord";
+
 import { ScrollToTop } from "./components";
+import Profile from "./pages/Profile";
 
 export default function App() {
   return (
     <>
       <ScrollToTop />
+
       <Routes>
-        {/* Main Website */}
+        {/* ==================== MAIN WEBSITE ==================== */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/product" element={<ProductDetails />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/shop" element={<Shop />} />
+          <Route path="/products" element={<Shop />} />
+
+          <Route
+            path="/cart"
+            element={
+              <ProtectedRoute>
+                <Cart />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/checkout"
+            element={
+              <ProtectedRoute>
+                <Checkout />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/verify-otp"
+            element={
+              <PublicRoute>
+                <VerifyOTP />
+              </PublicRoute>
+            }
+          />
+
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
         </Route>
 
-        {/* Authentication */}
+        {/* ==================== AUTHENTICATION ==================== */}
         <Route element={<AuthLayout />}>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
+          <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <Login />
+              </PublicRoute>
+            }
+          />
+
+          <Route
+            path="/signup"
+            element={
+              <PublicRoute>
+                <SignUp />
+              </PublicRoute>
+            }
+          />
+
           <Route path="/verify-otp" element={<VerifyOTP />} />
           <Route path="/forgot-password" element={<ForgotPassWord />} />
         </Route>

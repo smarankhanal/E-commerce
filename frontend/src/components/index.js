@@ -12,6 +12,7 @@ export { default as Search } from "./Common/Search";
 export { default as Size } from "./Common/Size";
 export { default as Input } from "./Common/Input";
 export { default as ScrollToTop } from "./Common/ScrollToTop";
+export { default as InputError } from "./Common/InputError";
 export { default as CartLogo } from "./Cart/CartLogo";
 
 export { default as LoginForm } from "./Auth/LoginForm";
@@ -34,3 +35,10 @@ export { default as AddReview } from "./Product/AddReview";
 export { default as OrderDetails } from "./Checkout/OrderDetails";
 export { default as PaymentMethod } from "./Checkout/PaymentMethod";
 export { default as BillingMethod } from "./Checkout/BillingMethod";
+
+export { default as Logout } from "./Profile/Logout";
+export { default as Settings } from "./Profile/Settings";
+export { default as History } from "./Profile/History";
+
+export { default as ProtectedRoute } from "./Route/ProtectedRoute";
+export { default as PublicRoute } from "./Route/PublicRoute";

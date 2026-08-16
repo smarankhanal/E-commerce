@@ -1,30 +1,43 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 
-export default function OTPInput() {
-  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+export default function OTPInput({ value, onChange }) {
   const inputs = useRef([]);
-  const handleChange = (value, index) => {
-    if (!/^\d?$/.test(value)) return;
+
+  const otp = value.padEnd(6, "").split("");
+
+  const handleChange = (inputValue, index) => {
+    if (!/^\d?$/.test(inputValue)) return;
+
     const newOtp = [...otp];
-    newOtp[index] = value;
-    setOtp(newOtp);
-    if (value && index < otp.length - 1) {
-      inputs.current[index + 1].focus();
+
+    newOtp[index] = inputValue;
+
+    const newValue = newOtp.join("");
+
+    onChange(newValue);
+
+    if (inputValue && index < 5) {
+      inputs.current[index + 1]?.focus();
     }
   };
+
   const handleKeyDown = (e, index) => {
     if (e.key === "Backspace" && !otp[index] && index > 0) {
-      inputs.current[index - 1].focus();
+      inputs.current[index - 1]?.focus();
     }
   };
+
   return (
     <div className="flex justify-center gap-3 mb-10">
-      {otp.map((digit, idx) => (
+      {Array.from({ length: 6 }).map((_, idx) => (
         <input
           key={idx}
-          ref={(el) => (inputs.current[idx] = el)}
+          ref={(el) => {
+            inputs.current[idx] = el;
+          }}
           type="text"
-          value={digit}
+          inputMode="numeric"
+          value={otp[idx] || ""}
           maxLength={1}
           onChange={(e) => handleChange(e.target.value, idx)}
           onKeyDown={(e) => handleKeyDown(e, idx)}
