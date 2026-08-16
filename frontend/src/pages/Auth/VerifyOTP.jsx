@@ -1,7 +1,11 @@
 import React, { useState } from "react";
-import { Button, OTPInput } from "../../components";
+import { Button, OTPInput, OTPTimer } from "../../components";
 import { useDispatch, useSelector } from "react-redux";
 import { verifyOtp } from "../../store/slices/registerSlice";
+import {
+  verifyForgotPasswordOtp,
+  resendOtp,
+} from "../../store/slices/authSlice";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export default function verifyOTP() {
@@ -15,18 +19,24 @@ export default function verifyOTP() {
 
   const verifyOTP = async () => {
     try {
-      await dispatch(verifyOtp({ email, purpose, otp })).unwrap();
       if (purpose === "registration") {
+        await dispatch(verifyOtp({ email, otp })).unwrap();
         navigate("/login");
       }
 
       if (purpose === "forgot-password") {
+        await dispatch(verifyForgotPasswordOtp({ email, otp })).unwrap();
+
         navigate("/reset-password");
       }
     } catch (error) {
       console.error("OTP verification failed:");
     }
   };
+  const handleResendOTP = async () => {
+    await dispatch(resendOtp({ email, purpose })).unwrap();
+  };
+
   return (
     <div className="space-y-6">
       <div className="text-center">
@@ -54,9 +64,7 @@ export default function verifyOTP() {
       <div className="text-center">
         <p className="text-sm text-gray-500">Didn't receive the OTP?</p>
 
-        <button className="mt-2 font-semibold text-blue-600 hover:underline">
-          Resend OTP
-        </button>
+        <OTPTimer onResend={handleResendOTP} />
       </div>
     </div>
   );

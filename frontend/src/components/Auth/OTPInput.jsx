@@ -3,7 +3,7 @@ import React, { useRef } from "react";
 export default function OTPInput({ value, onChange }) {
   const inputs = useRef([]);
 
-  const otp = value.padEnd(6, "").split("");
+  const otp = Array.from({ length: 6 }, (_, i) => value[i] || "");
 
   const handleChange = (inputValue, index) => {
     if (!/^\d?$/.test(inputValue)) return;

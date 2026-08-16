@@ -24,11 +24,10 @@ export const registerUser = createAsyncThunk(
 //=======VERIFY-OTP=======//
 export const verifyOtp = createAsyncThunk(
   "register/verifyOtp",
-  async ({ email, purpose, otp }, { rejectWithValue }) => {
+  async ({ email, otp }, { rejectWithValue }) => {
     try {
       const response = await api.post("/otp/verify-registration-otp", {
         email,
-        purpose,
         otp,
       });
       return response.data?.data || response.data;

@@ -20,6 +20,7 @@ import Login from "./pages/Auth/Login";
 import SignUp from "./pages/Auth/SignUp";
 import VerifyOTP from "./pages/Auth/VerifyOTP";
 import ForgotPassWord from "./pages/Auth/ForgotPassWord";
+import ResetPassword from "./pages/Auth/ResetPassword";
 
 import { ScrollToTop } from "./components";
 import Profile from "./pages/Profile";
@@ -94,6 +95,7 @@ export default function App() {
 
           <Route path="/verify-otp" element={<VerifyOTP />} />
           <Route path="/forgot-password" element={<ForgotPassWord />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
         </Route>
       </Routes>
     </>

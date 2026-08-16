@@ -20,6 +20,8 @@ export { default as SignupForm } from "./Auth/SignupForm";
 export { default as OTPInput } from "./Auth/OTPInput";
 export { default as PasswordForm } from "./Auth/PasswordForm";
 export { default as PasswordInput } from "./Auth/PasswordInput";
+export { default as ResetPasswordForm } from "./Auth/ResetPasswordForm";
+export { default as OTPTimer } from "./Auth/OTPTimer";
 
 export { default as EmptyCart } from "./Cart/EmptyCart";
 export { default as CartItem } from "./Cart/CartItem";
