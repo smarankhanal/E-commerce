@@ -3,6 +3,7 @@ import { OTP } from "../models/otp.model.js";
 import ApiError from "../utils/ApiError.js";
 import { generateOtp, hashOtp } from "../utils/generateOtp.js";
 import { sendOtpMail } from "../utils/mail.js";
+import { PendingUser } from "../models/PendingUser.model.js";
 const sendOtpService = async (email, purpose) => {
   try {
     email = email.toLowerCase().trim();
@@ -44,10 +45,12 @@ const sendOtpService = async (email, purpose) => {
 const verifyOtpService = async (email, purpose, otp) => {
   try {
     email: email.toLowerCase().trim();
+    console.log(email);
     const otpRecord = await OTP.findOne({ email, purpose });
     if (!otpRecord) {
       throw new APiError(400, "OTP is invalid or expired");
     }
+    console.log(otpRecord);
     if (otpRecord.expiresAt < new Date()) {
       await OTP.deleteOne({
         _id: otpRecord._id,
@@ -55,19 +58,53 @@ const verifyOtpService = async (email, purpose, otp) => {
       throw new ApiError(400, "OTP has expired");
     }
     const enteredOtpHash = hashOtp(otp);
+    console.log(enteredOtpHash);
+
     if (otpRecord.otp !== enteredOtpHash) {
       throw new ApiError(400, "Invalid OTP");
     }
-    await OTP.deleteOne({
-      _id: otpRecord._id,
-    });
+    if (purpose === "registration") {
+      const pendingUser = await PendingUser.findOne({ email }).select("+password");
+      console.log(pendingUser);
+      if (!pendingUser) {
+        throw new ApiError(404, "Registration data expired or not found");
+      }
+      const user = await User.create({
+        userName: pendingUser.userName,
+        fullName: pendingUser.fullName,
+        email: pendingUser.email,
+        password: pendingUser.password,
+        phoneNumber: pendingUser.phoneNumber,
+      });
+      const a = await PendingUser.deleteOne({
+        _id: pendingUser._id,
+      });
+      console.log(a);
+      const b = await OTP.deleteOne({
+        _id: otpRecord._id,
+      });
+      console.log(b);
+      return user;
+    }
+    if (purpose === "forgot-password") {
+      const user = await User.findOne({ email });
+
+      if (!user) {
+        throw new ApiError(404, "User does not exist");
+      }
+
+      await OTP.deleteOne({
+        _id: otpRecord._id,
+      });
+
+      return user;
+    }
     return true;
   } catch (error) {
     if (error instanceof ApiError) {
       console.log(error);
       throw error;
     }
-    throw new ApiError(500, "Something went wrong while verifying OTP");
   }
 };
 export { sendOtpService, verifyOtpService };

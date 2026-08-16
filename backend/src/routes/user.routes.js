@@ -6,7 +6,6 @@ import {
   logoutUser,
   registerUser,
   resetPassword,
-  verifyForgotPasswordOtp,
 } from "../controllers/user.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 import {
@@ -27,6 +26,5 @@ router
 
 //---- Forgot Password -----
 router.route("/forgot-password").post(forgotPassword);
-router.route("/verify-password-otp").post(verifyForgotPasswordOtp);
 router.route("/reset-password").post(resetPasswordValidator, validate, resetPassword);
 export default router;
