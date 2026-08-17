@@ -1,4 +1,5 @@
 export const toCapitalize = (str) => {
+  if (!str) return "";
   return str
     .toLowerCase()
     .split(/\s+/)

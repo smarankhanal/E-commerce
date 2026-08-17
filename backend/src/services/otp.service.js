@@ -4,6 +4,8 @@ import ApiError from "../utils/ApiError.js";
 import { generateOtp, hashOtp } from "../utils/generateOtp.js";
 import { sendOtpMail } from "../utils/mail.js";
 import { PendingUser } from "../models/PendingUser.model.js";
+import { toCapitalize } from "../utils/capitalize.js";
+
 const sendOtpService = async (email, purpose) => {
   try {
     email = email.toLowerCase().trim();
@@ -50,7 +52,7 @@ const verifyOtpService = async (email, purpose, otp) => {
     if (!otpRecord) {
       throw new APiError(400, "OTP is invalid or expired");
     }
-    console.log(otpRecord);
+
     if (otpRecord.expiresAt < new Date()) {
       await OTP.deleteOne({
         _id: otpRecord._id,
@@ -69,8 +71,9 @@ const verifyOtpService = async (email, purpose, otp) => {
       if (!pendingUser) {
         throw new ApiError(404, "Registration data expired or not found");
       }
+      const userName = toCapitalize(pendingUser.userName);
       const user = await User.create({
-        userName: pendingUser.userName,
+        userName: userName,
         fullName: pendingUser.fullName,
         email: pendingUser.email,
         password: pendingUser.password,
