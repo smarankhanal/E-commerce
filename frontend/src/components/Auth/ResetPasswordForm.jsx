@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import PasswordInput from "./PasswordInput";
 import Button from "../Common/Button";
+import Toast from "../Common/Toast";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { resetPassword } from "../../store/slices/authSlice";
@@ -35,36 +36,38 @@ export default function ResetPasswordForm() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Heading */}
+    <>
+      <div className="space-y-6">
+        {/* Heading */}
 
-      <div className="text-center">
-        <h1 className="text-2xl font-semibold text-gray-900">
-          Change Password
-        </h1>
-      </div>
-
-      {/* Form */}
-
-      <form className="space-y-4" onSubmit={handleSubmit(submit)}>
-        <PasswordInput
-          label="New Password"
-          placeholder="New Password"
-          {...register("newPassword", {
-            required: "Password is required",
-          })}
-        />
-
-        <InputError msg={fieldErrors?.newPassword} />
-
-        <div className="flex items-center justify-between">
-          <Button
-            text={status === "loading" ? "Changing..." : "Change Password"}
-            type="submit"
-            disabled={status === "loading"}
-          />
+        <div className="text-center">
+          <h1 className="text-2xl font-semibold text-gray-900">
+            Reset Password
+          </h1>
         </div>
-      </form>
-    </div>
+
+        {/* Form */}
+
+        <form className="space-y-4" onSubmit={handleSubmit(submit)}>
+          <PasswordInput
+            label="New Password"
+            placeholder="New Password"
+            {...register("newPassword", {
+              required: "Password is required",
+            })}
+          />
+
+          <InputError msg={fieldErrors?.newPassword} />
+
+          <div className="flex items-center justify-between">
+            <Button
+              text={status === "loading" ? "Resetting..." : "Reset Password"}
+              type="submit"
+              disabled={status === "loading"}
+            />
+          </div>
+        </form>
+      </div>
+    </>
   );
 }

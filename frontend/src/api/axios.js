@@ -7,32 +7,32 @@ const api = axios.create({
   withCredentials: true,
 });
 
-api.interceptors.response.use(
-  (response) => {
-    return response;
-    console.log(response);
-  },
+// api.interceptors.response.use(
+//   (response) => {
+//     return response;
+//     console.log(response);
+//   },
 
-  async (error) => {
-    const originalRequest = error.config;
+//   async (error) => {
+//     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
+//     if (error.response?.status === 401 && !originalRequest._retry) {
+//       originalRequest._retry = true;
 
-      try {
-        await api.post("/auth/refresh-token");
+//       try {
+//         await api.post("/auth/refresh-token");
 
-        return api(originalRequest);
-      } catch (refreshError) {
-        window.location.href = "/login";
+//         return api(originalRequest);
+//       } catch (refreshError) {
+//         window.location.href = "/login";
 
-        return Promise.reject(refreshError);
-      }
-    }
+//         return Promise.reject(refreshError);
+//       }
+//     }
 
-    return Promise.reject(error);
-  },
-);
+//     return Promise.reject(error);
+//   },
+// );
 
 export default api;
 

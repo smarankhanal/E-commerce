@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, OTPInput, OTPTimer } from "../../components";
+import { Button, OTPInput, OTPTimer, Toast } from "../../components";
 import { useDispatch, useSelector } from "react-redux";
 import { verifyOtp } from "../../store/slices/registerSlice";
 import {
@@ -21,6 +21,7 @@ export default function verifyOTP() {
     try {
       if (purpose === "registration") {
         await dispatch(verifyOtp({ email, otp })).unwrap();
+
         navigate("/login");
       }
 
@@ -38,34 +39,38 @@ export default function verifyOTP() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="text-center">
-        <h1 className="text-3xl font-bold">Verify OTP</h1>
-        <p className="mt-2 text-gray-500">
-          Enter the 6-digit OTP sent to your email or phone number.
-        </p>
-      </div>
-      {email && (
-        <p className="text-center text-sm text-gray-500">
-          OTP sent to <span className="font-semibold">{email}</span>
-        </p>
-      )}
+    <>
+      <div className="space-y-6">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold">Verify OTP</h1>
+          <p className="mt-2 text-gray-500">
+            Enter the 6-digit OTP sent to your email or phone number.
+          </p>
+        </div>
+        {email && (
+          <p className="text-center text-sm text-gray-500">
+            OTP sent to <span className="font-semibold">{email}</span>
+          </p>
+        )}
 
-      <div className="text-center">
-        <OTPInput value={otp} onChange={setOtp} />
-        <Button
-          text="Verify OTP"
-          onClick={() => verifyOTP()}
-          disabled={otp.length !== 6}
-        />
-        {registerError && <p className="mt-2 text-red-600">{registerError}</p>}
-      </div>
+        <div className="text-center">
+          <OTPInput value={otp} onChange={setOtp} />
+          <Button
+            text="Verify OTP"
+            onClick={() => verifyOTP()}
+            disabled={otp.length !== 6}
+          />
+          {registerError && (
+            <p className="mt-2 text-red-600">{registerError}</p>
+          )}
+        </div>
 
-      <div className="text-center">
-        <p className="text-sm text-gray-500">Didn't receive the OTP?</p>
+        <div className="text-center">
+          <p className="text-sm text-gray-500">Didn't receive the OTP?</p>
 
-        <OTPTimer onResend={handleResendOTP} />
+          <OTPTimer onResend={handleResendOTP} />
+        </div>
       </div>
-    </div>
+    </>
   );
 }

@@ -13,6 +13,7 @@ export { default as Size } from "./Common/Size";
 export { default as Input } from "./Common/Input";
 export { default as ScrollToTop } from "./Common/ScrollToTop";
 export { default as InputError } from "./Common/InputError";
+export { default as Toast } from "./Common/Toast";
 export { default as CartLogo } from "./Cart/CartLogo";
 
 export { default as LoginForm } from "./Auth/LoginForm";
@@ -22,6 +23,7 @@ export { default as PasswordForm } from "./Auth/PasswordForm";
 export { default as PasswordInput } from "./Auth/PasswordInput";
 export { default as ResetPasswordForm } from "./Auth/ResetPasswordForm";
 export { default as OTPTimer } from "./Auth/OTPTimer";
+export { default as ChangePassword } from "./Auth/ChangePassword";
 
 export { default as EmptyCart } from "./Cart/EmptyCart";
 export { default as CartItem } from "./Cart/CartItem";

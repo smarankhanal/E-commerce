@@ -107,6 +107,8 @@ export const verifyForgotPasswordOtp = createAsyncThunk(
     }
   },
 );
+
+//=======RESET PASSWORD=======//
 export const resetPassword = createAsyncThunk(
   "auth/resetPassword",
   async ({ newPassword, resetToken }, { rejectWithValue }) => {
@@ -115,6 +117,29 @@ export const resetPassword = createAsyncThunk(
       const response = await api.post("/users/reset-password", {
         newPassword,
         resetToken,
+      });
+      return response.data?.data || response.data;
+    } catch (error) {
+      const errors = error.response?.data?.errors || [];
+      const fieldErrors = {};
+      errors.forEach((err) => {
+        fieldErrors[err.field] = err.message;
+      });
+      console.log(error);
+      return rejectWithValue({
+        message: error.response?.data?.message,
+        fieldErrors,
+      });
+    }
+  },
+);
+export const changePassword = createAsyncThunk(
+  "auth/changePassword",
+  async ({ oldPassword, newPassword }, { rejectWithValue }) => {
+    try {
+      const response = await api.post("/users/change-password", {
+        oldPassword,
+        newPassword,
       });
       return response.data?.data || response.data;
     } catch (error) {
@@ -260,6 +285,21 @@ export const authSlice = createSlice({
       .addCase(resetPassword.rejected, (state, action) => {
         state.loading = false;
         state.fieldErrors = action.payload?.fieldErrors || {};
+      })
+
+      //=======Change Password =======//
+
+      .addCase(changePassword.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(changePassword.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.error = null;
+      })
+      .addCase(changePassword.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload || "Failed to change password";
       });
   },
 });
