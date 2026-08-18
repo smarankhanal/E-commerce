@@ -31,24 +31,31 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new ApiError(400, "All fields are required");
   }
   fullName = toCapitalize(fullName);
-  userName: userName.toLowerCase().trim();
-  email: email.toLowerCase().trim();
+  userName = userName.toLowerCase().trim();
+  email = email.toLowerCase().trim();
   const existedUser = await User.findOne({ $or: [{ userName }, { email }] });
   if (existedUser) {
     throw new ApiError(409, "User with email or username exists already");
   }
-  const pendingUser = await PendingUser.findOne({ email });
+  let pendingUser = await PendingUser.findOne({ $or: [{ userName }, { email }] });
   if (pendingUser) {
-    throw new ApiError(409, "Registration already exists. Please verify your OTP.");
-  }
+    if (pendingUser) {
+      pendingUser.userName = userName;
+      pendingUser.fullName = fullName;
+      pendingUser.password = password;
+      pendingUser.phoneNumber = phoneNumber;
 
-  const user = await PendingUser.create({
-    userName,
-    fullName,
-    password,
-    email,
-    phoneNumber,
-  });
+      await pendingUser.save();
+    }
+  } else {
+    pendingUser = await PendingUser.create({
+      userName,
+      fullName,
+      password,
+      email,
+      phoneNumber,
+    });
+  }
   await sendOtpService(email, "registration");
 
   return res

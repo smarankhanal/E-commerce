@@ -27,7 +27,7 @@ const sendOtpService = async (email, purpose) => {
     await OTP.deleteMany({ email, purpose });
     const otp = generateOtp();
     const otpHash = hashOtp(otp);
-    const expiresAt = new Date(Date.now() + 100 * 60 * 1000);
+    const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
     await OTP.create({
       email,
       otp: otpHash,
@@ -46,7 +46,7 @@ const sendOtpService = async (email, purpose) => {
 };
 const verifyOtpService = async (email, purpose, otp) => {
   try {
-    email: email.toLowerCase().trim();
+    email = email.toLowerCase().trim();
     console.log(email);
     const otpRecord = await OTP.findOne({ email, purpose });
     if (!otpRecord) {
@@ -71,10 +71,11 @@ const verifyOtpService = async (email, purpose, otp) => {
       if (!pendingUser) {
         throw new ApiError(404, "Registration data expired or not found");
       }
-      const userName = toCapitalize(pendingUser.userName);
+      const fullName = toCapitalize(pendingUser.fullName);
+
       const user = await User.create({
-        userName: userName,
-        fullName: pendingUser.fullName,
+        userName: pendingUser.userName,
+        fullName: fullName,
         email: pendingUser.email,
         password: pendingUser.password,
         phoneNumber: pendingUser.phoneNumber,
