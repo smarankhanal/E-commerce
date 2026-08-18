@@ -10,7 +10,7 @@ import PasswordInput from "./PasswordInput";
 
 export default function SignupForm() {
   const { register, handleSubmit } = useForm();
-  const { fieldErrors } = useSelector((state) => state.register);
+  const { fieldErrors, error, status } = useSelector((state) => state.register);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -95,7 +95,13 @@ export default function SignupForm() {
         {fieldErrors["phoneNumber"] && (
           <InputError msg={fieldErrors["phoneNumber"]} />
         )}
-        <Button text="Sign Up" type="submit" />
+        {!fieldErrors && error && <InputError msg={error} />}
+
+        <Button
+          text={status === "loading" ? "Signing up..." : "Sign up"}
+          type="submit"
+          disabled={status === "loading"}
+        />
       </form>
 
       {/* Footer */}

@@ -79,7 +79,8 @@ export default function UpdateAccountDetails({ user, onClose, onSuccess }) {
             {fieldErrors["phoneNumber"] && (
               <InputError msg={fieldErrors["phoneNumber"]} />
             )}
-            {error && <InputError msg={error} />}
+            {!fieldErrors && error && <InputError msg={error} />}
+
             <Button
               text={status === "loading" ? "Updating..." : "Update"}
               type="submit"
