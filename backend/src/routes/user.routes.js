@@ -6,12 +6,14 @@ import {
   logoutUser,
   registerUser,
   resetPassword,
+  updateAccountDetails,
 } from "../controllers/user.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 import {
   changePasswordValidator,
   registerValidator,
   resetPasswordValidator,
+  updateAccountValidator,
 } from "../validators/auth.validators.js";
 import { validate } from "../middlewares/validate.middleware.js";
 
@@ -27,4 +29,9 @@ router
 //---- Forgot Password -----
 router.route("/forgot-password").post(forgotPassword);
 router.route("/reset-password").post(resetPasswordValidator, validate, resetPassword);
+
+//---- Update Account Details -----
+router
+  .route("/update-account-details")
+  .post(verifyJWT, updateAccountValidator, validate, updateAccountDetails);
 export default router;

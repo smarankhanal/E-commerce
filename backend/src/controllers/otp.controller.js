@@ -13,11 +13,11 @@ const resendOtp = asyncHandler(async (req, res) => {
   return res.status(200).json(new ApiResponse(200, {}, "OTP sent successfully"));
 });
 const verifyRegistrationOtp = asyncHandler(async (req, res) => {
-  const { email, purpose, otp } = req.body;
-  if (!email || !purpose || !otp) {
-    throw new ApiError(400, "Email or purpose or otp is missing");
+  const { email, otp } = req.body;
+  if (!email || !otp) {
+    throw new ApiError(400, "Email or otp is missing");
   }
-  await verifyOtpService(email, purpose, otp);
+  await verifyOtpService(email, "registration", otp);
   return res.status(200).json(new ApiResponse(200, {}, "OTP verified successfully"));
 });
 const verifyForgotPasswordOtp = asyncHandler(async (req, res) => {

@@ -7,6 +7,7 @@ import { sendOtpService, verifyOtpService } from "../services/otp.service.js";
 import { generateResetToken } from "../utils/resetToken.js";
 import crypto from "crypto";
 import { PendingUser } from "../models/PendingUser.model.js";
+import { setUncaughtExceptionCaptureCallback } from "process";
 const generateAccessAndRefreshTokens = async (userId) => {
   try {
     const user = await User.findById(userId);
@@ -71,7 +72,7 @@ const loginUser = asyncHandler(async (req, res) => {
   }
   const isPasswordValid = await user.isPasswordCorrect(password);
   if (!isPasswordValid) {
-    throw new ApiError(401, "Invalid user credentials");
+    throw new ApiError(401, "Invalid password");
   }
   const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(user._id);
   const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
@@ -192,6 +193,40 @@ const resetPassword = asyncHandler(async (req, res) => {
 
   return res.status(200).json(new ApiResponse(200, null, "Password reset successfully"));
 });
+const updateAccountDetails = asyncHandler(async (req, res) => {
+  const { userName, fullName, email, phoneNumber } = req.body;
+  const updateData = {};
+  if (userName !== undefined) updateData.userName = userName.trim();
+  if (fullName !== undefined) updateData.fullName = fullName.trim();
+  if (email !== undefined) updateData.email = email.trim().toLowerCase();
+  if (phoneNumber !== undefined) updateData.phoneNumber = phoneNumber.trim();
+  if (userName || email) {
+    const existingUser = await User.findOne({
+      $or: [
+        ...(userName ? [{ userName }] : []),
+        ...(email ? [{ email: email.toLowerCase() }] : []),
+      ],
+      _id: { $ne: req.user?._id },
+    });
+
+    if (existingUser) {
+      if (existingUser.userName === userName) {
+        throw new ApiError(409, "Username already exists");
+      }
+      if (existingUser.email === email.toLowerCase()) {
+        throw new ApiError(409, "Email already exists");
+      }
+    }
+  }
+  const user = await User.findByIdAndUpdate(
+    req.user?._id,
+    {
+      $set: updateData,
+    },
+    { new: true }
+  ).select("-password -refreshToken");
+  return res.status(200).json(new ApiResponse(200, user, "User deatils updated successfully"));
+});
 export {
   registerUser,
   loginUser,
@@ -199,4 +234,5 @@ export {
   changeCurrentPassword,
   forgotPassword,
   resetPassword,
+  updateAccountDetails,
 };
