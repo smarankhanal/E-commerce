@@ -68,6 +68,12 @@ export default function ChangePassword({ onClose, onSuccess }) {
 
               <div className="flex items-center justify-between">
                 <Button text="Change Password" type="submit" />
+                <p
+                  className="cursor-pointer text-blue-600 hover:underline hover:opacity-60"
+                  onClick={() => navigate("/forgot-password")}
+                >
+                  Forgot Password?
+                </p>
               </div>
               {error && <InputError msg={error} />}
             </form>

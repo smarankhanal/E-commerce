@@ -109,11 +109,11 @@ export const verifyForgotPasswordOtp = createAsyncThunk(
 );
 
 //=======RESET PASSWORD=======//
+
 export const resetPassword = createAsyncThunk(
   "auth/resetPassword",
   async ({ newPassword, resetToken }, { rejectWithValue }) => {
     try {
-      console.log(newPassword, resetToken);
       const response = await api.post("/users/reset-password", {
         newPassword,
         resetToken,
@@ -125,7 +125,6 @@ export const resetPassword = createAsyncThunk(
       errors.forEach((err) => {
         fieldErrors[err.field] = err.message;
       });
-      console.log(error);
       return rejectWithValue({
         message: error.response?.data?.message,
         fieldErrors,
@@ -133,6 +132,9 @@ export const resetPassword = createAsyncThunk(
     }
   },
 );
+
+//======= CHANGE PASSWORD =======//
+
 export const changePassword = createAsyncThunk(
   "auth/changePassword",
   async ({ oldPassword, newPassword }, { rejectWithValue }) => {
@@ -156,6 +158,31 @@ export const changePassword = createAsyncThunk(
     }
   },
 );
+
+//======= UPDATE ACCOUNT DETAILS =======//
+export const updateAccountDetails = createAsyncThunk(
+  "auth/updateAccountDetails",
+  async (userData, { rejectWithValue }) => {
+    try {
+      const response = await api.post(
+        "/users/update-account-details",
+        userData,
+      );
+      return response.data?.data || response.data;
+    } catch (error) {
+      const errors = error.response?.data?.errors;
+      const fieldErrors = {};
+      errors.forEach((err) => {
+        fieldErrors[err.field] = err.message;
+      });
+      return rejectWithValue({
+        message: error.response?.data?.message,
+        fieldErrors,
+      });
+    }
+  },
+);
+
 const initialState = {
   user: null,
   error: null,
@@ -293,13 +320,31 @@ export const authSlice = createSlice({
         state.status = "loading";
         state.error = null;
       })
-      .addCase(changePassword.fulfilled, (state, action) => {
+      .addCase(changePassword.fulfilled, (state) => {
         state.status = "succeeded";
         state.error = null;
       })
       .addCase(changePassword.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload || "Failed to change password";
+      })
+
+      //======= UPDATE ACCOUNT DETAILS =======//
+
+      .addCase(updateAccountDetails.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+
+      .addCase(updateAccountDetails.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.user = action.payload || null;
+      })
+      .addCase(updateAccountDetails.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.message || "Update failed";
+        state.fieldErrors = action.payload?.fieldErrors || {};
       });
   },
 });

@@ -19,17 +19,17 @@ export default function ResetPasswordForm() {
 
   const submit = async (data) => {
     try {
-      console.log("Password:", data.newPassword);
-
-      console.log("Reset Token:", resetToken);
-
       await dispatch(
         resetPassword({
           newPassword: data.newPassword,
           resetToken,
         }),
       ).unwrap();
-      navigate("/login");
+      navigate("/login", {
+        state: {
+          toast: "Password reset successfully",
+        },
+      });
     } catch (error) {
       console.error("Password reset failed:", error);
     }

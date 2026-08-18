@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 
-const OTP_TIME = 300; // 3 minutes
+const OTP_TIME = 60;
 
 export default function OTPTimer({ onResend }) {
   const [timeLeft, setTimeLeft] = useState(OTP_TIME);
   const timerRef = useRef(null);
-
+  const { status } = useSelector((state) => state.auth);
   const startTimer = () => {
     if (timerRef.current) {
       clearInterval(timerRef.current);
@@ -66,9 +67,10 @@ export default function OTPTimer({ onResend }) {
         <button
           type="button"
           onClick={handleResend}
-          className="font-semibold text-blue-600 hover:underline"
+          className="font-semibold text-blue-600 hover:underline cursor-pointer"
+          disabled={status === "loading"}
         >
-          Resend OTP
+          {status === "loading" ? "Resending..." : "Resend OTP"}
         </button>
       )}
     </div>

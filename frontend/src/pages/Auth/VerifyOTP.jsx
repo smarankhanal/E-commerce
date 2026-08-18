@@ -17,12 +17,25 @@ export default function verifyOTP() {
   const email = location.state?.email;
   const [otp, setOtp] = useState("");
 
+  const maskEmail = (email) => {
+    if (!email) return;
+    const [username, domain] = email.split("@");
+    if (username.length <= 2) {
+      return `${username[0]}***@${domain}`;
+    }
+    return `${username.slice(0, 2)}${"*".repeat(username.length - 2)}@${domain}`;
+  };
+
   const verifyOTP = async () => {
     try {
       if (purpose === "registration") {
         await dispatch(verifyOtp({ email, otp })).unwrap();
 
-        navigate("/login");
+        navigate("/login", {
+          state: {
+            toast: "User Registered successfully!",
+          },
+        });
       }
 
       if (purpose === "forgot-password") {
@@ -49,7 +62,8 @@ export default function verifyOTP() {
         </div>
         {email && (
           <p className="text-center text-sm text-gray-500">
-            OTP sent to <span className="font-semibold">{email}</span>
+            OTP sent to{" "}
+            <span className="font-semibold">{maskEmail(email)}</span>
           </p>
         )}
 

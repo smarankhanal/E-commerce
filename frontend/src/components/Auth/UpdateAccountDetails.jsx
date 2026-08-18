@@ -2,9 +2,12 @@ import React from "react";
 import Input from "../Common/Input";
 import Button from "../Common/Button";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-export default function UpdateAccountDetails({ user, onClose }) {
+import { useDispatch, useSelector } from "react-redux";
+import { updateAccountDetails } from "../../store/slices/authSlice";
+import InputError from "../Common/InputError";
+export default function UpdateAccountDetails({ user, onClose, onSuccess }) {
   const dispatch = useDispatch();
+  const { fieldErrors, status, error } = useSelector((state) => state.auth);
   const { register, handleSubmit } = useForm({
     defaultValues: {
       fullName: user?.fullName || "",
@@ -13,8 +16,10 @@ export default function UpdateAccountDetails({ user, onClose }) {
       phoneNumber: user?.phoneNumber || "",
     },
   });
-  const submit = async () => {
+  const submit = async (data) => {
     try {
+      await dispatch(updateAccountDetails(data)).unwrap();
+      onSuccess();
     } catch (error) {
       console.error("Error during registration", error);
     }
@@ -41,30 +46,45 @@ export default function UpdateAccountDetails({ user, onClose }) {
           {/* Form */}
           <form className="space-y-4" onSubmit={handleSubmit(submit)}>
             <Input
-              label="Userame"
+              label="Username"
               type="text"
               placeholder="Enter username"
               {...register("userName", { required: true })}
             />
+            {fieldErrors["userName"] && (
+              <InputError msg={fieldErrors["userName"]} />
+            )}
             <Input
               label="Fullname"
               type="text"
               placeholder="Enter fullname"
               {...register("fullName", { required: true })}
             />
+            {fieldErrors["fullName"] && (
+              <InputError msg={fieldErrors["fullName"]} />
+            )}
             <Input
               label="Email"
               type="text"
               placeholder="Enter email"
               {...register("email", { required: true })}
             />
+            {fieldErrors["email"] && <InputError msg={fieldErrors["email"]} />}
             <Input
               label="Phone Number"
               type="text"
               placeholder="Enter phone number"
               {...register("phoneNumber", { required: true })}
             />
-            <Button text="Update" type="submit" />
+            {fieldErrors["phoneNumber"] && (
+              <InputError msg={fieldErrors["phoneNumber"]} />
+            )}
+            {error && <InputError msg={error} />}
+            <Button
+              text={status === "loading" ? "Updating..." : "Update"}
+              type="submit"
+              disabled={status === "loading"}
+            />
           </form>
         </div>
       </div>

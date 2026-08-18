@@ -1,11 +1,16 @@
-import React, { useEffect } from "react";
-impor;
+import React, { useEffect, useRef } from "react";
+
 export default function Toast({ message, onClose }) {
+  const timerRef = useRef(null);
+
   useEffect(() => {
-    const timer = setTimeout(() => {
+    timerRef.current = setTimeout(() => {
       onClose();
     }, 2000);
-    return () => clearTimeout(timer);
+
+    return () => {
+      clearTimeout(timerRef.current);
+    };
   }, [onClose]);
 
   return (

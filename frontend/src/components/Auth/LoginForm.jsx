@@ -33,7 +33,7 @@ export default function LoginForm() {
       <form className="space-y-4" onSubmit={handleSubmit(login)}>
         {/* Email / Phone */}
         <Input
-          label="Email/Number"
+          label="Email/PhoneNumber"
           type="text"
           placeholder="Enter your email or phone number"
           {...register("identifier", {
