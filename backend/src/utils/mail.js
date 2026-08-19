@@ -1,48 +1,21 @@
 import nodemailer from "nodemailer";
-import dns from "dns";
 
-// ==============================
-// Nodemailer Transporter
-// ==============================
+// Create a reusable transporter for sending emails.
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false, // STARTTLS
-
-  // Force IPv4
-  lookup: (hostname, options, callback) => {
-    dns.lookup(hostname, { family: 4 }, callback);
-  },
-
+  service: "gmail",
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
-
-  connectionTimeout: 30000,
-  greetingTimeout: 30000,
-  socketTimeout: 30000,
 });
 
-// ==============================
-// Verify SMTP connection
-// ==============================
-transporter.verify((error, success) => {
-  if (error) {
-    console.error("SMTP VERIFY ERROR:", error);
-  } else {
-    console.log("SMTP SERVER READY:", success);
-  }
-});
-
-// ==============================
-// Send OTP Email
-// ==============================
+// Send OTP email
 export const sendOtpMail = async (email, otp, purpose) => {
   let subject;
   let title;
   let message;
 
+  // Different email content depending on why the OTP was requested
   if (purpose === "registration") {
     subject = "Verify Your Email";
     title = "Email Verification";
@@ -61,71 +34,22 @@ export const sendOtpMail = async (email, otp, purpose) => {
     subject,
 
     html: `
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <meta charset="UTF-8" />
-          <title>${title}</title>
-        </head>
+      <div style="font-family: Arial, sans-serif;">
+        <h2>${title}</h2>
 
-        <body
-          style="
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            font-family: Arial, sans-serif;
-          "
-        >
-          <div
-            style="
-              max-width: 600px;
-              margin: 40px auto;
-              background-color: #ffffff;
-              padding: 30px;
-              border-radius: 10px;
-            "
-          >
-            <h2>${title}</h2>
+        <p>${message}</p>
 
-            <p>${message}</p>
+        <h1>${otp}</h1>
 
-            <div
-              style="
-                font-size: 32px;
-                font-weight: bold;
-                letter-spacing: 8px;
-                margin: 25px 0;
-              "
-            >
-              ${otp}
-            </div>
+        <p>This OTP will expire in 5 minutes.</p>
 
-            <p>
-              This OTP will expire in <strong>5 minutes</strong>.
-            </p>
-
-            <p>
-              If you did not request this OTP, please ignore this email.
-            </p>
-          </div>
-        </body>
-      </html>
+        <p>
+          If you did not request this OTP, please ignore this email.
+        </p>
+      </div>
     `,
   };
 
-  try {
-    const info = await transporter.sendMail(mailOptions);
-
-    console.log("OTP EMAIL SENT:", {
-      messageId: info.messageId,
-      email,
-      purpose,
-    });
-
-    return info;
-  } catch (error) {
-    console.error("OTP EMAIL ERROR:", error);
-
-    throw error;
-  }
+  // Send the email
+  await transporter.sendMail(mailOptions);
 };
