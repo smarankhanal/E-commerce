@@ -1,25 +1,26 @@
 import nodemailer from "nodemailer";
+import dns from "dns";
 
-// Create a reusable transporter for sending emails.
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 465,
   secure: true,
 
-  family: 4,
+  lookup: (hostname, options, callback) => {
+    dns.lookup(hostname, { family: 4 }, callback);
+  },
+
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
 });
 
-// Send OTP email
 export const sendOtpMail = async (email, otp, purpose) => {
   let subject;
   let title;
   let message;
 
-  // Different email content depending on why the OTP was requested
   if (purpose === "registration") {
     subject = "Verify Your Email";
     title = "Email Verification";
@@ -32,28 +33,18 @@ export const sendOtpMail = async (email, otp, purpose) => {
     throw new Error("Invalid OTP purpose");
   }
 
-  const mailOptions = {
+  await transporter.sendMail({
     from: `"Your E-Commerce App" <${process.env.EMAIL_USER}>`,
     to: email,
     subject,
-
     html: `
       <div style="font-family: Arial, sans-serif;">
         <h2>${title}</h2>
-
         <p>${message}</p>
-
         <h1>${otp}</h1>
-
         <p>This OTP will expire in 5 minutes.</p>
-
-        <p>
-          If you did not request this OTP, please ignore this email.
-        </p>
+        <p>If you did not request this OTP, please ignore this email.</p>
       </div>
     `,
-  };
-
-  // Send the email
-  await transporter.sendMail(mailOptions);
+  });
 };
