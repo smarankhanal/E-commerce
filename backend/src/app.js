@@ -27,9 +27,14 @@ app.use(cookieParser());
 import userRouter from "./routes/user.routes.js";
 import otpRouter from "./routes/otp.routes.js";
 import authRouter from "./routes/auth.routes.js";
+import productRouter from "./routes/product.routes.js";
+import collectionRouter from "./routes/collection.routes.js";
 import errorHandler from "./middlewares/errorHandler.middleware.js";
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/otp", otpRouter);
+app.use("/api/v1/shop", productRouter);
+app.use("/api/v1/collections", collectionRouter);
+
 app.use(errorHandler);
 export { app };
