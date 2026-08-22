@@ -8,6 +8,14 @@ const collectionSchema = new Schema(
       unique: true,
       trim: true,
     },
+    slug: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+      index: true,
+    },
     description: {
       type: String,
       required: true,

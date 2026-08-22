@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FiMinus, FiPlus } from "react-icons/fi";
 
-export default function QuantitySelector() {
+export default function QuantitySelector({ className }) {
   const [quantity, setQuantity] = useState(1);
   const increase = () => setQuantity((prev) => prev + 1);
   const decrase = () => {
@@ -14,16 +14,16 @@ export default function QuantitySelector() {
       <div className="flex items-center justify-center rounded-lg border border-gray-300 ">
         <button
           onClick={decrase}
-          className="flex items-center justify-center h-11 w-11 transition-all hover:bg-gray-100 cursor-pointer "
+          className="flex items-center justify-center h-11 w-11 transition-all  cursor-pointer"
         >
           <FiMinus />
         </button>
-        <div className="flex h-11 w-14 items-center justify-center border-x border-gray-300 text-base font-semibold">
+        <div className="flex h-11 w-14 items-center justify-center border-x  text-base font-semibold">
           {quantity}
         </div>
         <button
           onClick={increase}
-          className="flex items-center justify-center h-11 w-11 transition-all hover:bg-gray-100 cursor-pointer"
+          className="flex items-center justify-center h-11 w-11 transition-all cursor-pointer"
         >
           <FiPlus />
         </button>

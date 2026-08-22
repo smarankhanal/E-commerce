@@ -32,7 +32,7 @@ export default function ProductCard() {
         {/* Explore Product */}
         <button
           className="mt-4 flex items-center gap-2 text-(--primary) font-medium hover:gap-3 transition-all duration-300"
-          onClick={() => navigate("/product")}
+          onClick={() => navigate(`/product/${product.sku}`)}
         >
           Explore Product
           <FaArrowRight className="text-sm" />

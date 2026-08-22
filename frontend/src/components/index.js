@@ -46,3 +46,7 @@ export { default as History } from "./Profile/History";
 
 export { default as ProtectedRoute } from "./Route/ProtectedRoute";
 export { default as PublicRoute } from "./Route/PublicRoute";
+
+export { default as ShopProductCard } from "./Shop/ShopProductCard";
+
+export { default as CollectionProductCard } from "./Collection/CollectionProductCard";

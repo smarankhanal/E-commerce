@@ -14,7 +14,7 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import ProductDetails from "./pages/ProductDetails";
 import Shop from "./pages/Shop";
-
+import Collection from "./pages/Collection";
 // Auth Pages
 import Login from "./pages/Auth/Login";
 import SignUp from "./pages/Auth/SignUp";
@@ -34,8 +34,9 @@ export default function App() {
         {/* ==================== MAIN WEBSITE ==================== */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/product" element={<ProductDetails />} />
+          <Route path="/product/:sku" element={<ProductDetails />} />
           <Route path="/products" element={<Shop />} />
+          <Route path="/collection/:slug" element={<Collection />} />
 
           <Route
             path="/cart"

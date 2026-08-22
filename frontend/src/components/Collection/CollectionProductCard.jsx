@@ -4,7 +4,7 @@ import QuantitySelector from "../Product/QuantitySelector";
 import Button from "../Common/Button";
 import { useNavigate } from "react-router-dom";
 
-export default function ShopProductCard({ product }) {
+export default function CollectionProductCard({ product }) {
   const navigate = useNavigate();
   const detailImage = product.image?.find((img) => img.side === "detail");
   return (
@@ -22,16 +22,6 @@ export default function ShopProductCard({ product }) {
             Out of Stock
           </span>
         )}
-
-        {/* Collections */}
-        <div className="absolute left-4 top-4 flex flex-wrap gap-1 rounded-full bg-white/90 px-3 py-1.5 text-xs font-medium text-gray-700 backdrop-blur-md">
-          {product.collections?.map((collection, index) => (
-            <span key={collection._id}>
-              {collection.name}
-              {index < product.collections.length - 1 && " • "}
-            </span>
-          ))}
-        </div>
 
         {/* Cart Controls */}
         <div className="absolute bottom-3 left-3 right-3 flex items-center gap-2">

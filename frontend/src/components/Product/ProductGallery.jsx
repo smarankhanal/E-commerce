@@ -1,32 +1,39 @@
-import React, { useState } from "react";
-import img from "../../assets/images/t-shirt.jpg";
-import img1 from "../../assets/images/hero-image.jpg";
+import React, { useEffect, useState } from "react";
+export default function ProductGallery({ product }) {
+  const [selectedImage, setSelectedImage] = useState(null);
 
-export default function ProductGallery() {
-  const images = [img, img1, img, img1, img, img1];
-  const [selectedImage, setSelectedImage] = useState(images[0]);
+  useEffect(() => {
+    const detailImage = product?.image?.find((img) => img.side === "detail");
+
+    setSelectedImage(detailImage || null);
+  }, [product]);
   return (
     <div className="flex flex-col gap-5">
       {/* Main Image */}
-      <div className="overflow-hidden rounded-xl  bg-white cursor-pointer">
+      <div className="relative overflow-hidden rounded-xl  bg-white cursor-pointer">
         <img
-          src={selectedImage}
-          alt="Product"
+          src={selectedImage?.url}
+          alt={selectedImage?.side}
           className="h-125 w-full object-cover transition-all duration-300 hover:scale-110"
         />
+        {product?.stock === 0 && (
+          <span className="absolute right-3 top-4 z-10 rounded-full bg-gray-900/80 px-3 py-1 text-xs font-medium text-white">
+            Out of Stock
+          </span>
+        )}
       </div>
       <div className="flex gap-3">
         {/* Thumbnails */}
-        {images.map((image, idx) => (
+        {product?.image.map((img, idx) => (
           <button
             key={idx}
-            onClick={() => setSelectedImage(image)}
+            onClick={() => setSelectedImage(img)}
             className={`overflow-hidden rounded-lg border-2 transition-all ${
-              selectedImage === image ? "border-blue-500" : "border-gray-300"
+              selectedImage === img ? "border-blue-500" : "border-gray-300"
             }`}
           >
             <img
-              src={image}
+              src={img.url}
               alt={`Thumbnail ${idx + 1}`}
               className="h-20 w-20 object-cover"
             />

@@ -1,37 +1,7 @@
 import { useState } from "react";
-
-import img from "../../assets/images/t-shirt.jpg";
 import { useNavigate } from "react-router-dom";
 
-const collections = [
-  {
-    id: 1,
-    title: "Medical Wear",
-    image: img,
-  },
-  {
-    id: 2,
-    title: "Classic Collection",
-    image: img,
-  },
-  {
-    id: 3,
-    title: "Premium Scrubs",
-    image: img,
-  },
-  {
-    id: 4,
-    title: "Hospital Essentials",
-    image: img,
-  },
-  {
-    id: 5,
-    title: "Luxury Uniform",
-    image: img,
-  },
-];
-
-export default function CollectionSlider() {
+export default function CollectionSlider({ collections }) {
   const navigate = useNavigate();
   const [active, setActive] = useState(2);
 
@@ -56,7 +26,7 @@ export default function CollectionSlider() {
       <h2 className="text-4xl font-bold text-center mb-16">Our Collections</h2>
 
       <div className="relative flex justify-center items-center h-100">
-        {collections.map((item, index) => {
+        {collections?.map((item, index) => {
           const position = getPosition(index);
 
           let classes =
@@ -76,7 +46,7 @@ export default function CollectionSlider() {
 
           return (
             <div
-              key={item.id}
+              key={item._id}
               className={classes}
               onClick={() => setActive(index)}
             >
@@ -84,7 +54,7 @@ export default function CollectionSlider() {
               <div
                 className="absolute inset-0 bg-center bg-cover transition-all duration-700"
                 style={{
-                  backgroundImage: `url(${item.image})`,
+                  backgroundImage: `url(${item.image.url})`,
                 }}
               ></div>
 
@@ -95,12 +65,12 @@ export default function CollectionSlider() {
                   onClick={(e) => e.stopPropagation()}
                 >
                   <h3 className="text-white text-3xl font-bold mb-4 drop-shadow-lg">
-                    {item.title}
+                    {item.name}
                   </h3>
 
                   <button
                     className="bg-white text-black px-6 py-3 rounded-full font-semibold hover:bg-black hover:text-white transition-all duration-300 cursor-pointer"
-                    onClick={() => navigate("/product")}
+                    onClick={() => navigate(`/collection/${item.slug}`)}
                   >
                     Explore
                   </button>
