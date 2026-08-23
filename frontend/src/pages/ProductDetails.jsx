@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AddReview,
   ProductDescription,
@@ -11,14 +11,28 @@ import { Button, Input } from "../components";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getSingleProduct } from "../store/slices/productSlice";
-
+import { addToCart, removeCart } from "../store/slices/cartSlice";
 export default function ProductDetails() {
   const dispatch = useDispatch();
   const { sku } = useParams();
   const { product } = useSelector((state) => state.product);
+  const cartItems = useSelector((state) => state.cart.items);
+  const isInCart = cartItems.some((item) => item.sku === product.sku);
+  const [selectedSize, setSelectedSize] = useState("");
+
+  const add = (product) => {
+    // dispatch(addToCart({ ...product, selectedSize }));
+    dispatch(addToCart(product));
+  };
+
+  const remove = (product) => {
+    // dispatch(removeCart({ ...product, selectedSize }));
+    dispatch(removeCart(product));
+  };
+
   useEffect(() => {
     dispatch(getSingleProduct(sku));
-  }, [sku, dispatch]);
+  }, [(sku, dispatch)]);
   return (
     <div className="mx-auto max-w-7xl px-6 py-10 mt-30">
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
@@ -37,14 +51,26 @@ export default function ProductDetails() {
             </p>
           </div>
 
-          <SizeSelector />
+          <SizeSelector
+            sizes={product?.size}
+            selectedSize={selectedSize}
+            onSizeChange={setSelectedSize}
+          />
 
           <div className="flex justify-between">
-            <QuantitySelector />
+            <QuantitySelector product={product} selectedSize={selectedSize} />
             <div className="flex gap-3">
               <Button
-                text={product?.stock === 0 ? "Out of Stock" : "Add to Cart"}
-                disabled={product?.stock == 0}
+                text={
+                  product?.stock === 0
+                    ? "Out of Stock"
+                    : isInCart
+                      ? "Remove from Cart"
+                      : "Add to Cart"
+                }
+                variant={isInCart ? "danger" : "primary"}
+                disabled={product?.stock === 0}
+                onClick={() => (isInCart ? remove(product) : add(product))}
               />
             </div>
           </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import ProductCard from "../Product/ProductCard";
 
-export default function BestSeller() {
+export default function BestSeller({ products }) {
   return (
     <section className="max-w-7xl mx-auto px-6 py-12">
       {/* Section Heading */}
@@ -17,9 +17,9 @@ export default function BestSeller() {
 
       {/* Product Cards */}
       <div className="flex flex-wrap justify-center gap-8">
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
+        {products?.map((product) => (
+          <ProductCard key={product._id} product={product} />
+        ))}
       </div>
     </section>
   );

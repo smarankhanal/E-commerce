@@ -1,21 +1,25 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function CartSummary() {
+export default function CartSummary({ totalPrice }) {
   const navigate = useNavigate();
-  return (
-    <div className="w-80 rounded-xl border border-gray-200 bg-white p-6 shadow-sm mb-10">
-      <div className="flex items-center justify-between border-b pb-4">
-        <span className="text-lg font-medium text-gray-600">Total Cost</span>
 
-        <span className="text-2xl font-bold text-blue-700">Rs. 6000</span>
+  return (
+    <div className="w-full max-w-sm rounded-2xl border border-gray-200 bg-white p-6 shadow-sm space-y-5 mb-10 sticky top-24">
+      <h3 className="text-base font-semibold text-gray-800">Order Summary</h3>
+
+      <div className="flex items-center justify-between border-t border-gray-100 pt-4">
+        <span className="text-base font-medium text-gray-700">Total</span>
+        <span className="text-2xl font-bold text-blue-700">
+          Rs {totalPrice}
+        </span>
       </div>
 
       <button
-        className="mt-6 w-full rounded-lg border-2 border-blue-800 bg-blue-800 py-2.5 font-medium text-white transition-all duration-300 hover:bg-white hover:text-blue-800 hover:shadow-lg cursor-pointer"
+        className="w-full rounded-lg border-2 border-blue-800 bg-blue-800 py-2.5 font-medium text-white transition-all duration-300 hover:bg-white hover:text-blue-800 hover:shadow-md cursor-pointer focus:outline-none"
         onClick={() => navigate("/checkout")}
       >
-        Checkout
+        Proceed to Checkout
       </button>
     </div>
   );

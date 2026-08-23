@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import Size from "../Common/Size";
-export default function () {
-  const sizes = ["S", "M", "L", "XL", "XXL"];
-  const [selectedSize, setSelectedSize] = useState("S");
+export default function ({ sizes = [], selectedSize, onSizeChange }) {
   return (
     <div className="space-y-3">
       <p className="font-medium">
@@ -15,7 +13,7 @@ export default function () {
             key={size}
             text={size}
             selected={selectedSize === size}
-            onClick={() => setSelectedSize(size)}
+            onClick={() => onSizeChange(size)}
           />
         ))}
       </div>

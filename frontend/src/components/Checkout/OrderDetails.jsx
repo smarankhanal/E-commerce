@@ -1,49 +1,33 @@
 import React from "react";
 import img from "../../assets/images/t-shirt.jpg";
-
-const collections = [
-  {
-    id: 1,
-    title: "Medical Wear",
-    image: img,
-    price: 1000,
-    quantity: 1,
-  },
-  {
-    id: 2,
-    title: "Classic Collection",
-    image: img,
-    price: 2000,
-    quantity: 2,
-  },
-  {
-    id: 3,
-    title: "Premium Scrubs",
-    image: img,
-    price: 3000,
-    quantity: 1,
-  },
-];
+import { useSelector } from "react-redux";
 
 export default function OrderDetails() {
+  const { items } = useSelector((state) => state.cart);
+
   return (
     <div className="rounded-2xl bg-white shadow-md p-6">
       <h2 className="text-2xl font-semibold mb-6">Order Summary</h2>
 
       <div className="space-y-5">
-        {collections.map((item) => (
-          <div key={item.id}>
+        {items.map((item) => (
+          <div key={item._id}>
             <div className="flex items-center justify-between">
               {/* Product */}
               <div className="flex items-center gap-4">
                 <img
-                  src={item.image}
-                  alt={item.title}
+                  src={item.image.find((img) => img.side === "detail").url}
+                  alt={item?.name}
                   className="h-20 w-20 rounded-lg object-cover"
                 />
 
                 <div>
-                  <h3 className="font-medium">{item.title}</h3>
+                  <p className="text-sm text-blue-500"> {item.name}</p>
+                  {item.size && (
+                    <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
+                      {item.size}
+                    </span>
+                  )}
                   <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
                 </div>
               </div>

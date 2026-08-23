@@ -37,24 +37,25 @@ export default function App() {
           <Route path="/product/:sku" element={<ProductDetails />} />
           <Route path="/products" element={<Shop />} />
           <Route path="/collection/:slug" element={<Collection />} />
-
-          <Route
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+          {/* <Route
             path="/cart"
             element={
               <ProtectedRoute>
                 <Cart />
               </ProtectedRoute>
             }
-          />
+          /> */}
 
-          <Route
+          {/* <Route
             path="/checkout"
             element={
               <ProtectedRoute>
                 <Checkout />
               </ProtectedRoute>
             }
-          />
+          /> */}
           <Route
             path="/verify-otp"
             element={

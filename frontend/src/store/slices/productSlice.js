@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../api/axios";
 
+//======= getAllProduct ======= //
 export const getAllProduct = createAsyncThunk(
   "product/getAllProduct",
   async (_, { rejectWithValue }) => {
@@ -22,6 +23,31 @@ export const getAllProduct = createAsyncThunk(
     }
   },
 );
+
+//======= getBestSellers ======= //
+
+export const getBestSellers = createAsyncThunk(
+  "product/getBestSellers",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.get("/shop/best-sellers");
+      return response.data?.data || response.data;
+    } catch (error) {
+      const serializedError = {
+        error:
+          error.response?.data.message ||
+          error.message ||
+          "Failed to fetch bestSellers",
+        status: error.response?.status,
+        data: error.response?.data,
+      };
+      return rejectWithValue(serializedError);
+    }
+  },
+);
+
+//======= getSingleProduct ======= //
+
 export const getSingleProduct = createAsyncThunk(
   "product/getSingleProduct",
   async (sku, { rejectWithValue }) => {
@@ -41,8 +67,10 @@ export const getSingleProduct = createAsyncThunk(
     }
   },
 );
+
 const initialState = {
   products: [],
+  bestSellersProduct: [],
   error: null,
   status: "idle",
   product: null,
@@ -56,6 +84,7 @@ export const productSlice = createSlice({
   extraReducers: (builder) => {
     builder
 
+      // ======= getAllProduct ======= //
       .addCase(getAllProduct.pending, (state) => {
         state.status = "loading";
         state.error = null;
@@ -70,6 +99,23 @@ export const productSlice = createSlice({
         state.status = "failed";
         state.error = action.payload?.message || "Product fetch failed";
       })
+      //======= getBestSellers =======//
+      .addCase(getBestSellers.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+
+      .addCase(getBestSellers.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.bestSellersProduct = action.payload;
+      })
+
+      .addCase(getBestSellers.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload?.message || "Product fetch failed";
+      })
+
+      //======= getSingleProduct ========//
       .addCase(getSingleProduct.pending, (state) => {
         state.status = "loading";
         state.error = null;

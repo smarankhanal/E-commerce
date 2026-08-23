@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { FiArrowUpRight } from "react-icons/fi";
 import QuantitySelector from "../Product/QuantitySelector";
 import Button from "../Common/Button";
 import { useNavigate } from "react-router-dom";
+import { addToCart, removeCart } from "../../store/slices/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function CollectionProductCard({ product }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.items);
+  const isInCart = cartItems.some((item) => item.sku === product.sku);
+  const add = (product) => {
+    dispatch(addToCart(product));
+  };
+
+  const remove = (product) => {
+    dispatch(removeCart(product));
+  };
   const detailImage = product.image?.find((img) => img.side === "detail");
   return (
     <div className="group w-full">
@@ -27,19 +39,31 @@ export default function CollectionProductCard({ product }) {
         <div className="absolute bottom-3 left-3 right-3 flex items-center gap-2">
           {/* Quantity */}
           <div className="rounded-xl border border-white/30 bg-black/30 p-1 text-white backdrop-blur-md hover:bg-black/10">
-            <QuantitySelector />
+            <QuantitySelector product={product} />
           </div>
 
           {/* Add to Cart */}
-          <Button
-            text={product.stock === 0 ? "Out of Stock" : "Add to Cart"}
-            className={`flex-1 rounded-xl border py-3 text-sm font-medium transition ${
-              product.stock === 0
-                ? "cursor-not-allowed border-white/10 bg-gray-400/40 text-gray-300"
-                : "cursor-pointer border-white/30 bg-black/70 text-white backdrop-blur-md hover:bg-black/45"
-            }`}
-            disabled={product.stock === 45}
-          />
+          {
+            <Button
+              text={
+                product.stock === 0
+                  ? "Out of Stock"
+                  : isInCart
+                    ? "Remove from Cart"
+                    : "Add to Cart"
+              }
+              variant={isInCart ? "danger" : "primary"}
+              className={`flex-1 rounded-xl border py-3 text-sm font-medium transition ${
+                product.stock === 0
+                  ? "cursor-not-allowed border-white/10 bg-gray-400/40 text-gray-300"
+                  : isInCart
+                    ? "cursor-pointer border-red-500/30 bg-red-600/80 text-white backdrop-blur-md hover:bg-red-600/60"
+                    : "cursor-pointer border-white/30 bg-black/70 text-white backdrop-blur-md hover:bg-black/45"
+              }`}
+              disabled={product.stock === 0}
+              onClick={() => (isInCart ? remove(product) : add(product))}
+            />
+          }
         </div>
       </div>
 

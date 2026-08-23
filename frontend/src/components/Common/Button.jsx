@@ -1,9 +1,14 @@
 import React from "react";
 
-export default function Button({ type = "button", text, ...props }) {
+export default function Button({
+  type = "button",
+  variant = "primary",
+  text,
+  ...props
+}) {
   return (
     <button
-      className="btn btn-primary disabled:cursor-not-allowed"
+      className={`btn btn-${variant} disabled:cursor-not-allowed`}
       type={type}
       {...props}
     >

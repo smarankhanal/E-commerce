@@ -1,32 +1,60 @@
-import React from "react";
+import React, { useState } from "react";
 import heroSeller from "../../assets/images/t-shirt.jpg";
 import { FaArrowRight } from "react-icons/fa";
 import Button from "../Common/Button";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, removeCart } from "../../store/slices/cartSlice";
 
-export default function ProductCard() {
+export default function ProductCard({ product }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.items);
+  const isInCart = cartItems.some((item) => item.sku === product.sku);
+  const add = (product) => {
+    dispatch(addToCart(product));
+  };
+
+  const remove = (product) => {
+    dispatch(removeCart(product));
+  };
+  const detailImage = product?.image.find((img) => img.side === "detail");
   return (
     <div className="w-70 overflow-hidden rounded-xl bg-white cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_35px_rgba(37,99,235,0.25)]">
-      <img
-        src={heroSeller}
-        alt="T-shirt"
-        className="h-52 w-full object-cover"
-      />
-
+      <div className="relative">
+        <img
+          src={detailImage.url}
+          alt={detailImage.name}
+          className="h-52 w-full object-cover"
+        />
+        <div className="absolute left-4 top-4 flex flex-wrap gap-1 rounded-full bg-white/90 px-3 py-1.5 text-xs font-medium text-gray-700 backdrop-blur-md">
+          {product.collections?.map((collection, index) => (
+            <span key={collection._id}>
+              {collection.name}
+              {index < product.collections.length - 1 && " • "}
+            </span>
+          ))}
+        </div>
+      </div>
       <div className="p-4">
         <h3 className="text-lg font-semibold text-(--text-primary)">
-          Classic T-Shirt
+          {product?.name}
         </h3>
-
-        <p className="mt-1 text-sm text-(--text-secondary)">Premium Cotton</p>
 
         <div className="mt-3 mb-2 flex items-center justify-between">
           <span className="text-lg font-bold text-(--product-price)">
-            Rs 2,000
+            Rs {product?.price}
           </span>
 
-          <Button text="Add to Cart" />
+          {isInCart ? (
+            <Button
+              text="Remove"
+              variant="danger"
+              onClick={() => remove(product)}
+            />
+          ) : (
+            <Button text="Add to Cart" onClick={() => add(product)} />
+          )}
         </div>
 
         {/* Explore Product */}

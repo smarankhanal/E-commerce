@@ -19,7 +19,7 @@ export default function Collection() {
   return (
     <main className="px-4 py-6 md:px-6 lg:px-8">
       {/* Shop Header */}
-      <div className="sticky top-25 z-20 flex flex-col items-center gap-4 border-b border-gray-100 bg-white/80 px-4 py-4 backdrop-blur-md md:flex-row md:justify-between md:px-8">
+      <div className="sticky top-20 z-20 flex flex-col items-center gap-4 border-b border-gray-100 bg-white/80 px-4 py-4 backdrop-blur-md md:flex-row md:justify-between md:px-8">
         <div>
           <p className="mb-2 text-sm font-medium uppercase tracking-widest text-blue-600">
             {collection?.name}
