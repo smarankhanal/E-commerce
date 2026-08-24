@@ -1,6 +1,7 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { Product } from "../models/product.model.js";
 import ApiResponse from "../utils/ApiResponse.js";
+import ApiError from "../utils/ApiError.js";
 const getAllProduct = asyncHandler(async (req, res) => {
   const products = await Product.find({ isActive: true })
     .populate("collections", "name")
@@ -36,4 +37,30 @@ const getBestSellers = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, bestSellers, "Best sellers fetched successfully"));
 });
-export { getAllProduct, getSingleProduct, getBestSellers };
+const searchProduct = asyncHandler(async (req, res) => {
+  const { q } = req.query;
+  if (!q || !q.trim()) {
+    throw new ApiError(400, "Search query is missing");
+  }
+  const searchQuery = q.trim();
+  const products = await Product.find({
+    isActive: true,
+    name: {
+      $regex: searchQuery,
+      $options: "i",
+    },
+  })
+    .select("name price image slug collections")
+    .populate("collections", "name");
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        products,
+        products.length ? "Products Search Successfully" : "No products found"
+      )
+    );
+});
+export { getAllProduct, getSingleProduct, getBestSellers, searchProduct };
