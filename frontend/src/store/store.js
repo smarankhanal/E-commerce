@@ -5,6 +5,7 @@ import productSlice from "./slices/productSlice.js";
 import collectionSlice from "./slices/collectionSlice.js";
 import cartSlice from "./slices/cartSlice.js";
 import reviewSlice from "./slices/reviewSlice.js";
+import searchSlice from "./slices/searchSlice.js";
 const store = configureStore({
   reducer: {
     auth: authSlice,
@@ -13,6 +14,7 @@ const store = configureStore({
     collection: collectionSlice,
     cart: cartSlice,
     review: reviewSlice,
+    search: searchSlice,
   },
 });
 export default store;

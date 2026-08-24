@@ -29,9 +29,6 @@ export default function Collection() {
             {collection?.description}
           </p>
         </div>
-        <div className="ml-10">
-          <Search />
-        </div>
       </div>
 
       {/* Products */}

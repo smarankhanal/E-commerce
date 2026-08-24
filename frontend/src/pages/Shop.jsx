@@ -6,6 +6,14 @@ import { getAllProduct } from "../store/slices/productSlice";
 export default function Shop() {
   const dispatch = useDispatch();
   const { error, status, products } = useSelector((state) => state.product);
+  const {
+    results,
+    query,
+    loading: searchLoading,
+  } = useSelector((state) => state.search);
+  const isSearching = query.trim().length > 0;
+  const productsToDisplay = isSearching ? results : products;
+
   useEffect(() => {
     if (products.length === 0) {
       dispatch(getAllProduct());
@@ -29,21 +37,35 @@ export default function Shop() {
         </div>
       </div>
 
-      {status === "loading" && (
+      {!isSearching && status === "loading" && (
         <div className="py-20 text-center text-gray-500">
           Loading products...
         </div>
       )}
 
+      {isSearching && searchLoading && (
+        <div className="py-20 text-center text-gray-500">
+          Searching products...
+        </div>
+      )}
+
       {/* Error */}
-      {status === "failed" && (
+      {!isSearching && status === "failed" && (
         <div className="py-20 text-center text-red-500">
           {error || "Failed to load products."}
         </div>
       )}
-      {status === "succeeded" && (
+
+      {isSearching && !searchLoading && results.length === 0 && (
+        <div className="py-20 text-center text-gray-500">
+          No products found for "{query}".
+        </div>
+      )}
+
+      {((status === "succeeded" && !isSearching) ||
+        (isSearching && !searchLoading && results.length > 0)) && (
         <div className="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-3">
-          {products.map((product) => (
+          {productsToDisplay?.map((product) => (
             <ShopProductCard key={product._id} product={product} />
           ))}
         </div>
