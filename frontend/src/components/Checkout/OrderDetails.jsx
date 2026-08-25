@@ -1,17 +1,27 @@
-import React from "react";
-import img from "../../assets/images/t-shirt.jpg";
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import Button from "../Common/Button";
+import { clearCart } from "../../store/slices/cartSlice";
 export default function OrderDetails() {
-  const { items } = useSelector((state) => state.cart);
-
+  const { items, subTotal } = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+  const handleClearCart = () => {
+    dispatch(clearCart());
+  };
   return (
     <div className="rounded-2xl bg-white shadow-md p-6">
       <h2 className="text-2xl font-semibold mb-6">Order Summary</h2>
-
+      {!items.length == 0 && (
+        <div className="flex justify-end">
+          <Button
+            variant="danger"
+            text="Clear Cart"
+            onClick={handleClearCart}
+          />
+        </div>
+      )}
       <div className="space-y-5">
         {items.map((item) => (
-          <div key={item._id}>
+          <div key={item.id}>
             <div className="flex items-center justify-between">
               {/* Product */}
               <div className="flex items-center gap-4">
@@ -23,11 +33,11 @@ export default function OrderDetails() {
 
                 <div>
                   <p className="text-sm text-blue-500"> {item.name}</p>
-                  {item.size && (
-                    <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
-                      {item.size}
-                    </span>
-                  )}
+
+                  <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
+                    {item.selectedSize}
+                  </span>
+
                   <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
                 </div>
               </div>
@@ -44,7 +54,7 @@ export default function OrderDetails() {
       <div className="mt-6 space-y-4">
         <div className="flex justify-between">
           <span className="text-gray-600">Subtotal</span>
-          <span className="text-red-500">Rs. XXXXX</span>
+          <span className="text-red-500">Rs. {subTotal}</span>
         </div>
 
         <div className="flex justify-between">

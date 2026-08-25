@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function CartSummary({ totalPrice }) {
+export default function CartSummary({ subTotal }) {
   const navigate = useNavigate();
 
   return (
@@ -10,9 +10,7 @@ export default function CartSummary({ totalPrice }) {
 
       <div className="flex items-center justify-between border-t border-gray-100 pt-4">
         <span className="text-base font-medium text-gray-700">Total</span>
-        <span className="text-2xl font-bold text-blue-700">
-          Rs {totalPrice}
-        </span>
+        <span className="text-2xl font-bold text-blue-700">Rs {subTotal}</span>
       </div>
 
       <button

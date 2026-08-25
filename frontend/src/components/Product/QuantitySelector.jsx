@@ -8,30 +8,31 @@ export default function QuantitySelector({ product, selectedSize }) {
 
   const itemInCart = useSelector((state) =>
     state.cart.items.find(
-      (item) => item._id === product._id && item.selectedSize === selectedSize,
+      (item) =>
+        item.productId === product._id && item.selectedSize === selectedSize,
     ),
   );
 
   const quantity = itemInCart?.quantity || 0;
 
   const increase = () => {
-    // dispatch(
-    //   increaseQty({
-    //     productId: product._id,
-    //     selectedSize,
-    //   }),
-    // );
-    dispatch(increaseQty(product._id));
+    dispatch(
+      increaseQty({
+        productId: product._id,
+        selectedSize,
+      }),
+    );
+    // dispatch(increaseQty(product._id));
   };
 
   const decrease = () => {
-    // dispatch(
-    //   decreaseQty({
-    //     productId: product._id,
-    //     selectedSize,
-    //   }),
-    // );
-    dispatch(decreaseQty(product._id));
+    dispatch(
+      decreaseQty({
+        productId: product._id,
+        selectedSize,
+      }),
+    );
+    // dispatch(decreaseQty(product._id));
   };
 
   return (

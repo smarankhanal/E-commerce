@@ -10,13 +10,17 @@ export default function ShopProductCard({ product }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
-  const isInCart = cartItems.some((item) => item.sku === product.sku);
-  const add = (product) => {
-    dispatch(addToCart(product));
-  };
+  const defaultSize = product?.sizes?.find((item) => item.stock > 0)?.size;
+  const isInCart = cartItems.some(
+    (item) =>
+      item.productId === product?._id && item.selectedSize === defaultSize,
+  );
 
-  const remove = (product) => {
-    dispatch(removeCart(product));
+  const add = () => {
+    dispatch(addToCart({ product }));
+  };
+  const remove = () => {
+    dispatch(removeCart({ productId: product._id, selectedSize: defaultSize }));
   };
   const detailImage = product.image?.find((img) => img.side === "detail");
   return (
@@ -49,7 +53,7 @@ export default function ShopProductCard({ product }) {
         <div className="absolute bottom-3 left-3 right-3 flex items-center gap-2">
           {/* Quantity */}
           <div className="rounded-xl border border-white/30 bg-black/30 p-1 text-white backdrop-blur-md hover:bg-black/10">
-            <QuantitySelector product={product} />
+            <QuantitySelector product={product} selectedSize={defaultSize} />
           </div>
 
           {/* Add to Cart */}
@@ -71,7 +75,7 @@ export default function ShopProductCard({ product }) {
                   : "cursor-pointer border-white/30 bg-black/70 text-white backdrop-blur-md hover:bg-black/45"
             }`}
             disabled={product.stock === 0}
-            onClick={() => (isInCart ? remove(product) : add(product))}
+            onClick={() => (isInCart ? remove() : add())}
           />
         </div>
       </div>

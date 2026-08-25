@@ -9,14 +9,19 @@ import { addToCart, removeCart } from "../../store/slices/cartSlice";
 export default function ProductCard({ product }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const cartItems = useSelector((state) => state.cart.items);
-  const isInCart = cartItems.some((item) => item.sku === product.sku);
-  const add = (product) => {
-    dispatch(addToCart(product));
-  };
 
-  const remove = (product) => {
-    dispatch(removeCart(product));
+  const cartItems = useSelector((state) => state.cart.items);
+  const defaultSize = product?.sizes?.find((item) => item.stock > 0)?.size;
+  const isInCart = cartItems.some(
+    (item) =>
+      item.productId === product?._id && item.selectedSize === defaultSize,
+  );
+
+  const add = () => {
+    dispatch(addToCart({ product }));
+  };
+  const remove = () => {
+    dispatch(removeCart({ productId: product._id, selectedSize: defaultSize }));
   };
   const detailImage = product?.image.find((img) => img.side === "detail");
   return (
@@ -47,13 +52,9 @@ export default function ProductCard({ product }) {
           </span>
 
           {isInCart ? (
-            <Button
-              text="Remove"
-              variant="danger"
-              onClick={() => remove(product)}
-            />
+            <Button text="Remove" variant="danger" onClick={() => remove()} />
           ) : (
-            <Button text="Add to Cart" onClick={() => add(product)} />
+            <Button text="Add to Cart" onClick={() => add()} />
           )}
         </div>
 

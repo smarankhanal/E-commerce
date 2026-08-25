@@ -5,9 +5,7 @@ import { Button } from "../components";
 import { useNavigate } from "react-router-dom";
 export default function Cart() {
   const navigate = useNavigate();
-  const { items, totalQuantity, totalPrice } = useSelector(
-    (state) => state.cart,
-  );
+  const { items, totalQuantity, subTotal } = useSelector((state) => state.cart);
 
   return (
     <div className="max-w-7xl mx-auto px-6 mt-30">
@@ -46,13 +44,13 @@ export default function Cart() {
             </p>
           </div>
 
-          <CartSummary totalPrice={totalPrice} />
+          <CartSummary subTotal={subTotal} />
         </div>
       )}
       {/* Cart Items */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {items?.map((item) => (
-          <CartItem key={item._id} item={item} />
+          <CartItem key={item.id} item={item} />
         ))}
       </div>
     </div>

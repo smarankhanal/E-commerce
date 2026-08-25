@@ -1,28 +1,22 @@
 import React from "react";
 import Input from "../Common/Input";
+import { useSelector } from "react-redux";
 
 export default function BillingMethod() {
+  const { user } = useSelector((state) => state.auth);
   return (
     <div className="rounded-2xl bg-white shadow-md p-6">
       <h2 className="text-xl font-semibold mb-6">Billing Details</h2>
 
       {/* Name */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <Input label="First Name" placeholder="Enter first name" type="text" />
-
-        <Input label="Last Name" placeholder="Enter last name" type="text" />
-      </div>
-
-      {/* Country */}
-      <div className="mt-4">
-        <label className="text-sm font-medium text-gray-700">
-          Country / Region
-        </label>
-
-        <div className="mt-2 rounded-lg border bg-gray-100 px-4 py-3 text-gray-700">
-          Nepal
-        </div>
-      </div>
+      <Input
+        label="Name"
+        placeholder="Enter name"
+        type="text"
+        value={user?.fullName}
+        className="text-gray-600 "
+        disabled
+      />
 
       {/* Address */}
       <div className="mt-4 space-y-4">
@@ -31,16 +25,30 @@ export default function BillingMethod() {
           placeholder="House number and street name"
           type="text"
         />
-      </div>
 
+        <button
+          type="button"
+          className="w-full rounded-lg border px-4 py-3 text-sm cursor-pointer"
+        >
+          📍 Choose location on map
+        </button>
+      </div>
       {/* Contact */}
       <div className="mt-4 space-y-4">
-        <Input label="Phone Number" placeholder="98XXXXXXXX" type="tel" />
+        <Input
+          label="Phone Number"
+          type="tel"
+          value={user?.phoneNumber}
+          className="text-gray-600"
+          disabled
+        />
 
         <Input
           label="Email Address"
-          placeholder="example@gmail.com"
+          value={user?.email}
           type="email"
+          className="text-gray-600"
+          disabled
         />
       </div>
 

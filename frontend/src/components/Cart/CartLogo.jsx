@@ -1,7 +1,7 @@
 import React from "react";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { useSelector } from "react-redux";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function CartLogo() {
   const { totalQuantity } = useSelector((state) => state.cart);

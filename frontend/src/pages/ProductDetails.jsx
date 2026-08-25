@@ -7,7 +7,7 @@ import {
   QuantitySelector,
   SizeSelector,
 } from "../components";
-import { Button, Input } from "../components";
+import { Button } from "../components";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getSingleProduct } from "../store/slices/productSlice";
@@ -17,17 +17,48 @@ export default function ProductDetails() {
   const { sku } = useParams();
   const { product } = useSelector((state) => state.product);
   const cartItems = useSelector((state) => state.cart.items);
-  const isInCart = cartItems.some((item) => item.sku === product.sku);
+
   const [selectedSize, setSelectedSize] = useState("");
 
-  const add = (product) => {
-    // dispatch(addToCart({ ...product, selectedSize }));
-    dispatch(addToCart(product));
-  };
+  useEffect(() => {
+    if (!product?.sizes?.length) {
+      setSelectedSize("");
+      return;
+    }
+    const firstAvailableSize = product.sizes.find((item) => item.stock > 0);
+    setSelectedSize(firstAvailableSize?.size || "");
+  }, [product]);
 
-  const remove = (product) => {
-    // dispatch(removeCart({ ...product, selectedSize }));
-    dispatch(removeCart(product));
+  const isInCart = cartItems.some(
+    (item) =>
+      item.productId === product?._id && item.selectedSize === selectedSize,
+  );
+  const selectedVariant = product?.sizes?.find(
+    (item) => item.size === selectedSize,
+  );
+
+  const selectedSizeOutOfStock = !selectedVariant || selectedVariant.stock <= 0;
+
+  const handleAddToCart = () => {
+    if (!product || !selectedSize) return;
+    if (selectedSizeOutOfStock) return;
+    dispatch(
+      addToCart({
+        product,
+        selectedSize,
+      }),
+    );
+  };
+  const handleRemoveFromCart = () => {
+    if (!product || !selectedSize) {
+      return;
+    }
+    dispatch(
+      removeCart({
+        productId: product._id,
+        selectedSize,
+      }),
+    );
   };
 
   useEffect(() => {
@@ -52,7 +83,7 @@ export default function ProductDetails() {
           </div>
 
           <SizeSelector
-            sizes={product?.size}
+            sizes={product?.sizes}
             selectedSize={selectedSize}
             onSizeChange={setSelectedSize}
           />
@@ -62,15 +93,23 @@ export default function ProductDetails() {
             <div className="flex gap-3">
               <Button
                 text={
-                  product?.stock === 0
+                  product?.totalStock === 0
                     ? "Out of Stock"
-                    : isInCart
-                      ? "Remove from Cart"
-                      : "Add to Cart"
+                    : selectedSizeOutOfStock
+                      ? "Size Out of Stock"
+                      : isInCart
+                        ? "Remove from Cart"
+                        : "Add to Cart"
                 }
                 variant={isInCart ? "danger" : "primary"}
-                disabled={product?.stock === 0}
-                onClick={() => (isInCart ? remove(product) : add(product))}
+                disabled={
+                  product?.totalStock === 0 ||
+                  !selectedSize ||
+                  selectedSizeOutOfStock
+                }
+                onClick={() =>
+                  isInCart ? handleRemoveFromCart() : handleAddToCart()
+                }
               />
             </div>
           </div>

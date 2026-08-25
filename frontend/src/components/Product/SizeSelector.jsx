@@ -8,12 +8,13 @@ export default function ({ sizes = [], selectedSize, onSizeChange }) {
       </p>
 
       <div className="flex gap-3">
-        {sizes.map((size) => (
+        {sizes.map((item, idx) => (
           <Size
-            key={size}
-            text={size}
-            selected={selectedSize === size}
-            onClick={() => onSizeChange(size)}
+            key={idx}
+            text={item.size}
+            selected={selectedSize === item.size}
+            onClick={() => onSizeChange(item.size)}
+            stock={item.stock}
           />
         ))}
       </div>

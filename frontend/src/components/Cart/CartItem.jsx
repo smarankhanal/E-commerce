@@ -8,9 +8,15 @@ export default function CartItem({ item }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const detailImage = item.image?.find((img) => img.side === "detail");
+
+  const defaultSize = item?.selectedSize;
+
   const remove = () => {
-    dispatch(removeCart(item));
+    dispatch(
+      removeCart({ productId: item.productId, selectedSize: defaultSize }),
+    );
   };
+
   return (
     <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm space-y-4 relative">
       {/* Image */}
@@ -27,11 +33,10 @@ export default function CartItem({ item }) {
         <div>
           <h2 className="text-lg font-semibold text-gray-800 flex items-center flex-wrap gap-2">
             {item?.name}
-            {item?.size && (
-              <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
-                {item?.selectedSize}
-              </span>
-            )}
+
+            <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
+              {item?.selectedSize}
+            </span>
           </h2>
 
           <p className="mt-1.5 flex items-center text-sm text-gray-600">
@@ -54,7 +59,7 @@ export default function CartItem({ item }) {
       {/* Delete */}
       <div
         className="absolute -top-3 -right-3 flex h-10 w-10 items-center justify-center rounded-full bg-red-500 text-white shadow-lg cursor-pointer transition-all duration-300 hover:scale-110 hover:bg-red-600"
-        onClick={() => remove(item)}
+        onClick={() => remove()}
       >
         <MdDeleteForever size={24} />
       </div>
