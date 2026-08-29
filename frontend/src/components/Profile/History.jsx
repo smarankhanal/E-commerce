@@ -1,7 +1,9 @@
 import React from "react";
 import { FaHistory } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 export default function History() {
+  const navigate = useNavigate();
   return (
     <div>
       <div className="flex items-center gap-4">
@@ -11,7 +13,12 @@ export default function History() {
       </div>
 
       <div className="p-3 rounded-lg cursor-pointer hover:bg-gray-100 transition-all duration-200">
-        <p className="text-gray-600 font-medium">User Details</p>
+        <p
+          className="text-gray-600 font-medium"
+          onClick={() => navigate("/order-history")}
+        >
+          Order Details
+        </p>
       </div>
     </div>
   );

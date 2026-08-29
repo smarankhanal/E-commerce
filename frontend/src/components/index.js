@@ -1,3 +1,5 @@
+import OrderPaymentDetails from "./History/OrderPaymentDetails";
+
 export { default as NavBar } from "./Layout/NavBar";
 export { default as Footer } from "./Layout/Footer";
 
@@ -50,3 +52,7 @@ export { default as PublicRoute } from "./Route/PublicRoute";
 export { default as ShopProductCard } from "./Shop/ShopProductCard";
 
 export { default as CollectionProductCard } from "./Collection/CollectionProductCard";
+
+export { default as OrderAmount } from "./History/OrderAmount";
+export { default as OrderPaymentDetails } from "./History/OrderPaymentDetails";
+export { default as OrderItemsDetails } from "./History/OrderItemsDetails";

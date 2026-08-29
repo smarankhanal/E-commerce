@@ -22,8 +22,11 @@ import VerifyOTP from "./pages/Auth/VerifyOTP";
 import ForgotPassWord from "./pages/Auth/ForgotPassWord";
 import ResetPassword from "./pages/Auth/ResetPassword";
 
+import OrderHistory from "./pages/History/OrderHistory";
+
 import { ScrollToTop } from "./components";
 import Profile from "./pages/Profile";
+import SingleOrderHistory from "./pages/History/SingleOrderHistory";
 
 export default function App() {
   return (
@@ -32,13 +35,24 @@ export default function App() {
 
       <Routes>
         {/* ==================== MAIN WEBSITE ==================== */}
+
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
+
           <Route path="/product/:sku" element={<ProductDetails />} />
+
           <Route path="/products" element={<Shop />} />
+
           <Route path="/collection/:slug" element={<Collection />} />
+
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/order-history" element={<OrderHistory />} />
+          <Route
+            path="/order-history/:orderId"
+            element={<SingleOrderHistory />}
+          />
+
           {/* <Route
             path="/cart"
             element={
@@ -56,14 +70,23 @@ export default function App() {
               </ProtectedRoute>
             }
           /> */}
+          {/* 
           <Route
-            path="/verify-otp"
+            path="/order-history"
             element={
-              <PublicRoute>
-                <VerifyOTP />
-              </PublicRoute>
+              <ProtectedRoute>
+                <OrderHistory />
+              </ProtectedRoute>
             }
-          />
+          /> */}
+          {/* <Route
+            path="/order-history/:orderId"
+            element={
+              <ProtectedRoute>
+                <SingleOrderHistory />
+              </ProtectedRoute>
+            }
+          /> */}
 
           <Route
             path="/profile"
@@ -76,6 +99,7 @@ export default function App() {
         </Route>
 
         {/* ==================== AUTHENTICATION ==================== */}
+
         <Route element={<AuthLayout />}>
           <Route
             path="/login"
@@ -95,9 +119,32 @@ export default function App() {
             }
           />
 
-          <Route path="/verify-otp" element={<VerifyOTP />} />
-          <Route path="/forgot-password" element={<ForgotPassWord />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route
+            path="/verify-otp"
+            element={
+              <PublicRoute>
+                <VerifyOTP />
+              </PublicRoute>
+            }
+          />
+
+          <Route
+            path="/forgot-password"
+            element={
+              <PublicRoute>
+                <ForgotPassWord />
+              </PublicRoute>
+            }
+          />
+
+          <Route
+            path="/reset-password"
+            element={
+              <PublicRoute>
+                <ResetPassword />
+              </PublicRoute>
+            }
+          />
         </Route>
       </Routes>
     </>
