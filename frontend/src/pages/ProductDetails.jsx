@@ -15,6 +15,7 @@ import { addToCart, removeCart } from "../store/slices/cartSlice";
 export default function ProductDetails() {
   const dispatch = useDispatch();
   const { sku } = useParams();
+  const { user } = useSelector((state) => state.auth);
   const { product } = useSelector((state) => state.product);
   const cartItems = useSelector((state) => state.cart.items);
 
@@ -119,8 +120,8 @@ export default function ProductDetails() {
 
       {/* Bottom */}
       <div className="mt-12 space-y-10">
-        <ProductReviews />
-        <AddReview />
+        <ProductReviews productId={product?._id} />
+        {user && <AddReview productId={product?._id} />}
       </div>
     </div>
   );
