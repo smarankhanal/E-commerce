@@ -1,9 +1,10 @@
 .anchor {
   padding: 5px;
+  outline: none;
   color: var(--nav-text);
 }
 .anchor:hover {
-  opacity: 0.7;
+  opacity: 0.6;
 }
 .anchor:active {
   color: var(--nav-active);

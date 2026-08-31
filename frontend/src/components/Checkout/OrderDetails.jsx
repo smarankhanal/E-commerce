@@ -1,83 +1,102 @@
-import React from "react";
-import img from "../../assets/images/t-shirt.jpg";
+import { useSelector } from "react-redux";
 
-const collections = [
-  {
-    id: 1,
-    title: "Medical Wear",
-    image: img,
-    price: 1000,
-    quantity: 1,
-  },
-  {
-    id: 2,
-    title: "Classic Collection",
-    image: img,
-    price: 2000,
-    quantity: 2,
-  },
-  {
-    id: 3,
-    title: "Premium Scrubs",
-    image: img,
-    price: 3000,
-    quantity: 1,
-  },
-];
+export default function OrderDetails({ checkoutDetails }) {
+  const { items } = useSelector((state) => state.cart);
 
-export default function OrderDetails() {
   return (
-    <div className="rounded-2xl bg-white shadow-md p-6">
-      <h2 className="text-2xl font-semibold mb-6">Order Summary</h2>
+    <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-md">
+      {/* Heading */}
+      <h2 className="mb-6 text-2xl font-semibold text-gray-900">
+        Order Summary
+      </h2>
 
-      <div className="space-y-5">
-        {collections.map((item) => (
-          <div key={item.id}>
-            <div className="flex items-center justify-between">
-              {/* Product */}
-              <div className="flex items-center gap-4">
+      {/* Products */}
+      <div className="space-y-4">
+        {items?.map((item) => {
+          const detailImage = item.image?.find((img) => img.side === "detail");
+
+          return (
+            <div
+              key={item.id}
+              className="grid grid-cols-[64px_minmax(0,1fr)_90px] items-center gap-4 border-b border-gray-200 pb-4"
+            >
+              {/* Product Image */}
+              <div className="h-16 w-16 overflow-hidden rounded-lg bg-gray-50">
                 <img
-                  src={item.image}
-                  alt={item.title}
-                  className="h-20 w-20 rounded-lg object-cover"
+                  src={detailImage?.url}
+                  alt={item?.name}
+                  className="h-full w-full object-cover"
                 />
+              </div>
 
-                <div>
-                  <h3 className="font-medium">{item.title}</h3>
-                  <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
+              {/* Product Information */}
+              <div className="min-w-0">
+                <p className="truncate text-sm font-medium text-blue-600">
+                  {item.name}
+                </p>
+
+                <div className="mt-1 flex items-center gap-2">
+                  <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-500">
+                    {item.selectedSize}
+                  </span>
+
+                  <span className="text-xs text-gray-500">
+                    Qty: {item.quantity}
+                  </span>
                 </div>
               </div>
 
-              {/* Price */}
-              <p className="font-semibold text-red-500">Rs. {item.price}</p>
+              {/* Product Price */}
+              <div className="text-right">
+                <p className="text-sm font-semibold text-red-500">
+                  Rs.
+                  {Number(item.price).toLocaleString()}
+                </p>
+              </div>
             </div>
-            <div className="my-5 h-px w-full bg-gray-300" />
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Price Summary */}
       <div className="mt-6 space-y-4">
-        <div className="flex justify-between">
-          <span className="text-gray-600">Subtotal</span>
-          <span className="text-red-500">Rs. XXXXX</span>
+        {/* Subtotal */}
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-gray-600">Subtotal</span>
+
+          <span className="text-sm font-medium text-red-500">
+            Rs. {checkoutDetails?.subtotal?.toLocaleString() || 0}
+          </span>
         </div>
 
-        <div className="flex justify-between">
-          <span className="text-gray-600">Shipping</span>
-          <span className="text-red-500">Rs. XXXXX</span>
+        {/* Shipping */}
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-gray-600">Shipping</span>
+
+          <span className="text-sm font-medium text-red-500">
+            Rs. {checkoutDetails?.shippingCharge?.toLocaleString() || 0}
+          </span>
         </div>
 
-        <div className="flex justify-between">
-          <span className="text-gray-600">Discount</span>
-          <span className="text-red-500">- Rs. XXXXX</span>
+        {/* Discount */}
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-gray-600">Discount</span>
+
+          <span className="text-sm font-medium text-red-500">
+            - Rs. {checkoutDetails?.discount?.toLocaleString() || 0}
+          </span>
         </div>
 
-        <div className="my-5 h-px w-full bg-gray-300" />
+        {/* Divider */}
+        <div className="border-t border-gray-200 pt-4" />
 
-        <div className="flex justify-between text-lg font-bold">
-          <span>Total</span>
-          <span className="text-red-500">Rs. XXXXX</span>
+        {/* Total */}
+        <div className="flex items-center justify-between">
+          <span className="text-lg font-bold text-gray-900">Total</span>
+
+          <span className="text-lg font-bold text-red-500">
+            Rs. {checkoutDetails?.totalAmount?.toLocaleString() || 0}
+          </span>
         </div>
       </div>
     </div>

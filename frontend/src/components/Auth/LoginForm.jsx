@@ -52,7 +52,7 @@ export default function LoginForm() {
 
         {/* Login Error */}
         {errorMessage && (
-          <p className="mb-5 font-semibold text-red-500">{errorMessage}</p>
+          <p className="mb-5 text-center text-red-500">{errorMessage}</p>
         )}
 
         {/* Login Button + Forgot Password */}

@@ -15,3 +15,11 @@
 .btn-primary:hover {
   background: var(--btn-primary-hover);
 }
+.btn-danger {
+  background: var(--danger);
+  color: var(--btn-primary-text);
+}
+
+.btn-danger:hover {
+  background: var(--danger-hover);
+}
