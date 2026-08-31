@@ -1,7 +1,9 @@
 import React from "react";
-import { BillingMethod, OrderDetails, PaymentMethod } from "../components";
+import { BillingDetails, OrderDetails, PaymentMethod } from "../components";
+import { useSelector } from "react-redux";
 
 export default function Checkout() {
+  const { checkoutDetails } = useSelector((state) => state.checkout);
   return (
     <div className="max-w-7xl mx-auto px-6">
       {/* Heading */}
@@ -9,14 +11,14 @@ export default function Checkout() {
         <h1 className="text-3xl font-bold">CheckOut</h1>
       </div>
 
-      {/* OrderDetails */}
-      <div className="grid lg:grid-cols-2 grid-cols-1 gap-10">
-        <BillingMethod />
-
-        {/* PayMent and Billing */}
+      <div
+        className="grid lg:gri
+      d-cols-2 grid-cols-1 gap-10"
+      >
+        <BillingDetails checkoutDetails={checkoutDetails} />
         <div className="space-y-8">
-          <OrderDetails />
-          <PaymentMethod />
+          <OrderDetails checkoutDetails={checkoutDetails} />
+          <PaymentMethod checkoutDetails={checkoutDetails} />
         </div>
       </div>
     </div>

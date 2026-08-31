@@ -40,7 +40,7 @@ export { default as AddReview } from "./Product/AddReview";
 
 export { default as OrderDetails } from "./Checkout/OrderDetails";
 export { default as PaymentMethod } from "./Checkout/PaymentMethod";
-export { default as BillingMethod } from "./Checkout/BillingMethod";
+export { default as BillingDetails } from "./Checkout/BillingDetails";
 
 export { default as Logout } from "./Profile/Logout";
 export { default as Settings } from "./Profile/Settings";

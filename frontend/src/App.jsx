@@ -27,6 +27,7 @@ import OrderHistory from "./pages/History/OrderHistory";
 import { ScrollToTop } from "./components";
 import Profile from "./pages/Profile";
 import SingleOrderHistory from "./pages/History/SingleOrderHistory";
+import BillingDetailsForm from "./pages/BillingDetailsForm";
 
 export default function App() {
   return (
@@ -52,7 +53,7 @@ export default function App() {
             path="/order-history/:orderId"
             element={<SingleOrderHistory />}
           />
-
+          <Route path="/billing-details" element={<BillingDetailsForm />} />
           {/* <Route
             path="/cart"
             element={
@@ -61,7 +62,14 @@ export default function App() {
               </ProtectedRoute>
             }
           /> */}
-
+          {/* <Route
+            path="/billing-details"
+            element={
+              <ProtectedRoute>
+                <BillingDetailsForm />
+              </ProtectedRoute>
+            }
+          /> */}
           {/* <Route
             path="/checkout"
             element={

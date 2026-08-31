@@ -9,7 +9,7 @@ export default function QuantitySelector({ product, selectedSize }) {
   const itemInCart = useSelector((state) =>
     state.cart.items.find(
       (item) =>
-        item.productId === product._id && item.selectedSize === selectedSize,
+        item.productId === product?._id && item.selectedSize === selectedSize,
     ),
   );
 
@@ -22,7 +22,6 @@ export default function QuantitySelector({ product, selectedSize }) {
         selectedSize,
       }),
     );
-    // dispatch(increaseQty(product._id));
   };
 
   const decrease = () => {
@@ -32,7 +31,6 @@ export default function QuantitySelector({ product, selectedSize }) {
         selectedSize,
       }),
     );
-    // dispatch(decreaseQty(product._id));
   };
 
   return (

@@ -7,6 +7,7 @@ import cartSlice from "./slices/cartSlice.js";
 import reviewSlice from "./slices/reviewSlice.js";
 import searchSlice from "./slices/searchSlice.js";
 import historySlice from "./slices/historySlice.js";
+import checkOutSlice from "./slices/checkOutSlice.js";
 const store = configureStore({
   reducer: {
     auth: authSlice,
@@ -17,6 +18,7 @@ const store = configureStore({
     review: reviewSlice,
     search: searchSlice,
     history: historySlice,
+    checkout: checkOutSlice,
   },
 });
 export default store;

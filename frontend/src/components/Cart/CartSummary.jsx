@@ -15,7 +15,7 @@ export default function CartSummary({ subTotal }) {
 
       <button
         className="w-full rounded-lg border-2 border-blue-800 bg-blue-800 py-2.5 font-medium text-white transition-all duration-300 hover:bg-white hover:text-blue-800 hover:shadow-md cursor-pointer focus:outline-none"
-        onClick={() => navigate("/checkout")}
+        onClick={() => navigate("/billing-details")}
       >
         Proceed to Checkout
       </button>
