@@ -44,10 +44,26 @@ const productSchema = new Schema(
       required: true,
       min: 0,
     },
-    size: {
-      type: [String],
-      enum: ["S", "M", "L", "XL", "XXL"],
-      required: true,
+    sizes: [
+      {
+        size: {
+          type: String,
+          enum: ["S", "M", "L", "XL", "XXL"],
+          required: true,
+        },
+        stock: {
+          type: Number,
+          required: true,
+          min: 0,
+          default: 0,
+        },
+      },
+    ],
+
+    totalStock: {
+      type: Number,
+      default: 0,
+      min: 0,
     },
     highlights: {
       type: [String],
@@ -57,12 +73,7 @@ const productSchema = new Schema(
       type: [productImageSchema],
       required: true,
     },
-    stock: {
-      type: Number,
-      required: true,
-      min: 0,
-      default: 0,
-    },
+
     soldCount: {
       type: Number,
       default: 0,

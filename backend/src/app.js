@@ -29,12 +29,15 @@ import otpRouter from "./routes/otp.routes.js";
 import authRouter from "./routes/auth.routes.js";
 import productRouter from "./routes/product.routes.js";
 import collectionRouter from "./routes/collection.routes.js";
+import orderRouter from "./routes/order.routes.js";
+import reviewRouter from "./routes/review.routes.js";
 import errorHandler from "./middlewares/errorHandler.middleware.js";
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/otp", otpRouter);
 app.use("/api/v1/shop", productRouter);
 app.use("/api/v1/collections", collectionRouter);
-
+app.use("/api/v1/order", orderRouter);
+app.use("/api/v1/reviews", reviewRouter);
 app.use(errorHandler);
 export { app };

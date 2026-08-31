@@ -14,11 +14,11 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
   let decodedToken;
 
   try {
-    decodedToken = await jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+    decodedToken = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
   } catch (error) {
     throw new ApiError(401, error?.message || "Invalid or expired refresh token");
   }
-  console.log(decodedToken);
+
   const user = await User.findById(decodedToken?._id);
 
   if (!user) {
@@ -31,7 +31,6 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
   const newAccessToken = user.generateAccessToken();
 
-  console.log(user);
   const isProduction = process.env.NODE_ENV === "production";
 
   const options = {

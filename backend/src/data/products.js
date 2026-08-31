@@ -10,7 +10,14 @@ export const products = [
 
     price: 1499,
 
-    size: ["S", "M", "L", "XL", "XXL"],
+    sizes: [
+      { size: "S", stock: 0 },
+      { size: "M", stock: 15 },
+      { size: "L", stock: 30 },
+      { size: "XL", stock: 12 },
+      { size: "XXL", stock: 8 },
+    ],
+    totalStock: 65,
 
     highlights: [
       "100% premium cotton",
@@ -47,7 +54,14 @@ export const products = [
 
     price: 2499,
 
-    size: ["S", "M", "L", "XL"],
+    sizes: [
+      { size: "S", stock: 5 },
+      { size: "M", stock: 10 },
+      { size: "L", stock: 14 },
+      { size: "XL", stock: 9 },
+      { size: "XXL", stock: 4 },
+    ],
+    totalStock: 42,
 
     highlights: [
       "Premium linen blend",
@@ -69,7 +83,14 @@ export const products = [
       },
     ],
 
-    stock: 45,
+    sizes: [
+      { size: "S", stock: 5 },
+      { size: "M", stock: 10 },
+      { size: "L", stock: 14 },
+      { size: "XL", stock: 9 },
+      { size: "XXL", stock: 4 },
+    ],
+    totalStock: 42,
 
     collections: ["Everyday Essentials", "New Arrivals"],
     isActive: true,
@@ -84,7 +105,14 @@ export const products = [
 
     price: 2999,
 
-    size: ["S", "M", "L", "XL", "XXL"],
+    sizes: [
+      { size: "S", stock: 18 },
+      { size: "M", stock: 22 },
+      { size: "L", stock: 16 },
+      { size: "XL", stock: 10 },
+      { size: "XXL", stock: 6 },
+    ],
+    totalStock: 72,
 
     highlights: [
       "Premium fleece fabric",
@@ -106,7 +134,14 @@ export const products = [
       },
     ],
 
-    stock: 35,
+    sizes: [
+      { size: "S", stock: 0 },
+      { size: "M", stock: 15 },
+      { size: "L", stock: 30 },
+      { size: "XL", stock: 12 },
+      { size: "XXL", stock: 8 },
+    ],
+    totalStock: 65,
 
     collections: ["New Arrivals", "Everyday Essentials"],
     isActive: true,
@@ -121,7 +156,14 @@ export const products = [
 
     price: 5999,
 
-    size: ["S", "M", "L", "XL"],
+    sizes: [
+      { size: "S", stock: 0 },
+      { size: "M", stock: 15 },
+      { size: "L", stock: 30 },
+      { size: "XL", stock: 12 },
+      { size: "XXL", stock: 8 },
+    ],
+    totalStock: 65,
 
     highlights: [
       "Premium tailored fabric",
@@ -158,7 +200,14 @@ export const products = [
 
     price: 2799,
 
-    size: ["S", "M", "L", "XL", "XXL"],
+    sizes: [
+      { size: "S", stock: 5 },
+      { size: "M", stock: 15 },
+      { size: "L", stock: 25 },
+      { size: "XL", stock: 12 },
+      { size: "XXL", stock: 8 },
+    ],
+    totalStock: 65,
 
     highlights: [
       "Classic straight fit",
@@ -180,7 +229,14 @@ export const products = [
       },
     ],
 
-    stock: 55,
+    sizes: [
+      { size: "S", stock: 12 },
+      { size: "M", stock: 18 },
+      { size: "L", stock: 25 },
+      { size: "XL", stock: 15 },
+      { size: "XXL", stock: 10 },
+    ],
+    totalStock: 80,
 
     collections: ["Classic Collection", "Everyday Essentials"],
     isActive: true,
@@ -217,7 +273,14 @@ export const products = [
       },
     ],
 
-    stock: 28,
+    sizes: [
+      { size: "S", stock: 3 },
+      { size: "M", stock: 8 },
+      { size: "L", stock: 12 },
+      { size: "XL", stock: 7 },
+      { size: "XXL", stock: 2 },
+    ],
+    totalStock: 32,
 
     collections: ["Premium Collection", "New Arrivals"],
     isActive: true,

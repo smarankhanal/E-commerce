@@ -40,14 +40,15 @@ const seedProducts = async () => {
             name: product.name,
             description: product.description,
             price: product.price,
-            size: product.size,
+            sizes: product.sizes,
+            totalStock: product.totalStock,
             highlights: product.highlights,
             image: product.image,
             collections: product.collections,
           },
 
           $setOnInsert: {
-            stock: product.stock ?? 0,
+            totalStock: product.totalStock ?? 0,
             soldCount: 0,
             isActive: true,
           },
