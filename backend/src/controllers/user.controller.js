@@ -7,7 +7,6 @@ import { sendOtpService, verifyOtpService } from "../services/otp.service.js";
 import { generateResetToken } from "../utils/resetToken.js";
 import crypto from "crypto";
 import { PendingUser } from "../models/PendingUser.model.js";
-import { setUncaughtExceptionCaptureCallback } from "process";
 const generateAccessAndRefreshTokens = async (userId) => {
   try {
     const user = await User.findById(userId);
@@ -61,6 +60,13 @@ const registerUser = asyncHandler(async (req, res) => {
   return res
     .status(201)
     .json(new ApiResponse(201, { email }, "Registration started !! OTP send successfully"));
+});
+const getCurrentUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id).select("-password -refreshToken");
+  if (!user) {
+    throw new ApiError(401, "User not found");
+  }
+  return res.status(200).json(new ApiResponse(200, user, "Current user find succesfully"));
 });
 const loginUser = asyncHandler(async (req, res) => {
   const { identifier, password } = req.body;
@@ -242,4 +248,5 @@ export {
   forgotPassword,
   resetPassword,
   updateAccountDetails,
+  getCurrentUser,
 };

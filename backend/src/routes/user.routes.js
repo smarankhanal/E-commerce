@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   changeCurrentPassword,
   forgotPassword,
+  getCurrentUser,
   loginUser,
   logoutUser,
   registerUser,
@@ -34,4 +35,7 @@ router.route("/reset-password").post(resetPasswordValidator, validate, resetPass
 router
   .route("/update-account-details")
   .post(verifyJWT, updateAccountValidator, validate, updateAccountDetails);
+
+router.get("/current-user", verifyJWT, getCurrentUser);
+
 export default router;

@@ -183,6 +183,26 @@ export const updateAccountDetails = createAsyncThunk(
   },
 );
 
+//======= GET CURRENT USER=======//
+
+export const getCurrentUser = createAsyncThunk(
+  "auth/getCurrentUser",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.get("/users/current-user");
+
+      return response.data?.data || response.data;
+    } catch (error) {
+      return rejectWithValue({
+        message:
+          error.response?.data?.message ||
+          error.message ||
+          "Failed to get current user",
+      });
+    }
+  },
+);
+
 const initialState = {
   user: null,
   error: null,
@@ -345,6 +365,21 @@ export const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload?.message || "Update failed";
         state.fieldErrors = action.payload?.fieldErrors || {};
+      })
+
+      //======= GET CURRENT USER=======//
+
+      .addCase(getCurrentUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getCurrentUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload.user || action.payload;
+        state.error = null;
+      })
+      .addCase(getCurrentUser.rejected, (state) => {
+        state.loading = false;
+        state.user = null;
       });
   },
 });

@@ -28,8 +28,16 @@ import { ScrollToTop } from "./components";
 import Profile from "./pages/Profile";
 import SingleOrderHistory from "./pages/History/SingleOrderHistory";
 import BillingDetailsForm from "./pages/BillingDetailsForm";
+import { useDispatch } from "react-redux";
+import { getCurrentUser } from "./store/slices/authSlice";
+import { useEffect } from "react";
 
 export default function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getCurrentUser());
+  }, [dispatch]);
+
   return (
     <>
       <ScrollToTop />
@@ -46,39 +54,31 @@ export default function App() {
 
           <Route path="/collection/:slug" element={<Collection />} />
 
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/order-history" element={<OrderHistory />} />
           <Route
-            path="/order-history/:orderId"
-            element={<SingleOrderHistory />}
-          />
-          <Route path="/billing-details" element={<BillingDetailsForm />} />
-          {/* <Route
             path="/cart"
             element={
               <ProtectedRoute>
                 <Cart />
               </ProtectedRoute>
             }
-          /> */}
-          {/* <Route
+          />
+          <Route
             path="/billing-details"
             element={
               <ProtectedRoute>
                 <BillingDetailsForm />
               </ProtectedRoute>
             }
-          /> */}
-          {/* <Route
+          />
+          <Route
             path="/checkout"
             element={
               <ProtectedRoute>
                 <Checkout />
               </ProtectedRoute>
             }
-          /> */}
-          {/* 
+          />
+
           <Route
             path="/order-history"
             element={
@@ -86,15 +86,15 @@ export default function App() {
                 <OrderHistory />
               </ProtectedRoute>
             }
-          /> */}
-          {/* <Route
+          />
+          <Route
             path="/order-history/:orderId"
             element={
               <ProtectedRoute>
                 <SingleOrderHistory />
               </ProtectedRoute>
             }
-          /> */}
+          />
 
           <Route
             path="/profile"
