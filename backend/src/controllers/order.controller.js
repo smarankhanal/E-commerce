@@ -8,7 +8,8 @@ import { calculateOrderPricing } from "../utils/pricing/calculateOrderPricing.js
 import { toCapitalize } from "../utils/capitalize.js";
 
 const checkOut = asyncHandler(async (req, res) => {
-  const { products, shippingAddress, paymentMethod, orderNotes } = req.body;
+  const { products, shippingAddress, paymentMethod, orderNotes, location } = req.body;
+
   if (!products || products.length === 0 || !shippingAddress || !paymentMethod) {
     throw new ApiError(400, "Order details fields are missing");
   }
@@ -124,6 +125,7 @@ const checkOut = asyncHandler(async (req, res) => {
       totalAmount,
       paymentMethod,
       orderNotes: orderNotes || "",
+      location: location || { latitude: null, longitude: null },
       paymentStatus: "pending",
       status: "pending",
     };
@@ -143,8 +145,7 @@ const checkOut = asyncHandler(async (req, res) => {
   }
 });
 const calculateCheckOutPricing = asyncHandler(async (req, res) => {
-  const { products, shippingAddress, orderNotes } = req.body;
-
+  const { products, shippingAddress, orderNotes, location } = req.body;
   if (!products || products.length === 0) {
     throw new ApiError(400, "Products are required");
   }
@@ -193,6 +194,7 @@ const calculateCheckOutPricing = asyncHandler(async (req, res) => {
         totalAmount,
         orderNotes,
         shippingAddress: toCapitalize(shippingAddress),
+        location: location || { latitude: null, longitude: null },
       },
       "Checkout pricing calculated successfully"
     )

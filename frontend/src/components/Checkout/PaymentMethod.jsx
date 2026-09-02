@@ -25,6 +25,10 @@ export default function PaymentMethod({ checkoutDetails }) {
           shippingAddress: checkoutDetails?.shippingAddress,
           orderNotes: checkoutDetails?.orderNotes || "",
           paymentMethod: payment,
+          location: checkoutDetails?.location || {
+            latitude: null,
+            longitude: null,
+          },
         }),
       ).unwrap();
       dispatch(clearCart());
@@ -131,7 +135,7 @@ export default function PaymentMethod({ checkoutDetails }) {
         <button
           type="submit"
           disabled={status === "pending"}
-          className={`mt-6 w-full rounded-lg py-4 text-lg font-semibold text-white transition duration-300 ${
+          className={`cursor-pointer  hover:scale-98 mt-6 w-full rounded-lg py-4 text-lg font-semibold text-white transition duration-300 ${
             payment === "cod"
               ? "bg-gray-900 hover:bg-black"
               : "bg-green-600 hover:bg-green-700"

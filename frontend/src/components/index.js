@@ -41,6 +41,7 @@ export { default as AddReview } from "./Product/AddReview";
 export { default as OrderDetails } from "./Checkout/OrderDetails";
 export { default as PaymentMethod } from "./Checkout/PaymentMethod";
 export { default as BillingDetails } from "./Checkout/BillingDetails";
+export { default as ShippingAddress } from "./Checkout/ShippingAddress";
 
 export { default as Logout } from "./Profile/Logout";
 export { default as Settings } from "./Profile/Settings";
@@ -56,3 +57,4 @@ export { default as CollectionProductCard } from "./Collection/CollectionProduct
 export { default as OrderAmount } from "./History/OrderAmount";
 export { default as OrderPaymentDetails } from "./History/OrderPaymentDetails";
 export { default as OrderItemsDetails } from "./History/OrderItemsDetails";
+export { default as AddressDetails } from "./History/AddressDetails";

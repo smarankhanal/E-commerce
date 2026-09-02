@@ -9,8 +9,7 @@ export const calculateOrderPricing = ({ products, shippingAddress }) => {
 
   const shippingCharge = calculateShipping(subtotal, shippingAddress);
   const totalAmount = calculateTotal(subtotal, discount, shippingCharge);
-  console.log(subtotal);
-  console.log(totalAmount);
+
   return {
     subtotal,
     discount,

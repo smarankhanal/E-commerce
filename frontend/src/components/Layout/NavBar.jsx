@@ -96,11 +96,11 @@ export default function NavBar() {
                 <FiUser className="text-white text-lg sm:text-xl" />
               </Link>
             )}
-            {/* {user && ( */}
-            <div className="p-1.5 sm:p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-300 hover:scale-110">
-              <CartLogo />
-            </div>
-            {/* )} */}
+            {user && (
+              <div className="p-1.5 sm:p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-300 hover:scale-110">
+                <CartLogo />
+              </div>
+            )}
           </div>
         </div>
       </div>

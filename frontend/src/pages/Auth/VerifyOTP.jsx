@@ -12,7 +12,9 @@ export default function verifyOTP() {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-  const { error: registerError } = useSelector((state) => state.register);
+  const { error: registerError, status } = useSelector(
+    (state) => state.register,
+  );
   const purpose = location.state?.purpose;
   const email = location.state?.email;
   const [otp, setOtp] = useState("");
@@ -70,9 +72,9 @@ export default function verifyOTP() {
         <div className="text-center">
           <OTPInput value={otp} onChange={setOtp} />
           <Button
-            text="Verify OTP"
+            text={status === "loading" ? "Verifying..." : "Verify OTP"}
             onClick={() => verifyOTP()}
-            disabled={otp.length !== 6}
+            disabled={otp.length !== 6 || status === "loading"}
           />
           {registerError && (
             <p className="mt-2 text-red-600">{registerError}</p>

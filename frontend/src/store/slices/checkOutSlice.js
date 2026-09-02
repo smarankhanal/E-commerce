@@ -3,12 +3,17 @@ import api from "../../api/axios";
 
 export const calculateCheckout = createAsyncThunk(
   "checkout/calculateCheckout",
-  async ({ products, shippingAddress, orderNotes }, { rejectWithValue }) => {
+  async (
+    { products, shippingAddress, orderNotes, location },
+    { rejectWithValue },
+  ) => {
     try {
+      console.log(location);
       const response = await api.post("/order/calculate-checkout-pricing", {
         products,
         shippingAddress,
         orderNotes,
+        location,
       });
       return response.data?.data || response.data;
     } catch (error) {
@@ -28,7 +33,7 @@ export const calculateCheckout = createAsyncThunk(
 export const placeOrder = createAsyncThunk(
   "checkout/placeOrder",
   async (
-    { products, shippingAddress, orderNotes, paymentMethod },
+    { products, shippingAddress, orderNotes, paymentMethod, location },
     { rejectWithValue },
   ) => {
     try {
@@ -37,6 +42,7 @@ export const placeOrder = createAsyncThunk(
         shippingAddress,
         orderNotes,
         paymentMethod,
+        location,
       });
 
       return response.data?.data || response.data;

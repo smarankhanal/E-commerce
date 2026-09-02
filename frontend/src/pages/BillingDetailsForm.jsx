@@ -1,5 +1,5 @@
 import React from "react";
-import { Input } from "../components";
+import { Input, ShippingAddress } from "../components";
 import { useDispatch, useSelector } from "react-redux";
 import { FiMapPin, FiFileText, FiUser, FiArrowRight } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
@@ -9,15 +9,17 @@ import { useForm } from "react-hook-form";
 export default function BillingDetailsForm() {
   const { user } = useSelector((state) => state.auth);
   const { items } = useSelector((state) => state.cart);
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const proccedCheckout = async (data) => {
+    console.log(data);
     await dispatch(
       calculateCheckout({
         products: items,
         shippingAddress: data?.shippingAddress,
         orderNotes: data?.orderNotes,
+        location: data?.location,
       }),
     ).unwrap();
     navigate("/checkout");
@@ -83,38 +85,7 @@ export default function BillingDetailsForm() {
         <div className="my-8 border-t border-gray-100" />
 
         {/* Delivery Address */}
-        <div>
-          <div className="mb-4">
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
-              Delivery Address
-            </h3>
-
-            <p className="mt-1 text-sm text-gray-500">
-              Where should we deliver your order?
-            </p>
-          </div>
-
-          <Input
-            label="Street Address"
-            placeholder="House number and street name"
-            type="text"
-            className="focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
-            {...register("shippingAddress", { required: true })}
-          />
-
-          {/* Map Button */}
-          <button
-            type="button"
-            className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-sm font-medium text-blue-700 transition-all duration-200 hover:border-blue-300 hover:bg-blue-100 active:scale-[0.99]"
-          >
-            <FiMapPin size={18} />
-            Choose location on map
-          </button>
-
-          <p className="mt-2 text-xs text-gray-400">
-            You can select your exact delivery location using the map.
-          </p>
-        </div>
+        <ShippingAddress register={register} setValue={setValue} />
 
         {/* Divider */}
         <div className="my-8 border-t border-gray-100" />

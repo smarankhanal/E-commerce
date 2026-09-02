@@ -6,12 +6,14 @@ import {
   OrderAmount,
   OrderPaymentDetails,
   OrderItemsDetails,
+  AddressDetails,
 } from "../../components";
 
 export default function SingleOrderHistory() {
   const dispatch = useDispatch();
   const { orderId } = useParams();
   const { singleOrderItems } = useSelector((state) => state.history);
+  console.log(singleOrderItems);
   useEffect(() => {
     dispatch(getSingleHistory(orderId));
   }, [dispatch]);
@@ -40,6 +42,10 @@ export default function SingleOrderHistory() {
 
         <OrderPaymentDetails singleOrderItems={singleOrderItems} />
       </div>
+      <AddressDetails
+        shippingAddress={singleOrderItems?.shippingAddress}
+        location={singleOrderItems?.location}
+      />
     </div>
   );
 }
