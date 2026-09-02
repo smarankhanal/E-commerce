@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 
-const OTP_TIME = 60;
+const OTP_TIME = 180;
 
 export default function OTPTimer({ onResend }) {
   const [timeLeft, setTimeLeft] = useState(OTP_TIME);

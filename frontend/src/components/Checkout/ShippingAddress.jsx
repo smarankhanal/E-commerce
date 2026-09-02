@@ -9,7 +9,7 @@ export default function ShippingAddress({ register, setValue }) {
 
   const handleLocationSelect = (selectedLocation) => {
     setLocation(selectedLocation);
-    console.log(location);
+
     setValue("location", {
       latitude: selectedLocation.latitude,
       longitude: selectedLocation.longitude,
