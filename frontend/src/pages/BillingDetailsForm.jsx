@@ -13,7 +13,6 @@ export default function BillingDetailsForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const proccedCheckout = async (data) => {
-    console.log(data);
     await dispatch(
       calculateCheckout({
         products: items,

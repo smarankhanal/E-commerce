@@ -132,17 +132,19 @@ export default function PaymentMethod({ checkoutDetails }) {
         )}
 
         {/* Place Order Button */}
-        <button
-          type="submit"
-          disabled={status === "pending"}
-          className={`cursor-pointer  hover:scale-98 mt-6 w-full rounded-lg py-4 text-lg font-semibold text-white transition duration-300 ${
-            payment === "cod"
-              ? "bg-gray-900 hover:bg-black"
-              : "bg-green-600 hover:bg-green-700"
-          } `}
-        >
-          {payment === "cod" ? "Place Order" : "Proceed to eSewa"}
-        </button>
+        {!showToast && (
+          <button
+            type="submit"
+            disabled={status === "pending"}
+            className={`cursor-pointer  hover:scale-98 mt-6 w-full rounded-lg py-4 text-lg font-semibold text-white transition duration-300 ${
+              payment === "cod"
+                ? "bg-gray-900 hover:bg-black"
+                : "bg-green-600 hover:bg-green-700"
+            } `}
+          >
+            {payment === "cod" ? "Place Order" : "Proceed to eSewa"}
+          </button>
+        )}
       </form>
       {showToast && <Toast message="Order placed successfully" />}
     </div>

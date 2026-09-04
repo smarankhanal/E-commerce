@@ -8,7 +8,6 @@ export const calculateCheckout = createAsyncThunk(
     { rejectWithValue },
   ) => {
     try {
-      console.log(location);
       const response = await api.post("/order/calculate-checkout-pricing", {
         products,
         shippingAddress,

@@ -42,7 +42,7 @@ export const logoutUser = createAsyncThunk(
         data: error.response?.data,
       };
 
-      return rejectWithValue(serializedErrors);
+      return rejectWithValue(serializedError);
     }
   },
 );
