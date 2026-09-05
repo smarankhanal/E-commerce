@@ -1,4 +1,3 @@
-
 # MERN E-Commerce Platform
 
 A full-stack e-commerce application built with the **MERN stack** (MongoDB, Express.js, React.js, and Node.js).
@@ -103,6 +102,20 @@ MERN-E-Commerce/
 │   │   │
 │   │   ├── assets/
 │   │   ├── components/
+│   │   │   ├── Auth/
+│   │   │   ├── Cart/
+│   │   │   ├── Checkout/
+│   │   │   ├── Collection/
+│   │   │   ├── Common/
+│   │   │   ├── History/
+│   │   │   ├── Home/
+│   │   │   ├── Layout/
+│   │   │   ├── Product/
+│   │   │   ├── Profile/
+│   │   │   ├── Route/
+│   │   │   ├── Shop/
+│   │   │   └── index.js
+│   │   │
 │   │   ├── layouts/
 │   │   │
 │   │   ├── pages/
@@ -144,19 +157,81 @@ MERN-E-Commerce/
 │   └── package.json
 │
 ├── backend/
+│   ├── node_modules/
 │   ├── src/
 │   │   ├── controllers/
+│   │   │   ├── auth.controller.js
+│   │   │   ├── collection.controller.js
+│   │   │   ├── order.controller.js
+│   │   │   ├── otp.controller.js
+│   │   │   ├── payment.controller.js
+│   │   │   ├── product.controller.js
+│   │   │   ├── review.controller.js
+│   │   │   └── user.controller.js
+│   │   │
 │   │   ├── data/
+│   │   │   ├── collections.js
+│   │   │   └── products.js
+│   │   │
 │   │   ├── db/
+│   │   │   └── index.js
+│   │   │
 │   │   ├── middlewares/
+│   │   │   ├── auth.middleware.js
+│   │   │   ├── errorHandler.middleware.js
+│   │   │   ├── multer.middleware.js
+│   │   │   └── validate.middleware.js
+│   │   │
 │   │   ├── models/
+│   │   │   ├── collection.model.js
+│   │   │   ├── order.model.js
+│   │   │   ├── otp.model.js
+│   │   │   ├── PendingUser.model.js
+│   │   │   ├── product.model.js
+│   │   │   ├── review.model.js
+│   │   │   └── user.model.js
+│   │   │
 │   │   ├── routes/
+│   │   │   ├── auth.routes.js
+│   │   │   ├── collection.routes.js
+│   │   │   ├── order.routes.js
+│   │   │   ├── otp.routes.js
+│   │   │   ├── payment.routes.js
+│   │   │   ├── product.routes.js
+│   │   │   ├── review.routes.js
+│   │   │   └── user.routes.js
+│   │   │
 │   │   ├── scripts/
+│   │   │   ├── seedCollection.js
+│   │   │   └── seedProduct.js
+│   │   │
 │   │   ├── services/
+│   │   │   └── otp.service.js
+│   │   │
 │   │   ├── utils/
+│   │   │   ├── pricing/
+│   │   │   ├── ApiError.js
+│   │   │   ├── ApiResponse.js
+│   │   │   ├── asyncHandler.js
+│   │   │   ├── capitalize.js
+│   │   │   ├── cloudinary.js
+│   │   │   ├── esewa.js
+│   │   │   ├── generateOtp.js
+│   │   │   ├── mail.js
+│   │   │   └── resetToken.js
+│   │   │
 │   │   ├── validators/
+│   │   │   └── auth.validators.js
+│   │   │
+│   │   ├── app.js
+│   │   ├── constants.js
 │   │   └── index.js
 │   │
+│   ├── .env
+│   ├── .env.production
+│   ├── .gitignore
+│   ├── .prettierignore
+│   ├── .prettierrc
 │   └── package.json
 │
 └── README.md
@@ -400,24 +475,26 @@ Show order history
 
 Controllers contain the main business logic for:
 
-- Products
+- Auth
 - Collections
-- Users
 - Orders
-- Reviews
+- OTP
 - Payments
+- Products
+- Reviews
+- Users
 
 ### Models
 
 MongoDB/Mongoose models include:
 
 - User
+- PendingUser
 - Product
 - Collection
 - Order
 - Review
 - OTP
-- Pending User
 
 ### Routes
 
@@ -427,6 +504,7 @@ API routes are separated according to functionality:
 /auth
 /collections
 /orders
+/otp
 /payment
 /products
 /reviews
@@ -437,13 +515,36 @@ API routes are separated according to functionality:
 
 Middleware is used for:
 
-- Authentication
-- Error handling
-- File upload handling
+- Authentication (`auth.middleware.js`)
+- Error handling (`errorHandler.middleware.js`)
+- File upload handling (`multer.middleware.js`)
+- Request validation (`validate.middleware.js`)
 
 ### Services
 
-External or reusable services such as OTP/email/payment processing are separated into the service layer.
+External or reusable services such as OTP/email/payment processing are separated into the service layer (`otp.service.js`).
+
+### Utils
+
+Reusable backend helpers include:
+
+- `ApiError.js` / `ApiResponse.js` — standardized API responses
+- `asyncHandler.js` — async route error wrapping
+- `capitalize.js` — string formatting helper
+- `cloudinary.js` — image upload/storage
+- `esewa.js` — eSewa payment helper
+- `generateOtp.js` — OTP generation
+- `mail.js` — email sending
+- `resetToken.js` — password reset token handling
+- `pricing/` — pricing/shipping calculation helpers
+
+### Validators
+
+Request validation schemas (e.g. `auth.validators.js`) used alongside the validation middleware.
+
+### Data
+
+Static/seed reference data (`collections.js`, `products.js`) used by the seed scripts.
 
 ---
 
@@ -474,8 +575,8 @@ The backend contains seed scripts for initial data.
 Example:
 
 ```bash
-node src/scripts/seedCollections.js
-node src/scripts/seedProducts.js
+node src/scripts/seedCollection.js
+node src/scripts/seedProduct.js
 ```
 
 Run the collection seed before the product seed when products depend on collection IDs.
