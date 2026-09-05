@@ -31,6 +31,8 @@ import BillingDetailsForm from "./pages/BillingDetailsForm";
 import { useDispatch } from "react-redux";
 import { getCurrentUser } from "./store/slices/authSlice";
 import { useEffect } from "react";
+import PaymentSuccess from "./pages/Payment/PaymentSuccess";
+import PaymentFailure from "./pages/Payment/PaymentFailure";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -44,7 +46,6 @@ export default function App() {
 
       <Routes>
         {/* ==================== MAIN WEBSITE ==================== */}
-
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
 
@@ -105,9 +106,7 @@ export default function App() {
             }
           />
         </Route>
-
         {/* ==================== AUTHENTICATION ==================== */}
-
         <Route element={<AuthLayout />}>
           <Route
             path="/login"
@@ -154,6 +153,23 @@ export default function App() {
             }
           />
         </Route>
+        //===== Payment ======//
+        <Route
+          path="/payment/success"
+          element={
+            <ProtectedRoute>
+              <PaymentSuccess />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/payment/failure"
+          element={
+            <ProtectedRoute>
+              <PaymentFailure />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </>
   );

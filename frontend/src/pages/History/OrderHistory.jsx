@@ -13,6 +13,7 @@ export default function OrderHistory() {
     dispatch(getOrderHistory());
   }, [dispatch]);
 
+  console.log(orders);
   return (
     <div className="w-full max-w-5xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
       {/* Header */}
@@ -50,7 +51,7 @@ export default function OrderHistory() {
           {/* Table Header */}
           <div className="hidden sm:grid sm:grid-cols-[2fr_1fr_1fr_1fr] items-center gap-4 bg-gray-950 px-6 py-4 text-sm font-medium text-white">
             <p>Order ID</p>
-            <p>Status</p>
+            <p>Order Status</p>
             <p>Amount</p>
             <p></p>
           </div>
@@ -86,7 +87,7 @@ export default function OrderHistory() {
                 {/* Status */}
                 <div>
                   <p className="mb-1 text-xs font-medium uppercase text-gray-400 sm:hidden">
-                    Status
+                    Order Status
                   </p>
 
                   <span

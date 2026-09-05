@@ -2,24 +2,25 @@ import React, { useState } from "react";
 import esewa from "../../assets/images/esewa.png";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { placeOrder as placeOrderThunk } from "../../store/slices/checkOutSlice";
 import { useForm } from "react-hook-form";
 import { FiAlertCircle } from "react-icons/fi";
 import Toast from "../Common/Toast";
 import { clearCart } from "../../store/slices/cartSlice";
+import { placeOrder as placeOrderThunk } from "../../store/slices/checkOutSlice";
+import { initiateEsewaPayment } from "../../store/slices/paymentSlice";
 
 export default function PaymentMethod({ checkoutDetails }) {
   const [payment, setPayment] = useState("cod");
+  const [showToast, setShowToast] = useState(false);
   const { items } = useSelector((state) => state.cart);
   const { status, error } = useSelector((state) => state.checkout);
-  const { handleSubmit } = useForm();
-  const [showToast, setShowToast] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { handleSubmit } = useForm();
 
   const handlePlaceOrder = async () => {
     try {
-      await dispatch(
+      const order = await dispatch(
         placeOrderThunk({
           products: items,
           shippingAddress: checkoutDetails?.shippingAddress,
@@ -31,11 +32,38 @@ export default function PaymentMethod({ checkoutDetails }) {
           },
         }),
       ).unwrap();
-      dispatch(clearCart());
-      setShowToast(true);
-      setTimeout(() => {
-        navigate("/order-history");
-      }, 1900);
+
+      if (payment === "cod") {
+        dispatch(clearCart());
+        setShowToast(true);
+        setTimeout(() => {
+          navigate("/order-history");
+        }, 1900);
+        return;
+      }
+      console.log("order", order);
+      const orderId = order.data?._id || order._id;
+      sessionStorage.setItem("esewaOrderId", orderId);
+
+      const esewaPayment = await dispatch(
+        initiateEsewaPayment({ orderId }),
+      ).unwrap();
+      const { paymentUrl, paymentData } = esewaPayment;
+
+      const form = document.createElement("form");
+      form.method = "POST";
+      form.action = paymentUrl;
+
+      Object.entries(paymentData).forEach(([key, value]) => {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = key;
+        input.value = value;
+        form.appendChild(input);
+      });
+
+      document.body.appendChild(form);
+      form.submit();
     } catch (error) {
       console.error("Order placement failed:", error);
     }
@@ -49,12 +77,12 @@ export default function PaymentMethod({ checkoutDetails }) {
   return (
     <div className="rounded-2xl bg-white p-6 shadow-md">
       {/* Heading */}
+
       <h2 className="mb-6 text-2xl font-semibold text-gray-900">
         Payment Method
       </h2>
 
       <form onSubmit={handleSubmit(handlePlaceOrder)}>
-        {/* Cash on Delivery */}
         <label className="flex cursor-pointer items-start gap-4">
           <input
             type="radio"
@@ -80,7 +108,6 @@ export default function PaymentMethod({ checkoutDetails }) {
 
         <hr className="my-6 border-t border-dashed border-gray-300" />
 
-        {/* eSewa */}
         <label className="flex cursor-pointer items-start gap-4">
           <input
             type="radio"
@@ -109,21 +136,19 @@ export default function PaymentMethod({ checkoutDetails }) {
 
         <hr className="my-6 border-t border-dashed border-gray-300" />
 
-        {/* Privacy text */}
         <p className="text-sm leading-6 text-gray-500">
           Your personal data will be used to process your order, support your
           experience throughout this website, and for other purposes described
           in our privacy policy.
         </p>
 
-        {/* Backend Error */}
         {status === "failed" && errorMessage && (
           <div className="mt-5 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4">
             <FiAlertCircle size={20} className="mt-0.5 shrink-0 text-red-600" />
 
             <div>
               <p className="font-semibold text-red-700">
-                Unable to place order
+                Unable to process payment
               </p>
 
               <p className="mt-1 text-sm text-red-600">{errorMessage}</p>
@@ -131,21 +156,25 @@ export default function PaymentMethod({ checkoutDetails }) {
           </div>
         )}
 
-        {/* Place Order Button */}
         {!showToast && (
           <button
             type="submit"
-            disabled={status === "pending"}
-            className={`cursor-pointer  hover:scale-98 mt-6 w-full rounded-lg py-4 text-lg font-semibold text-white transition duration-300 ${
+            disabled={status === "pending" || status === "initiating"}
+            className={`mt-6 w-full rounded-lg py-4 text-lg font-semibold text-white transition duration-300 hover:scale-98 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 ${
               payment === "cod"
                 ? "bg-gray-900 hover:bg-black"
                 : "bg-green-600 hover:bg-green-700"
-            } `}
+            }`}
           >
-            {payment === "cod" ? "Place Order" : "Proceed to eSewa"}
+            {status === "initiating"
+              ? "Redirecting..."
+              : payment === "cod"
+                ? "Place Order"
+                : "Proceed to eSewa"}
           </button>
         )}
       </form>
+
       {showToast && <Toast message="Order placed successfully" />}
     </div>
   );

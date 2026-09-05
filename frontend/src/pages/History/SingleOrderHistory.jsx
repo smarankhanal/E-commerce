@@ -13,7 +13,6 @@ export default function SingleOrderHistory() {
   const dispatch = useDispatch();
   const { orderId } = useParams();
   const { singleOrderItems } = useSelector((state) => state.history);
-  console.log(singleOrderItems);
   useEffect(() => {
     dispatch(getSingleHistory(orderId));
   }, [dispatch]);

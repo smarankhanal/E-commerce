@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function OrderItemsDetails({ singleOrderItems }) {
   const navigate = useNavigate();
+  const status = singleOrderItems.status;
   return (
     <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
       {/* Header */}
@@ -15,6 +16,24 @@ export default function OrderItemsDetails({ singleOrderItems }) {
         </p>
       </div>
 
+      <div className=" gap-1 p-4 rounded-lg bg-gray-50 border border-gray-200">
+        <p className="text-sm font-medium text-gray-500">Order status</p>
+        <span
+          className={`inline-flex rounded-full px-3 py-1 text-xs font-medium capitalize ${
+            status === "delivered"
+              ? "bg-green-100 text-green-700"
+              : status === "cancelled"
+                ? "bg-red-100 text-red-700"
+                : status === "processing"
+                  ? "bg-blue-100 text-blue-700"
+                  : status === "confirmed"
+                    ? "bg-purple-100 text-purple-700"
+                    : "bg-yellow-100 text-yellow-700"
+          }`}
+        >
+          {status}
+        </span>
+      </div>
       {/* Products */}
       <div className="divide-y divide-gray-100">
         {singleOrderItems?.products?.map((item) => {
