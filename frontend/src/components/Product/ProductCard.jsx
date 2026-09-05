@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import heroSeller from "../../assets/images/t-shirt.jpg";
 import { FaArrowRight } from "react-icons/fa";
 import Button from "../Common/Button";
 import { useNavigate } from "react-router-dom";

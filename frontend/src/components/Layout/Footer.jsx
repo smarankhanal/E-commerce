@@ -7,7 +7,7 @@ export default function Footer() {
   return (
     <footer className="bottom-0 bg-(--footer-bg) text-(--footer-text) mt-30">
       <div className="max-w-7xl mx-auto px-6 py-10">
-        <div className="flex justify-between flex-wrap gap-10">
+        <div className="flex justify-evenly flex-wrap gap-10">
           {/* Company */}
           <div className="max-w-sm">
             <Logo />
@@ -17,26 +17,6 @@ export default function Footer() {
               timeless essentials, and the latest trends for men and women, all
               crafted with quality, comfort, and confidence in mind.
             </p>
-          </div>
-
-          {/* Quick Links */}
-          <div className="flex flex-col">
-            <h2 className="font-bold text-lg mb-4">Quick Links</h2>
-
-            <AnchorTag text="Home" />
-            <AnchorTag text="Products" />
-            <AnchorTag text="Categories" />
-            <AnchorTag text="Offers" />
-          </div>
-
-          {/* Customer Service */}
-          <div className="flex flex-col">
-            <h2 className="font-bold text-lg mb-4">Customer Service</h2>
-
-            <AnchorTag text="Contact Us" />
-            <AnchorTag text="FAQs" />
-            <AnchorTag text="Shipping" />
-            <AnchorTag text="Returns" />
           </div>
 
           {/* Contact */}
