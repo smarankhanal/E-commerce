@@ -55,6 +55,7 @@ const checkOut = asyncHandler(async (req, res) => {
 
     for (const item of products) {
       const product = dbProductsMap.get(item.productId.toString());
+
       if (!product) {
         throw new ApiError(404, "Product not found");
       }
@@ -72,34 +73,35 @@ const checkOut = asyncHandler(async (req, res) => {
         );
       }
 
-      const updatedProduct = await Product.findOneAndUpdate(
-        {
-          _id: product._id,
-
-          sizes: {
-            $elemMatch: {
-              size: item.selectedSize,
-              stock: {
-                $gte: item.quantity,
+      if (paymentMethod === "cod") {
+        const updatedProduct = await Product.findOneAndUpdate(
+          {
+            _id: product._id,
+            sizes: {
+              $elemMatch: {
+                size: item.selectedSize,
+                stock: {
+                  $gte: item.quantity,
+                },
               },
             },
           },
-        },
-        {
-          $inc: {
-            "sizes.$.stock": -item.quantity,
-            totalStock: -item.quantity,
-            soldCount: +item.quantity,
+          {
+            $inc: {
+              "sizes.$.stock": -item.quantity,
+              totalStock: -item.quantity,
+              soldCount: item.quantity,
+            },
           },
-        },
-        {
-          returnDocument: "after",
-          session,
-        }
-      );
+          {
+            new: true,
+            session,
+          }
+        );
 
-      if (!updatedProduct) {
-        throw new ApiError(400, `Insufficient stock for size ${item.size}`);
+        if (!updatedProduct) {
+          throw new ApiError(400, `Insufficient stock for size ${item.selectedSize}`);
+        }
       }
 
       pricingProducts.push({
@@ -125,20 +127,21 @@ const checkOut = asyncHandler(async (req, res) => {
       totalAmount,
       paymentMethod,
       orderNotes: orderNotes || "",
-      location: location || { latitude: null, longitude: null },
+      location: location || {
+        latitude: null,
+        longitude: null,
+      },
       paymentStatus: "pending",
-      status: "pending",
+      status: paymentMethod === "cod" ? "confirmed" : "pending",
     };
 
-    const [order] = await Order.create([orderData], {
-      session,
-    });
+    const [order] = await Order.create([orderData], { session });
+
     await session.commitTransaction();
 
     return res.status(201).json(new ApiResponse(201, order, "Order Created Successfully"));
   } catch (error) {
     await session.abortTransaction();
-
     throw error;
   } finally {
     await session.endSession();
