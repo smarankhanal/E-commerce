@@ -94,7 +94,7 @@ const orderSchema = new Schema(
     transactionId: {
       type: String,
       default: null,
-      trim: true,
+      unqiue: true,
     },
 
     status: {
