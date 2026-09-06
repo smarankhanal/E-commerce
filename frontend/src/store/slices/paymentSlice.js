@@ -29,7 +29,9 @@ export const verifyEsewaPayment = createAsyncThunk(
   "payment/verifyEsewaPayment",
   async ({ orderId, transaction_uuid }, { rejectWithValue }) => {
     try {
-      const response = await api.post("/payment/success", {
+      console.log("orderId", orderId);
+      console.log("Id", transaction_uuid);
+      const response = await api.post("/payment/verify", {
         orderId,
         transaction_uuid,
       });

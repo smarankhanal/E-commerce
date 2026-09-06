@@ -154,22 +154,8 @@ export default function App() {
           />
         </Route>
         //===== Payment ======//
-        <Route
-          path="/payment/success"
-          element={
-            <ProtectedRoute>
-              <PaymentSuccess />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/payment/failure"
-          element={
-            <ProtectedRoute>
-              <PaymentFailure />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/payment/success" element={<PaymentSuccess />} />
+        <Route path="/payment/failure" element={<PaymentFailure />} />
       </Routes>
     </>
   );

@@ -46,8 +46,17 @@ api.interceptors.response.use(
 
   async (error) => {
     const originalRequest = error.config;
+    const isAuthRoute =
+      originalRequest?.url?.includes("/users/login") ||
+      originalRequest?.url?.includes("/users/sign-up") ||
+      originalRequest?.url?.includes("/otp/verify-registration-otp") ||
+      originalRequest?.url?.includes("/users/forgot-password");
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !isAuthRoute
+    ) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           queue.push({ resolve, reject });

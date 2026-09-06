@@ -1,5 +1,3 @@
-import OrderPaymentDetails from "./History/OrderPaymentDetails";
-
 export { default as NavBar } from "./Layout/NavBar";
 export { default as Footer } from "./Layout/Footer";
 
@@ -16,7 +14,6 @@ export { default as Input } from "./Common/Input";
 export { default as ScrollToTop } from "./Common/ScrollToTop";
 export { default as InputError } from "./Common/InputError";
 export { default as Toast } from "./Common/Toast";
-export { default as CartLogo } from "./Cart/CartLogo";
 
 export { default as LoginForm } from "./Auth/LoginForm";
 export { default as SignupForm } from "./Auth/SignupForm";
@@ -27,6 +24,7 @@ export { default as ResetPasswordForm } from "./Auth/ResetPasswordForm";
 export { default as OTPTimer } from "./Auth/OTPTimer";
 export { default as ChangePassword } from "./Auth/ChangePassword";
 
+export { default as CartLogo } from "./Cart/CartLogo";
 export { default as EmptyCart } from "./Cart/EmptyCart";
 export { default as CartItem } from "./Cart/CartItem";
 export { default as CartSummary } from "./Cart/CartSummary";
@@ -58,3 +56,6 @@ export { default as OrderAmount } from "./History/OrderAmount";
 export { default as OrderPaymentDetails } from "./History/OrderPaymentDetails";
 export { default as OrderItemsDetails } from "./History/OrderItemsDetails";
 export { default as AddressDetails } from "./History/AddressDetails";
+
+export { default as PaymentBadge } from "./Badge/PaymentBadge";
+export { default as OrderBadge } from "./Badge/OrderBadge";

@@ -13,15 +13,19 @@ export default function BillingDetailsForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const proccedCheckout = async (data) => {
-    await dispatch(
-      calculateCheckout({
-        products: items,
-        shippingAddress: data?.shippingAddress,
-        orderNotes: data?.orderNotes,
-        location: data?.location,
-      }),
-    ).unwrap();
-    navigate("/checkout");
+    try {
+      await dispatch(
+        calculateCheckout({
+          products: items,
+          shippingAddress: data?.shippingAddress,
+          orderNotes: data?.orderNotes,
+          location: data?.location,
+        }),
+      ).unwrap();
+      navigate("/checkout");
+    } catch (error) {
+      console.log("Error", error);
+    }
   };
   return (
     <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm md:p-8">
@@ -47,7 +51,7 @@ export default function BillingDetailsForm() {
             Personal Information
           </h3>
 
-          <div type="submit" className="space-y-4">
+          <div className="space-y-4">
             {/* Name */}
             <Input
               label="Full Name"

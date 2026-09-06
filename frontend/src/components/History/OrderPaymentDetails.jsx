@@ -1,4 +1,5 @@
 import React from "react";
+import PaymentBadge from "../Badge/PaymentBadge";
 
 export default function OrderPaymentDetails({ singleOrderItems }) {
   const paymentMethod = singleOrderItems?.paymentMethod;
@@ -23,9 +24,7 @@ export default function OrderPaymentDetails({ singleOrderItems }) {
         <div className="flex items-center justify-between gap-4 py-4">
           <span className="text-sm text-gray-500">Payment Method</span>
 
-          <span className="text-sm font-medium uppercase text-gray-900">
-            {paymentMethod}
-          </span>
+          <PaymentBadge paymentMethod={paymentMethod} />
         </div>
 
         {/* Payment Status */}

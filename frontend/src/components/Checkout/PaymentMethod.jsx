@@ -41,7 +41,7 @@ export default function PaymentMethod({ checkoutDetails }) {
         }, 1900);
         return;
       }
-      console.log("order", order);
+
       const orderId = order.data?._id || order._id;
       sessionStorage.setItem("esewaOrderId", orderId);
 

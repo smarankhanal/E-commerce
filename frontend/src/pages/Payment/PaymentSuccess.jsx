@@ -13,7 +13,12 @@ export default function PaymentSuccess() {
   const navigate = useNavigate();
   const [status, setStatus] = useState("verifying");
   const [searchParams] = useSearchParams();
+  const verificationStarted = useRef(false);
+
   useEffect(() => {
+    if (verificationStarted.current) return;
+    verificationStarted.current = true;
+
     const verifyPayment = async () => {
       try {
         const encodedData = searchParams.get("data");

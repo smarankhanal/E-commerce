@@ -3,6 +3,7 @@ import { FiEye } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrderHistory } from "../../store/slices/historySlice";
 import { useNavigate } from "react-router-dom";
+import { OrderBadge, PaymentBadge } from "../../components";
 
 export default function OrderHistory() {
   const { orders, status } = useSelector((state) => state.history);
@@ -13,7 +14,6 @@ export default function OrderHistory() {
     dispatch(getOrderHistory());
   }, [dispatch]);
 
-  console.log(orders);
   return (
     <div className="w-full max-w-5xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
       {/* Header */}
@@ -52,8 +52,8 @@ export default function OrderHistory() {
           <div className="hidden sm:grid sm:grid-cols-[2fr_1fr_1fr_1fr] items-center gap-4 bg-gray-950 px-6 py-4 text-sm font-medium text-white">
             <p>Order ID</p>
             <p>Order Status</p>
+            <p>Method</p>
             <p>Amount</p>
-            <p></p>
           </div>
 
           {/* Orders */}
@@ -90,23 +90,15 @@ export default function OrderHistory() {
                     Order Status
                   </p>
 
-                  <span
-                    className={`inline-flex rounded-full px-3 py-1 text-xs font-medium capitalize ${
-                      order.status === "delivered"
-                        ? "bg-green-100 text-green-700"
-                        : order.status === "cancelled"
-                          ? "bg-red-100 text-red-700"
-                          : order.status === "processing"
-                            ? "bg-blue-100 text-blue-700"
-                            : order.status === "confirmed"
-                              ? "bg-purple-100 text-purple-700"
-                              : "bg-yellow-100 text-yellow-700"
-                    }`}
-                  >
-                    {order.status}
-                  </span>
+                  <OrderBadge status={order?.status} />
                 </div>
+                <div>
+                  <p className="mb-1 text-xs font-medium uppercase  text-gray-400 sm:hidden">
+                    Method
+                  </p>
 
+                  <PaymentBadge paymentMethod={order?.paymentMethod} />
+                </div>
                 {/* Amount */}
                 <div>
                   <p className="mb-1 text-xs font-medium uppercase text-gray-400 sm:hidden">
