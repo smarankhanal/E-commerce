@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import PaymentFailure from "./PaymentFailure";
 import { useDispatch } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -22,7 +22,7 @@ export default function PaymentSuccess() {
     const verifyPayment = async () => {
       try {
         const encodedData = searchParams.get("data");
-        console.log(encodedData);
+
         if (!encodedData) {
           throw new Error("Payment data not received");
         }
