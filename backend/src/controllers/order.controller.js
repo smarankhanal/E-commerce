@@ -136,9 +136,7 @@ const checkOut = asyncHandler(async (req, res) => {
     };
 
     const [order] = await Order.create([orderData], { session });
-
     await session.commitTransaction();
-
     return res.status(201).json(new ApiResponse(201, order, "Order Created Successfully"));
   } catch (error) {
     await session.abortTransaction();
@@ -204,7 +202,19 @@ const calculateCheckOutPricing = asyncHandler(async (req, res) => {
   );
 });
 const orderHistory = asyncHandler(async (req, res) => {
-  const orders = await Order.find({ user: req.user?._id }).sort({ createdAt: -1 });
+  const orders = await Order.find({
+    user: req.user?._id,
+    $or: [
+      {
+        paymentMethod: "cod",
+      },
+
+      {
+        paymentMethod: "esewa",
+        paymentStatus: "paid",
+      },
+    ],
+  }).sort({ createdAt: -1 });
   if (!orders) {
     throw new ApiError(404, "Orders not found or unauthorized");
   }

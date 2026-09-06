@@ -2,9 +2,11 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import { Order } from "../models/order.model.js";
+import { Product } from "../models/product.model.js";
 import { generateEsewaSignature } from "../utils/esewa.js";
 import crypto from "crypto";
 import axios from "axios";
+import mongoose from "mongoose";
 const initiatePayment = asyncHandler(async (req, res) => {
   const { orderId } = req.body;
   if (!orderId) {
@@ -57,24 +59,35 @@ const initiatePayment = asyncHandler(async (req, res) => {
     )
   );
 });
+
 const verifyPayment = asyncHandler(async (req, res) => {
   const { orderId, transaction_uuid } = req.body;
+
   if (!orderId || !transaction_uuid) {
     throw new ApiError(400, "Order ID and transaction UUID are required");
-  }
-  const order = await Order.findById(orderId);
-
-  if (order.paymentStatus === "paid") {
-    return res.status(200).json(new ApiResponse(200, order, "Payment already verified"));
   }
 
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
-    const order = await Order.findById(orderId).session(session);
+    const order = await Order.findOneAndUpdate(
+      { _id: orderId, paymentStatus: { $ne: "paid" } },
+      { $set: { paymentStatus: "processing" } },
+      { new: true, session }
+    );
+
     if (!order) {
-      throw new ApiError(404, "Order not found");
+      await session.abortTransaction();
+      const existing = await Order.findById(orderId);
+      if (!existing) {
+        throw new ApiError(404, "Order not found");
+      }
+      if (existing.paymentStatus === "paid") {
+        return res.status(200).json(new ApiResponse(200, existing, "Payment already verified"));
+      }
+      throw new ApiError(409, "Order is currently being processed");
     }
+
     if (order.user.toString() !== req.user._id.toString()) {
       throw new ApiError(403, "Unauthorized access to order");
     }
@@ -93,15 +106,20 @@ const verifyPayment = asyncHandler(async (req, res) => {
         total_amount: order.totalAmount,
         transaction_uuid,
       },
+      timeout: 10000,
     });
 
     const payment = response.data;
 
     if (payment.status !== "COMPLETE") {
-      order.paymentStatus = "failed";
-      await order.save({ session });
-      await session.commitTransaction();
       throw new ApiError(400, `Payment verification failed: ${payment.status}`);
+    }
+
+    if (
+      payment.transaction_uuid !== transaction_uuid ||
+      payment.product_code !== process.env.ESEWA_PRODUCT_CODE
+    ) {
+      throw new ApiError(400, "Payment details do not match order");
     }
 
     if (Number(payment.total_amount) !== Number(order.totalAmount)) {
@@ -115,9 +133,7 @@ const verifyPayment = asyncHandler(async (req, res) => {
           sizes: {
             $elemMatch: {
               size: item.size,
-              stock: {
-                $gte: item.quantity,
-              },
+              stock: { $gte: item.quantity },
             },
           },
         },
@@ -148,11 +164,12 @@ const verifyPayment = asyncHandler(async (req, res) => {
       .status(200)
       .json(new ApiResponse(200, order, "Payment verified and order confirmed"));
   } catch (error) {
-    await session.abortTransaction();
+    if (session.inTransaction()) {
+      await session.abortTransaction();
+    }
     throw error;
   } finally {
     await session.endSession();
   }
 });
-
 export { initiatePayment, verifyPayment };
