@@ -20,20 +20,19 @@ export default function PaymentMethod({ checkoutDetails }) {
 
   const handlePlaceOrder = async () => {
     try {
-      const order = await dispatch(
-        placeOrderThunk({
-          products: items,
-          shippingAddress: checkoutDetails?.shippingAddress,
-          orderNotes: checkoutDetails?.orderNotes || "",
-          paymentMethod: payment,
-          location: checkoutDetails?.location || {
-            latitude: null,
-            longitude: null,
-          },
-        }),
-      ).unwrap();
-
       if (payment === "cod") {
+        const order = await dispatch(
+          placeOrderThunk({
+            products: items,
+            shippingAddress: checkoutDetails?.shippingAddress,
+            orderNotes: checkoutDetails?.orderNotes || "",
+            paymentMethod: "cod",
+            location: checkoutDetails?.location || {
+              latitude: null,
+              longitude: null,
+            },
+          }),
+        ).unwrap();
         dispatch(clearCart());
         setShowToast(true);
         setTimeout(() => {
@@ -42,20 +41,28 @@ export default function PaymentMethod({ checkoutDetails }) {
         return;
       }
 
-      const orderId = order.data?._id || order._id;
-      sessionStorage.setItem("esewaOrderId", orderId);
-
       const esewaPayment = await dispatch(
-        initiateEsewaPayment({ orderId }),
+        initiateEsewaPayment({
+          products: items,
+          shippingAddress: checkoutDetails?.shippingAddress,
+          orderNotes: checkoutDetails?.orderNotes || "",
+          paymentMethod: "esewa",
+          location: checkoutDetails?.location || {
+            latitude: null,
+            longitude: null,
+          },
+        }),
       ).unwrap();
-      const { paymentUrl, paymentData } = esewaPayment;
-
+      const { paymentUrl, paymentData, paymentAttemptId } = esewaPayment;
+      sessionStorage.setItem("esewaPaymentAttemptId", paymentAttemptId);
       const form = document.createElement("form");
+
       form.method = "POST";
       form.action = paymentUrl;
 
       Object.entries(paymentData).forEach(([key, value]) => {
         const input = document.createElement("input");
+
         input.type = "hidden";
         input.name = key;
         input.value = value;
@@ -65,7 +72,7 @@ export default function PaymentMethod({ checkoutDetails }) {
       document.body.appendChild(form);
       form.submit();
     } catch (error) {
-      console.error("Order placement failed:", error);
+      console.error("Payment process failed:", error);
     }
   };
 
@@ -76,8 +83,6 @@ export default function PaymentMethod({ checkoutDetails }) {
 
   return (
     <div className="rounded-2xl bg-white p-6 shadow-md">
-      {/* Heading */}
-
       <h2 className="mb-6 text-2xl font-semibold text-gray-900">
         Payment Method
       </h2>
@@ -160,7 +165,7 @@ export default function PaymentMethod({ checkoutDetails }) {
           <button
             type="submit"
             disabled={status === "pending" || status === "initiating"}
-            className={`mt-6 w-full rounded-lg py-4 text-lg font-semibold text-white transition duration-300 hover:scale-98 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 ${
+            className={`mt-6 w-full cursor-pointer rounded-lg py-4 text-lg font-semibold text-white transition duration-300 hover:scale-98 disabled:cursor-not-allowed disabled:opacity-50 ${
               payment === "cod"
                 ? "bg-gray-900 hover:bg-black"
                 : "bg-green-600 hover:bg-green-700"

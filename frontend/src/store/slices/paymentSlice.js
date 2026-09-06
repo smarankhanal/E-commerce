@@ -4,10 +4,17 @@ import api from "../../api/axios";
 //======= Initiate =======//
 export const initiateEsewaPayment = createAsyncThunk(
   "payment/initiateEsewaPayment",
-  async ({ orderId }, { rejectWithValue }) => {
+  async (
+    { products, shippingAddress, orderNotes, paymentMethod, location },
+    { rejectWithValue },
+  ) => {
     try {
       const response = await api.post("/payment/initiate", {
-        orderId,
+        products,
+        shippingAddress,
+        orderNotes,
+        paymentMethod,
+        location,
       });
       return response.data?.data || response.data;
     } catch (error) {
@@ -27,10 +34,10 @@ export const initiateEsewaPayment = createAsyncThunk(
 //======= Verify =======//
 export const verifyEsewaPayment = createAsyncThunk(
   "payment/verifyEsewaPayment",
-  async ({ orderId, transaction_uuid }, { rejectWithValue }) => {
+  async ({ paymentAttemptId, transaction_uuid }, { rejectWithValue }) => {
     try {
       const response = await api.post("/payment/verify", {
-        orderId,
+        paymentAttemptId,
         transaction_uuid,
       });
       return response.data?.data || response.data;

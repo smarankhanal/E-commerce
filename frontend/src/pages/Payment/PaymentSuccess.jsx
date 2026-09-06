@@ -22,7 +22,6 @@ export default function PaymentSuccess() {
     const verifyPayment = async () => {
       try {
         const encodedData = searchParams.get("data");
-
         if (!encodedData) {
           throw new Error("Payment data not received");
         }
@@ -31,9 +30,14 @@ export default function PaymentSuccess() {
         if (!transaction_uuid) {
           throw new Error("Invalid payment response");
         }
-        const orderId = sessionStorage.getItem("esewaOrderId");
+        const paymentAttemptId = sessionStorage.getItem(
+          "esewaPaymentAttemptId",
+        );
+        if (!paymentAttemptId) {
+          throw new Error("Payment attempt not found");
+        }
         await dispatch(
-          verifyEsewaPayment({ orderId, transaction_uuid }),
+          verifyEsewaPayment({ paymentAttemptId, transaction_uuid }),
         ).unwrap();
         dispatch(clearCart());
         sessionStorage.removeItem("esewaOrderId");
