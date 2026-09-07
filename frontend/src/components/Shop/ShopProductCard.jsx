@@ -1,7 +1,6 @@
 import React from "react";
 import { FiArrowUpRight } from "react-icons/fi";
 import QuantitySelector from "../Product/QuantitySelector";
-import Button from "../Common/Button";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeCart } from "../../store/slices/cartSlice";
@@ -58,15 +57,7 @@ export default function ShopProductCard({ product }) {
 
           {/* Add to Cart */}
 
-          <Button
-            text={
-              product.stock === 0
-                ? "Out of Stock"
-                : isInCart
-                  ? "Remove from Cart"
-                  : "Add to Cart"
-            }
-            variant={isInCart ? "danger" : "primary"}
+          <button
             className={`flex-1 rounded-xl border py-3 text-sm font-medium transition ${
               product.stock === 0
                 ? "cursor-not-allowed border-white/10 bg-gray-400/40 text-gray-300"
@@ -76,7 +67,13 @@ export default function ShopProductCard({ product }) {
             }`}
             disabled={product.stock === 0}
             onClick={() => (isInCart ? remove() : add())}
-          />
+          >
+            {product.stock === 0
+              ? "Out of Stock"
+              : isInCart
+                ? "Remove from Cart"
+                : "Add to Cart"}
+          </button>
         </div>
       </div>
 

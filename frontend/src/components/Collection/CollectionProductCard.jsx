@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { FiArrowUpRight } from "react-icons/fi";
 import QuantitySelector from "../Product/QuantitySelector";
-import Button from "../Common/Button";
 import { useNavigate } from "react-router-dom";
 import { addToCart, removeCart } from "../../store/slices/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -48,27 +47,24 @@ export default function CollectionProductCard({ product }) {
           </div>
 
           {/* Add to Cart */}
-          {
-            <Button
-              text={
-                product.stock === 0
-                  ? "Out of Stock"
-                  : isInCart
-                    ? "Remove from Cart"
-                    : "Add to Cart"
-              }
-              variant={isInCart ? "danger" : "primary"}
-              className={`flex-1 rounded-xl border py-3 text-sm font-medium transition ${
-                product.stock === 0
-                  ? "cursor-not-allowed border-white/10 bg-gray-400/40 text-gray-300"
-                  : isInCart
-                    ? "cursor-pointer border-red-500/30 bg-red-600/80 text-white backdrop-blur-md hover:bg-red-600/60"
-                    : "cursor-pointer border-white/30 bg-black/70 text-white backdrop-blur-md hover:bg-black/45"
-              }`}
-              disabled={product.stock === 0}
-              onClick={() => (isInCart ? remove() : add())}
-            />
-          }
+
+          <button
+            className={`flex-1 rounded-xl border py-3 text-sm font-medium transition ${
+              product.stock === 0
+                ? "cursor-not-allowed border-white/10 bg-gray-400/40 text-gray-300"
+                : isInCart
+                  ? "cursor-pointer border-red-500/30 bg-red-600/80 text-white backdrop-blur-md hover:bg-red-600/60"
+                  : "cursor-pointer border-white/30 bg-black/70 text-white backdrop-blur-md hover:bg-black/45"
+            }`}
+            disabled={product.stock === 0}
+            onClick={() => (isInCart ? remove() : add())}
+          >
+            {product.stock === 0
+              ? "Out of Stock"
+              : isInCart
+                ? "Remove from Cart"
+                : "Add to Cart"}
+          </button>
         </div>
       </div>
 
