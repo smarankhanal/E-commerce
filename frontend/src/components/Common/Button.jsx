@@ -4,11 +4,12 @@ export default function Button({
   type = "button",
   variant = "primary",
   text,
+  className = "",
   ...props
 }) {
   return (
     <button
-      className={`btn btn-${variant} disabled:cursor-not-allowed`}
+      className={`btn btn-${variant} disabled:cursor-not-allowed ${className}`.trim()}
       type={type}
       {...props}
     >

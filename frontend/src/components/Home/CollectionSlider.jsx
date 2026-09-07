@@ -5,19 +5,8 @@ export default function CollectionSlider({ collections }) {
   const navigate = useNavigate();
   const [active, setActive] = useState(2);
 
-  const previous = () => {
-    setActive((active - 1 + collections.length) % collections.length);
-  };
-
-  const next = () => {
-    setActive((active + 1) % collections.length);
-  };
-
   const getPosition = (index) => {
-    const total = collections.length;
-
     let diff = index - active;
-
     return diff;
   };
 
@@ -64,7 +53,7 @@ export default function CollectionSlider({ collections }) {
                   className="absolute bottom-8 left-8 z-20 transition-all duration-500"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <h3 className="text-white text-3xl font-bold mb-4 drop-shadow-lg">
+                  <h3 className="text-white text-1xl font-bold mb-4 drop-shadow-lg">
                     {item.name}
                   </h3>
 
