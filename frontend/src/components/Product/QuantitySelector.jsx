@@ -3,13 +3,12 @@ import { FiMinus, FiPlus } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { decreaseQty, increaseQty } from "../../store/slices/cartSlice";
 
-export default function QuantitySelector({ product, selectedSize }) {
+export default function QuantitySelector({ product, selectedSize, productId }) {
   const dispatch = useDispatch();
-
+  const Id = productId || product?._id;
   const itemInCart = useSelector((state) =>
     state.cart.items.find(
-      (item) =>
-        item.productId === product?._id && item.selectedSize === selectedSize,
+      (item) => item.productId === Id && item.selectedSize === selectedSize,
     ),
   );
 
@@ -18,7 +17,7 @@ export default function QuantitySelector({ product, selectedSize }) {
   const increase = () => {
     dispatch(
       increaseQty({
-        productId: product._id,
+        productId: Id,
         selectedSize,
       }),
     );
@@ -27,7 +26,7 @@ export default function QuantitySelector({ product, selectedSize }) {
   const decrease = () => {
     dispatch(
       decreaseQty({
-        productId: product._id,
+        productId: Id,
         selectedSize,
       }),
     );

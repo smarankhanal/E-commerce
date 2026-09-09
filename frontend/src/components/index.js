@@ -14,6 +14,7 @@ export { default as Input } from "./Common/Input";
 export { default as ScrollToTop } from "./Common/ScrollToTop";
 export { default as InputError } from "./Common/InputError";
 export { default as Toast } from "./Common/Toast";
+export { default as UserDetailRow } from "./Common/UserDetailRow";
 
 export { default as LoginForm } from "./Auth/LoginForm";
 export { default as SignupForm } from "./Auth/SignupForm";

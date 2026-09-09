@@ -3,6 +3,7 @@ import { MdDeleteForever } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { removeCart } from "../../store/slices/cartSlice";
+import QuantitySelector from "../Product/QuantitySelector";
 
 export default function CartItem({ item }) {
   const navigate = useNavigate();
@@ -55,7 +56,12 @@ export default function CartItem({ item }) {
           Explore
         </button>
       </div>
-
+      <div className="flex items-center justify-center gap-3 p-3 rounded-lg max-w-xs ">
+        <QuantitySelector
+          productId={item.productId}
+          selectedSize={item?.selectedSize}
+        />
+      </div>
       {/* Delete */}
       <div
         className="absolute -top-3 -right-3 flex h-10 w-10 items-center justify-center rounded-full bg-red-500 text-white shadow-lg cursor-pointer transition-all duration-300 hover:scale-110 hover:bg-red-600"
