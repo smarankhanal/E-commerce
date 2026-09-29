@@ -98,218 +98,258 @@ The project provides customer authentication, product browsing, collections, sho
 
 ---
 
-## 📁 Project Structure
-
-```text
 # Project Structure
 
+```text
+project-root/
+│
+├── backend/
+│   ├── src/
+│   │   ├── controllers/
+│   │   │   ├── auth.controller.js
+│   │   │   ├── collection.controller.js
+│   │   │   ├── order.controller.js
+│   │   │   ├── otp.controller.js
+│   │   │   ├── payment.controller.js
+│   │   │   ├── product.controller.js
+│   │   │   ├── review.controller.js
+│   │   │   └── user.controller.js
+│   │   │
+│   │   ├── data/
+│   │   │   ├── collections.js
+│   │   │   └── products.js
+│   │   │
+│   │   ├── db/
+│   │   │   └── index.js
+│   │   │
+│   │   ├── middlewares/
+│   │   │   ├── auth.middleware.js
+│   │   │   ├── errorHandler.middleware.js
+│   │   │   ├── multer.middleware.js
+│   │   │   └── validate.middleware.js
+│   │   │
+│   │   ├── models/
+│   │   │   ├── collection.model.js
+│   │   │   ├── order.model.js
+│   │   │   ├── otp.model.js
+│   │   │   ├── paymentAttempt.model.js
+│   │   │   ├── PendingUser.model.js
+│   │   │   ├── product.model.js
+│   │   │   ├── review.model.js
+│   │   │   └── user.model.js
+│   │   │
+│   │   ├── routes/
+│   │   │   ├── auth.routes.js
+│   │   │   ├── collection.routes.js
+│   │   │   ├── order.routes.js
+│   │   │   ├── otp.routes.js
+│   │   │   ├── payment.routes.js
+│   │   │   ├── product.routes.js
+│   │   │   ├── review.routes.js
+│   │   │   └── user.routes.js
+│   │   │
+│   │   ├── scripts/
+│   │   │   ├── seedCollection.js
+│   │   │   └── seedProduct.js
+│   │   │
+│   │   ├── services/
+│   │   │   └── otp.service.js
+│   │   │
+│   │   ├── utils/
+│   │   │   ├── pricing/
+│   │   │   │   ├── calculateDiscount.js
+│   │   │   │   ├── calculateOrderPricing.js
+│   │   │   │   ├── calculateShipping.js
+│   │   │   │   ├── calculateSubtotal.js
+│   │   │   │   └── calculateTotal.js
+│   │   │   │
+│   │   │   ├── ApiError.js
+│   │   │   ├── ApiResponse.js
+│   │   │   ├── asyncHandler.js
+│   │   │   ├── capitalize.js
+│   │   │   ├── cloudinary.js
+│   │   │   ├── esewa.js
+│   │   │   ├── generateOtp.js
+│   │   │   ├── mail.js
+│   │   │   └── resetToken.js
+│   │   │
+│   │   ├── validators/
+│   │   │   └── auth.validators.js
+│   │   │
+│   │   ├── app.js
+│   │   ├── constants.js
+│   │   └── index.js
+│   │
+│   ├── package-lock.json
+│   └── package.json
+│
+├── frontend/
+│   ├── public/
+│   │   ├── favicon.svg
+│   │   └── icons.svg
+│   │
+│   ├── src/
+│   │   ├── api/
+│   │   │   └── axios.js
+│   │   │
+│   │   ├── assets/
+│   │   │   └── images/
+│   │   │       ├── esewa.png
+│   │   │       ├── hero-image.jpg
+│   │   │       ├── logo.png
+│   │   │       └── logo.svg
+│   │   │
+│   │   ├── components/
+│   │   │   ├── Auth/
+│   │   │   │   ├── ChangePassword.jsx
+│   │   │   │   ├── LoginForm.jsx
+│   │   │   │   ├── OTPInput.jsx
+│   │   │   │   ├── OTPTimer.jsx
+│   │   │   │   ├── PasswordForm.jsx
+│   │   │   │   ├── PasswordInput.jsx
+│   │   │   │   ├── ResetPasswordForm.jsx
+│   │   │   │   ├── SignupForm.jsx
+│   │   │   │   ├── UpdateAccountDetails.jsx
+│   │   │   │   └── UserDetails.jsx
+│   │   │   │
+│   │   │   ├── Badge/
+│   │   │   │   ├── OrderBadge.jsx
+│   │   │   │   └── PaymentBadge.jsx
+│   │   │   │
+│   │   │   ├── Cart/
+│   │   │   │   ├── CartItem.jsx
+│   │   │   │   ├── CartLogo.jsx
+│   │   │   │   ├── CartSummary.jsx
+│   │   │   │   └── EmptyCart.jsx
+│   │   │   │
+│   │   │   ├── Checkout/
+│   │   │   │   ├── BillingDetails.jsx
+│   │   │   │   ├── LocationPicker.jsx
+│   │   │   │   ├── OrderDetails.jsx
+│   │   │   │   ├── PaymentMethod.jsx
+│   │   │   │   └── ShippingAddress.jsx
+│   │   │   │
+│   │   │   ├── Collection/
+│   │   │   │   └── CollectionProductCard.jsx
+│   │   │   │
+│   │   │   ├── Common/
+│   │   │   │   ├── AnchorTag.jsx
+│   │   │   │   ├── Button.jsx
+│   │   │   │   ├── Input.jsx
+│   │   │   │   ├── InputError.jsx
+│   │   │   │   ├── Logo.jsx
+│   │   │   │   ├── ScrollToTop.jsx
+│   │   │   │   ├── Search.jsx
+│   │   │   │   ├── Size.jsx
+│   │   │   │   ├── Toast.jsx
+│   │   │   │   └── UserDetailRow.jsx
+│   │   │   │
+│   │   │   ├── History/
+│   │   │   │   ├── AddressDetails.jsx
+│   │   │   │   ├── OrderAmount.jsx
+│   │   │   │   ├── OrderItemsDetails.jsx
+│   │   │   │   └── OrderPaymentDetails.jsx
+│   │   │   │
+│   │   │   ├── Home/
+│   │   │   │   ├── BestSeller.jsx
+│   │   │   │   ├── CollectionSlider.jsx
+│   │   │   │   └── Hero.jsx
+│   │   │   │
+│   │   │   ├── Layout/
+│   │   │   │   ├── Footer.jsx
+│   │   │   │   └── NavBar.jsx
+│   │   │   │
+│   │   │   ├── Product/
+│   │   │   │   ├── AddReview.jsx
+│   │   │   │   ├── ProductCard.jsx
+│   │   │   │   ├── ProductDescription.jsx
+│   │   │   │   ├── ProductGallery.jsx
+│   │   │   │   ├── ProductReviews.jsx
+│   │   │   │   ├── QuantitySelector.jsx
+│   │   │   │   └── SizeSelector.jsx
+│   │   │   │
+│   │   │   ├── Profile/
+│   │   │   │   ├── History.jsx
+│   │   │   │   ├── Logout.jsx
+│   │   │   │   └── Settings.jsx
+│   │   │   │
+│   │   │   ├── Route/
+│   │   │   │   ├── ProtectedRoute.jsx
+│   │   │   │   └── PublicRoute.jsx
+│   │   │   │
+│   │   │   ├── Shop/
+│   │   │   │   └── ShopProductCard.jsx
+│   │   │   │
+│   │   │   └── index.js
+│   │   │
+│   │   ├── layouts/
+│   │   │   ├── AuthLayout.jsx
+│   │   │   └── MainLayout.jsx
+│   │   │
+│   │   ├── pages/
+│   │   │   ├── Auth/
+│   │   │   │   ├── ForgotPassWord.jsx
+│   │   │   │   ├── Login.jsx
+│   │   │   │   ├── ResetPassword.jsx
+│   │   │   │   ├── SignUp.jsx
+│   │   │   │   └── VerifyOTP.jsx
+│   │   │   │
+│   │   │   ├── History/
+│   │   │   │   ├── OrderHistory.jsx
+│   │   │   │   └── SingleOrderHistory.jsx
+│   │   │   │
+│   │   │   ├── Payment/
+│   │   │   │   ├── PaymentFailure.jsx
+│   │   │   │   └── PaymentSuccess.jsx
+│   │   │   │
+│   │   │   ├── BillingDetailsForm.jsx
+│   │   │   ├── Cart.jsx
+│   │   │   ├── Checkout.jsx
+│   │   │   ├── Collection.jsx
+│   │   │   ├── Home.jsx
+│   │   │   ├── ProductDetails.jsx
+│   │   │   ├── Profile.jsx
+│   │   │   └── Shop.jsx
+│   │   │
+│   │   ├── store/
+│   │   │   ├── slices/
+│   │   │   │   ├── authSlice.js
+│   │   │   │   ├── cartSlice.js
+│   │   │   │   ├── checkOutSlice.js
+│   │   │   │   ├── collectionSlice.js
+│   │   │   │   ├── historySlice.js
+│   │   │   │   ├── paymentSlice.js
+│   │   │   │   ├── productSlice.js
+│   │   │   │   ├── registerSlice.js
+│   │   │   │   ├── reviewSlice.js
+│   │   │   │   └── searchSlice.js
+│   │   │   └── store.js
+│   │   │
+│   │   ├── styles/
+│   │   │   ├── anchor.css
+│   │   │   ├── button.css
+│   │   │   └── toast.css
+│   │   │
+│   │   ├── utils/
+│   │   │   ├── cart.js
+│   │   │   └── esewa.js
+│   │   │
+│   │   ├── App.css
+│   │   ├── App.jsx
+│   │   ├── button.css
+│   │   └── main.jsx
+│   │
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── README.md
+│   ├── vercel.json
+│   └── vite.config.js
+│
+└── README.md
 ```
 
-├── backend
-│ ├── src
-│ │ ├── controllers
-│ │ │ ├── auth.controller.js
-│ │ │ ├── collection.controller.js
-│ │ │ ├── order.controller.js
-│ │ │ ├── otp.controller.js
-│ │ │ ├── payment.controller.js
-│ │ │ ├── product.controller.js
-│ │ │ ├── review.controller.js
-│ │ │ └── user.controller.js
-│ │ ├── data
-│ │ │ ├── collections.js
-│ │ │ └── products.js
-│ │ ├── db
-│ │ │ └── index.js
-│ │ ├── middlewares
-│ │ │ ├── auth.middleware.js
-│ │ │ ├── errorHandler.middleware.js
-│ │ │ ├── multer.middleware.js
-│ │ │ └── validate.middleware.js
-│ │ ├── models
-│ │ │ ├── collection.model.js
-│ │ │ ├── order.model.js
-│ │ │ ├── otp.model.js
-│ │ │ ├── paymentAttempt.model.js
-│ │ │ ├── PendingUser.model.js
-│ │ │ ├── product.model.js
-│ │ │ ├── review.model.js
-│ │ │ └── user.model.js
-│ │ ├── routes
-│ │ │ ├── auth.routes.js
-│ │ │ ├── collection.routes.js
-│ │ │ ├── order.routes.js
-│ │ │ ├── otp.routes.js
-│ │ │ ├── payment.routes.js
-│ │ │ ├── product.routes.js
-│ │ │ ├── review.routes.js
-│ │ │ └── user.routes.js
-│ │ ├── scripts
-│ │ │ ├── seedCollection.js
-│ │ │ └── seedProduct.js
-│ │ ├── services
-│ │ │ └── otp.service.js
-│ │ ├── utils
-│ │ │ ├── pricing
-│ │ │ │ ├── calculateDiscount.js
-│ │ │ │ ├── calculateOrderPricing.js
-│ │ │ │ ├── calculateShipping.js
-│ │ │ │ ├── calculateSubtotal.js
-│ │ │ │ └── calculateTotal.js
-│ │ │ ├── ApiError.js
-│ │ │ ├── ApiResponse.js
-│ │ │ ├── asyncHandler.js
-│ │ │ ├── capitalize.js
-│ │ │ ├── cloudinary.js
-│ │ │ ├── esewa.js
-│ │ │ ├── generateOtp.js
-│ │ │ ├── mail.js
-│ │ │ └── resetToken.js
-│ │ ├── validators
-│ │ │ └── auth.validators.js
-│ │ ├── app.js
-│ │ ├── constants.js
-│ │ └── index.js
-│ ├── package-lock.json
-│ └── package.json
-├── frontend
-│ ├── public
-│ │ ├── favicon.svg
-│ │ └── icons.svg
-│ ├── src
-│ │ ├── api
-│ │ │ └── axios.js
-│ │ ├── assets
-│ │ │ └── images
-│ │ │ ├── esewa.png
-│ │ │ ├── hero-image.jpg
-│ │ │ ├── logo.png
-│ │ │ └── logo.svg
-│ │ ├── components
-│ │ │ ├── Auth
-│ │ │ │ ├── ChangePassword.jsx
-│ │ │ │ ├── LoginForm.jsx
-│ │ │ │ ├── OTPInput.jsx
-│ │ │ │ ├── OTPTimer.jsx
-│ │ │ │ ├── PasswordForm.jsx
-│ │ │ │ ├── PasswordInput.jsx
-│ │ │ │ ├── ResetPasswordForm.jsx
-│ │ │ │ ├── SignupForm.jsx
-│ │ │ │ ├── UpdateAccountDetails.jsx
-│ │ │ │ └── UserDetails.jsx
-│ │ │ ├── Badge
-│ │ │ │ ├── OrderBadge.jsx
-│ │ │ │ └── PaymentBadge.jsx
-│ │ │ ├── Cart
-│ │ │ │ ├── CartItem.jsx
-│ │ │ │ ├── CartLogo.jsx
-│ │ │ │ ├── CartSummary.jsx
-│ │ │ │ └── EmptyCart.jsx
-│ │ │ ├── Checkout
-│ │ │ │ ├── BillingDetails.jsx
-│ │ │ │ ├── LocationPicker.jsx
-│ │ │ │ ├── OrderDetails.jsx
-│ │ │ │ ├── PaymentMethod.jsx
-│ │ │ │ └── ShippingAddress.jsx
-│ │ │ ├── Collection
-│ │ │ │ └── CollectionProductCard.jsx
-│ │ │ ├── Common
-│ │ │ │ ├── AnchorTag.jsx
-│ │ │ │ ├── Button.jsx
-│ │ │ │ ├── Input.jsx
-│ │ │ │ ├── InputError.jsx
-│ │ │ │ ├── Logo.jsx
-│ │ │ │ ├── ScrollToTop.jsx
-│ │ │ │ ├── Search.jsx
-│ │ │ │ ├── Size.jsx
-│ │ │ │ ├── Toast.jsx
-│ │ │ │ └── UserDetailRow.jsx
-│ │ │ ├── History
-│ │ │ │ ├── AddressDetails.jsx
-│ │ │ │ ├── OrderAmount.jsx
-│ │ │ │ ├── OrderItemsDetails.jsx
-│ │ │ │ └── OrderPaymentDetails.jsx
-│ │ │ ├── Home
-│ │ │ │ ├── BestSeller.jsx
-│ │ │ │ ├── CollectionSlider.jsx
-│ │ │ │ └── Hero.jsx
-│ │ │ ├── Layout
-│ │ │ │ ├── Footer.jsx
-│ │ │ │ └── NavBar.jsx
-│ │ │ ├── Product
-│ │ │ │ ├── AddReview.jsx
-│ │ │ │ ├── ProductCard.jsx
-│ │ │ │ ├── ProductDescription.jsx
-│ │ │ │ ├── ProductGallery.jsx
-│ │ │ │ ├── ProductReviews.jsx
-│ │ │ │ ├── QuantitySelector.jsx
-│ │ │ │ └── SizeSelector.jsx
-│ │ │ ├── Profile
-│ │ │ │ ├── History.jsx
-│ │ │ │ ├── Logout.jsx
-│ │ │ │ └── Settings.jsx
-│ │ │ ├── Route
-│ │ │ │ ├── ProtectedRoute.jsx
-│ │ │ │ └── PublicRoute.jsx
-│ │ │ ├── Shop
-│ │ │ │ └── ShopProductCard.jsx
-│ │ │ └── index.js
-│ │ ├── layouts
-│ │ │ ├── AuthLayout.jsx
-│ │ │ └── MainLayout.jsx
-│ │ ├── pages
-│ │ │ ├── Auth
-│ │ │ │ ├── ForgotPassWord.jsx
-│ │ │ │ ├── Login.jsx
-│ │ │ │ ├── ResetPassword.jsx
-│ │ │ │ ├── SignUp.jsx
-│ │ │ │ └── VerifyOTP.jsx
-│ │ │ ├── History
-│ │ │ │ ├── OrderHistory.jsx
-│ │ │ │ └── SingleOrderHistory.jsx
-│ │ │ ├── Payment
-│ │ │ │ ├── PaymentFailure.jsx
-│ │ │ │ └── PaymentSuccess.jsx
-│ │ │ ├── BillingDetailsForm.jsx
-│ │ │ ├── Cart.jsx
-│ │ │ ├── Checkout.jsx
-│ │ │ ├── Collection.jsx
-│ │ │ ├── Home.jsx
-│ │ │ ├── ProductDetails.jsx
-│ │ │ ├── Profile.jsx
-│ │ │ └── Shop.jsx
-│ │ ├── store
-│ │ │ ├── slices
-│ │ │ │ ├── authSlice.js
-│ │ │ │ ├── cartSlice.js
-│ │ │ │ ├── checkOutSlice.js
-│ │ │ │ ├── collectionSlice.js
-│ │ │ │ ├── historySlice.js
-│ │ │ │ ├── paymentSlice.js
-│ │ │ │ ├── productSlice.js
-│ │ │ │ ├── registerSlice.js
-│ │ │ │ ├── reviewSlice.js
-│ │ │ │ └── searchSlice.js
-│ │ │ └── store.js
-│ │ ├── styles
-│ │ │ ├── anchor.css
-│ │ │ ├── button.css
-│ │ │ └── toast.css
-│ │ ├── utils
-│ │ │ ├── cart.js
-│ │ │ └── esewa.js
-│ │ ├── App.css
-│ │ ├── App.jsx
-│ │ ├── button.css
-│ │ └── main.jsx
-│ ├── eslint.config.js
-│ ├── index.html
-│ ├── package-lock.json
-│ ├── package.json
-│ ├── README.md
-│ ├── vercel.json
-│ └── vite.config.js
-└── README.md
 
 ````
 
